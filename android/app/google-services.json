@@ -7,6 +7,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:77033369470:android:75e7ca64f54fe40b68cd2f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_easy_card"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77033369470-7uognitucqvdg9vf11hbk6maen1gt1pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFrvH2WiTmKYip-2BUkGT_aQeTwabV0lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77033369470-7uognitucqvdg9vf11hbk6maen1gt1pr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "77033369470-1b3trcncf99op9hjrkkmjul4t7gu0i4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterEasyCard"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:77033369470:android:c6c709b21b47cc1168cd2f",
         "android_client_info": {
           "package_name": "com.natto_studio.flutter_easy_card"
@@ -29,6 +65,13 @@
             {
               "client_id": "77033369470-7uognitucqvdg9vf11hbk6maen1gt1pr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "77033369470-1b3trcncf99op9hjrkkmjul4t7gu0i4i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterEasyCard"
+              }
             }
           ]
         }
