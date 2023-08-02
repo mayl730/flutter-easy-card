@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "77033369470",
+    "project_id": "flutter-easy-card",
+    "storage_bucket": "flutter-easy-card.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:77033369470:android:c6c709b21b47cc1168cd2f",
+        "android_client_info": {
+          "package_name": "com.natto_studio.flutter_easy_card"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "77033369470-7uognitucqvdg9vf11hbk6maen1gt1pr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFrvH2WiTmKYip-2BUkGT_aQeTwabV0lI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "77033369470-7uognitucqvdg9vf11hbk6maen1gt1pr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
