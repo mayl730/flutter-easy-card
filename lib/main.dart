@@ -20,13 +20,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final router = GoRouter(
       routes: [
-        // GoRoute(
-        //   path: '/',
-        //   builder: (context, state) => const LoginScreen(),
-        // ),
-         GoRoute(
-          // path: '/sign-up',
+        GoRoute(
           path: '/',
+          builder: (context, state) => const LoginScreen(),
+        ),
+         GoRoute(
+          path: '/sign-up',
+          // path: '/',
           builder: (context, state) => const SignUpScreen(),
         ),
       ],

@@ -24,3 +24,10 @@ const TextStyle contentStyle = TextStyle(
   height: 1.5,
   fontWeight: FontWeight.w400,
 );
+
+const TextStyle buttonStyleBold = TextStyle(
+  fontSize: 16,
+  color: Colors.white,
+  height: 1.5,
+  fontWeight: FontWeight.w700,
+);

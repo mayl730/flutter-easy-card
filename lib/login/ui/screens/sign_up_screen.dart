@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -119,39 +121,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fillColor: formGrey,
                           ),
                         ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.saveAndValidate()) {
-                                print(_formKey.currentState!.value);
-                              }
-                            },
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.all(16.0),
-                              ),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                easyPurple,
-                              ),
-                              elevation: MaterialStateProperty.all<double>(0),
-                            ),
-                            child: const Text(
-                              'Sign Up',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
+                        SizedBox(height: 30),
+                        CustomActionButton(
+                          label: 'Sign Up',
+                          onPressed: () {
+                            context.push("/sign-up");
+                          },
                         ),
+                        const SizedBox(height: 30),
+                        Text.rich(
+                          textAlign: TextAlign.center,
+                          TextSpan(
+                            text: 'Already have an account? ',
+                            style: TextStyle(fontSize: 14),
+                            children: [
+                              TextSpan(
+                                text: 'Login here.',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  decoration: TextDecoration.underline,
+                                  color: easyPurple,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    print('Login here');
+                                  },
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   )
