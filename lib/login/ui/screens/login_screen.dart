@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/theme.dart';
 
@@ -33,12 +34,13 @@ class LoginScreen extends StatelessWidget {
                 width: screenWidth,
                 scale: 2.0,
               ),
-              const Text(
+              const AutoSizeText(
                 'Create and Share Name Cards Swiftly!',
                 style: titleH1TextStyle,
+                maxLines: 2,
               ),
               const SizedBox(
-                height: 25.0,
+                height: 35.0,
               ),
               SizedBox(
                 width: screenWidth,
@@ -65,8 +67,7 @@ class LoginScreen extends StatelessWidget {
                         Icons.email,
                         color: Colors.white,
                         size: 24.0,
-                        semanticLabel:
-                            'Text to announce in accessibility modes',
+                        semanticLabel: 'Email Icon',
                       ),
                       SizedBox(
                         width: 10,
@@ -79,8 +80,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 35),
+              const Text(
                 'By continuing you argree to our Terms of Service and Privacy Policy.',
                 textAlign: TextAlign.center,
               ),
