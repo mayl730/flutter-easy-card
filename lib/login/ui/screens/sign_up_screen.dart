@@ -104,7 +104,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 30),
                         CustomActionButton(
                           label: 'Sign Up',
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go("/home");
+                          },
                         ),
                         const SizedBox(height: 30),
                         Text.rich(

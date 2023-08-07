@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 const double sidePadding = 20;
 const double fontSizeH2 = 30;
+const double appTitleFontSize = 20;
 
 const black = Color(0xFF1B202A);
 const easyPurple = Color(0xFF6C5DD3);
+const easyLightPurple = Color(0xFFCFC8FF);
 const easySubText = Color(0xFF808191);
 const formGrey = Color.fromRGBO(0, 0, 0, 0.1);
 
@@ -28,6 +30,13 @@ const TextStyle contentStyle = TextStyle(
 const TextStyle buttonStyleBold = TextStyle(
   fontSize: 16,
   color: Colors.white,
+  height: 1.5,
+  fontWeight: FontWeight.w700,
+);
+
+const TextStyle appTitleStyle = TextStyle(
+  fontSize: appTitleFontSize,
+  color: black,
   height: 1.5,
   fontWeight: FontWeight.w700,
 );

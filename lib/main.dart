@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_easy_card/home/ui/screens/HomeScreen.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 
@@ -23,15 +24,21 @@ class MyApp extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const StartScreen(),
-        ),
-        GoRoute(
-          path: '/sign-up',
-          builder: (context, state) => const SignUpScreen(),
-        ),
-        GoRoute(
-          path: '/login',
-          builder: (context, state) => const LoginScreen(),
+          builder: (context, state) => const HomeScreen(),
+          routes: [
+            GoRoute(
+              path: 'sign-up',
+              builder: (context, state) => const SignUpScreen(),
+            ),
+            GoRoute(
+              path: 'login',
+              builder: (context, state) => const LoginScreen(),
+            ),
+            GoRoute(
+              path: 'home',
+              builder: (context, state) => const HomeScreen(),
+            ),
+          ],
         ),
       ],
     );
