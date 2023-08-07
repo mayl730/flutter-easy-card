@@ -15,7 +15,7 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
             child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: sidePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,9 +47,7 @@ class LoginScreen extends StatelessWidget {
                 width: screenWidth,
                 child: ElevatedButton(
                   onPressed: () {
-                    context.go(
-                      '/sign-up',
-                    );
+                    context.push("/sign-up");
                   },
                   style: ButtonStyle(
                     padding: MaterialStateProperty.all<EdgeInsets>(
