@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_card/theme.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -12,24 +13,77 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
             child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 50.0,
+              const SizedBox(
+                height: 25.0,
               ),
               Image.asset(
                 'assets/images/2.0x/img_logo.png',
                 width: screenWidth * 0.6,
                 scale: 2.0,
               ),
+              const SizedBox(
+                height: 25.0,
+              ),
               Image.asset(
                 'assets/images/2.0x/img_onboarding_card.png',
                 width: screenWidth,
                 scale: 2.0,
               ),
-              Text('Make name card & Share it quick!'),
+              const Text(
+                'Create and Share Name Cards Swiftly!',
+                style: titleH1TextStyle,
+              ),
+              const SizedBox(
+                height: 25.0,
+              ),
+              SizedBox(
+                width: screenWidth,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(16.0),
+                    ),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      easyPurple,
+                    ),
+                    elevation: MaterialStateProperty.all<double>(0),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.email,
+                        color: Colors.white,
+                        size: 24.0,
+                        semanticLabel:
+                            'Text to announce in accessibility modes',
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Continue with Email',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'By continuing you argree to our Terms of Service and Privacy Policy.',
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         )),
