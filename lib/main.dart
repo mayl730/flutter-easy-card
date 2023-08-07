@@ -3,8 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 
-import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
+import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
+import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +23,15 @@ class MyApp extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const LoginScreen(),
+          builder: (context, state) => const StartScreen(),
         ),
-         GoRoute(
+        GoRoute(
           path: '/sign-up',
-          // path: '/',
           builder: (context, state) => const SignUpScreen(),
+        ),
+        GoRoute(
+          path: '/login',
+          builder: (context, state) => const LoginScreen(),
         ),
       ],
     );

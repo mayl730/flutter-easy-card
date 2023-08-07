@@ -31,3 +31,14 @@ const TextStyle buttonStyleBold = TextStyle(
   height: 1.5,
   fontWeight: FontWeight.w700,
 );
+
+// Input Decoration
+const InputDecoration loginInputDecoration = InputDecoration(
+  contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+  border: OutlineInputBorder(
+    borderSide: BorderSide.none,
+    borderRadius: BorderRadius.all(Radius.circular(20)),
+  ),
+  filled: true,
+  fillColor: formGrey,
+);

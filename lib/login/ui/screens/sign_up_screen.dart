@@ -49,18 +49,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: sidePadding),
+              padding: const EdgeInsets.symmetric(horizontal: sidePadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Sign Up',
                     style: titleH1TextStyle,
                   ),
                   const SizedBox(
                     height: 25.0,
                   ),
-                  Text('Please Sign Up to continue using Easy Card!',
+                  const Text('Please Sign Up to continue using Easy Card!',
                       style: contentStyle),
                   const SizedBox(
                     height: 25.0,
@@ -77,74 +77,52 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             fontSize: 14,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         FormBuilderTextField(
-                          name: 'email',
-                          onChanged: (val) {},
-                          onTap: () {
-                            _emailFieldFocus.requestFocus();
-                          },
-                          focusNode: _emailFieldFocus,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            filled: true,
-                            fillColor: formGrey,
-                          ),
-                        ),
-                        SizedBox(height: 20),
+                            name: 'email',
+                            onChanged: (val) {},
+                            onTap: () {
+                              _emailFieldFocus.requestFocus();
+                            },
+                            focusNode: _emailFieldFocus,
+                            decoration: loginInputDecoration),
+                        const SizedBox(height: 20),
                         const Text(
                           'Password',
                           style: TextStyle(fontSize: 14),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         FormBuilderTextField(
-                          name: 'password',
-                          obscureText: true,
-                          onChanged: (val) {},
-                          onTap: () {
-                            _passwordFieldFocus.requestFocus();
-                          },
-                          focusNode: _passwordFieldFocus,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 10),
-                            border: OutlineInputBorder(
-                              borderSide: BorderSide.none,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            filled: true,
-                            fillColor: formGrey,
-                          ),
-                        ),
-                        SizedBox(height: 30),
+                            name: 'password',
+                            obscureText: true,
+                            onChanged: (val) {},
+                            onTap: () {
+                              _passwordFieldFocus.requestFocus();
+                            },
+                            focusNode: _passwordFieldFocus,
+                            decoration: loginInputDecoration),
+                        const SizedBox(height: 30),
                         CustomActionButton(
                           label: 'Sign Up',
-                          onPressed: () {
-                            context.push("/sign-up");
-                          },
+                          onPressed: () {},
                         ),
                         const SizedBox(height: 30),
                         Text.rich(
                           textAlign: TextAlign.center,
                           TextSpan(
                             text: 'Already have an account? ',
-                            style: TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14),
                             children: [
                               TextSpan(
                                 text: 'Login here.',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14,
                                   decoration: TextDecoration.underline,
                                   color: easyPurple,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    print('Login here');
+                                    context.push("/login");
                                   },
                               ),
                             ],
