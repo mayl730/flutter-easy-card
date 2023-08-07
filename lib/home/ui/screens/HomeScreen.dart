@@ -11,6 +11,18 @@ class HomeScreen extends StatelessWidget {
     'Item 3',
     'Item 4',
     'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
+    'Item 5',
   ];
 
   @override
@@ -18,6 +30,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: const Text('Create Card'),
+        icon: const Icon(Icons.add),
+        backgroundColor: easyPurple,
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -47,34 +65,27 @@ class HomeScreen extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
-              spreadRadius: 1, 
-              blurRadius: 20, 
-              offset: Offset(0, 2),
+              spreadRadius: 1,
+              blurRadius: 20,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            IconButton(
-              iconSize: 24,
-              icon: const Icon(Icons.home_filled),
-              onPressed: () {
-                context.push("/home");
-              },
-              color: black,
-            ),
             TextButton.icon(
-              onPressed: () => {},
-              icon: Column(
+              onPressed: () => {context.go("/home")},
+              icon: const Column(
                 children: [
+                  SizedBox(height: 5),
                   Icon(
                     Icons.home_filled,
                     color: black,
                     size: 24,
                   ),
                   Text(
-                    'Label',
+                    'Home',
                     style: TextStyle(
                       color: black,
                       height: 1.5,
@@ -82,38 +93,84 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              label: Text(
-                '', //'Label',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
+              label: const Text(
+                '',
               ),
             ),
-            IconButton(
-              iconSize: 24,
-              icon: const Icon(Icons.home_outlined),
-              onPressed: () {
-                context.push("/");
-              },
-              color: Colors.black,
+            TextButton.icon(
+              onPressed: () => {context.go("/home")},
+              icon: const Column(
+                children: [
+                  SizedBox(height: 5),
+                  Icon(
+                    Icons.person_search_rounded,
+                    color: inActiveGray,
+                    size: 24,
+                  ),
+                  Text(
+                    'Explore',
+                    style: TextStyle(
+                      color: inActiveGray,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+              label: const Text(
+                '',
+              ),
             ),
-            IconButton(
-              iconSize: 24,
-              icon: const Icon(Icons.home_outlined),
-              onPressed: () {
-                context.push("/");
-              },
-              color: Colors.black,
+            TextButton.icon(
+              onPressed: () => {context.go("/home")},
+              icon: const Column(
+                children: [
+                  SizedBox(height: 5),
+                  Icon(
+                    Icons.settings,
+                    color: inActiveGray,
+                    size: 24,
+                  ),
+                  Text(
+                    'Settings',
+                    style: TextStyle(
+                      color: inActiveGray,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+              label: const Text(
+                '',
+              ),
             ),
           ],
         ),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-              child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: sidePadding),
-        child: Text('items'),
-      ))),
+        child: Container(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(20),
+            itemCount: items.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisSpacing: 22,
+              mainAxisSpacing: 22,
+              crossAxisCount: 2,
+            ),
+            itemBuilder: (context, index) {
+              return Container(
+                color: Colors.blue.shade100,
+                child: Center(
+                    child: Text(
+                  items[index],
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                )),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
