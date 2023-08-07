@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
               ),
               Image.asset(
                 'assets/images/2.0x/img_onboarding_card.png',
-                width: screenWidth,
+                width: double.infinity,
                 scale: 2.0,
               ),
               const AutoSizeText(
@@ -44,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                 height: 35.0,
               ),
               SizedBox(
-                width: screenWidth,
+                width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     context.push("/sign-up");
