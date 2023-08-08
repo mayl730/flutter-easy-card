@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
 import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
+import 'package:flutter_easy_card/my_cards/ui/screens/my_card_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 
@@ -26,8 +27,7 @@ class MyApp extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/',
-          // builder: (context, state) => const StartScreen(),
-          builder: (context, state) => const CreateCardScreen(),
+          builder: (context, state) => const StartScreen(),
           routes: [
             GoRoute(
               path: 'sign-up',
@@ -48,19 +48,23 @@ class MyApp extends StatelessWidget {
                     path: 'create-card',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      transitionDuration: Duration(milliseconds: 100),
+                      transitionDuration: Duration(milliseconds: 300),
                       child: const CreateCardScreen(),
-                      transitionsBuilder: (context, animation,
-                              secondaryAnimation, child) =>
-                          SlideTransition(
-                              position: animation.drive(
-                                Tween<Offset>(
-                                  begin: const Offset(0, 1),
-                                  end: Offset.zero,
-                                ).chain(CurveTween(curve: Curves.easeIn)),
-                              ),
-                              child: child),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) =>
+                              SlideTransition(
+                                  position: animation.drive(
+                                    Tween<Offset>(
+                                      begin: const Offset(0, 1),
+                                      end: Offset.zero,
+                                    ).chain(CurveTween(curve: Curves.easeIn)),
+                                  ),
+                                  child: child),
                     ),
+                  ),
+                  GoRoute(
+                    path: 'my-card-details',
+                    builder: (context, state) => const MyCardDetailsScreen(),
                   ),
                 ]),
             GoRoute(

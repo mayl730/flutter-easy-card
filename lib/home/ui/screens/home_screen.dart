@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Your Cards',
+              'My Cards',
               style: appTitleStyle,
               textAlign: TextAlign.start,
             ),
@@ -161,9 +161,7 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Tap'),
-                ));
+                context.push('/home/my-card-details');
               },
               child: Container(
                 decoration: BoxDecoration(
