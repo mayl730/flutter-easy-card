@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_easy_card/home/ui/screens/ExploreCardScreen.dart';
-import 'package:flutter_easy_card/home/ui/screens/HomeScreen.dart';
+import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
+import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const HomeScreen(),
+          // builder: (context, state) => const StartScreen(),
+          builder: (context, state) => const CreateCardScreen(),
           routes: [
             GoRoute(
               path: 'sign-up',
@@ -36,12 +38,31 @@ class MyApp extends StatelessWidget {
               builder: (context, state) => const LoginScreen(),
             ),
             GoRoute(
-              path: 'home',
-              pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: const HomeScreen(),
-              ),
-            ),
+                path: 'home',
+                pageBuilder: (context, state) => NoTransitionPage<void>(
+                      key: state.pageKey,
+                      child: const HomeScreen(),
+                    ),
+                routes: [
+                  GoRoute(
+                    path: 'create-card',
+                    pageBuilder: (context, state) => CustomTransitionPage<void>(
+                      key: state.pageKey,
+                      transitionDuration: Duration(milliseconds: 100),
+                      child: const CreateCardScreen(),
+                      transitionsBuilder: (context, animation,
+                              secondaryAnimation, child) =>
+                          SlideTransition(
+                              position: animation.drive(
+                                Tween<Offset>(
+                                  begin: const Offset(0, 1),
+                                  end: Offset.zero,
+                                ).chain(CurveTween(curve: Curves.easeIn)),
+                              ),
+                              child: child),
+                    ),
+                  ),
+                ]),
             GoRoute(
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(

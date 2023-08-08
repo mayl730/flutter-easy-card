@@ -31,7 +31,9 @@ class HomeScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          context.push('/home/create-card');
+        },
         label: const Text('Create Card'),
         icon: const Icon(Icons.add),
         backgroundColor: easyPurple,
