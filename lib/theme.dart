@@ -43,6 +43,13 @@ const TextStyle appTitleStyle = TextStyle(
   fontWeight: FontWeight.w700,
 );
 
+const TextStyle thumbnailCardTitleStyle = TextStyle(
+  fontSize: 16,
+  color: black,
+  height: 1.5,
+  fontWeight: FontWeight.w700,
+);
+
 // Input Decoration
 const InputDecoration loginInputDecoration = InputDecoration(
   contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),

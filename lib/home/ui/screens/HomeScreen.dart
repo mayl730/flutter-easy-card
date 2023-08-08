@@ -147,28 +147,60 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          child: GridView.builder(
-            padding: const EdgeInsets.all(20),
-            itemCount: items.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisSpacing: 22,
-              mainAxisSpacing: 22,
-              crossAxisCount: 2,
-            ),
-            itemBuilder: (context, index) {
-              return Container(
-                color: Colors.blue.shade100,
-                child: Center(
-                    child: Text(
-                  items[index],
-                  style: TextStyle(
-                    fontSize: 24,
-                  ),
-                )),
-              );
-            },
+        child: GridView.builder(
+          padding: const EdgeInsets.all(20),
+          itemCount: items.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 22,
+            mainAxisSpacing: 22,
+            crossAxisCount: 2,
+            childAspectRatio: 0.8,
           ),
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Tap'),
+                ));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 0,
+                      blurRadius: 12,
+                      offset: const Offset(0, 0),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 150,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                              "https://dummyimage.com/600x600/000/fff"),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Center(
+                        child:
+                            Text(items[index], style: thumbnailCardTitleStyle)),
+                  ],
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
