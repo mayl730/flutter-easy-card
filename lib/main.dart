@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_easy_card/home/ui/screens/ExploreCardScreen.dart';
 import 'package:flutter_easy_card/home/ui/screens/HomeScreen.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -36,7 +37,17 @@ class MyApp extends StatelessWidget {
             ),
             GoRoute(
               path: 'home',
-              builder: (context, state) => const HomeScreen(),
+              pageBuilder: (context, state) => NoTransitionPage<void>(
+                key: state.pageKey,
+                child: const HomeScreen(),
+              ),
+            ),
+            GoRoute(
+              path: 'explore-cards',
+              pageBuilder: (context, state) => NoTransitionPage<void>(
+                key: state.pageKey,
+                child: const ExploreCardScreen(),
+              ),
             ),
           ],
         ),

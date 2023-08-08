@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ExploreCardScreen extends StatelessWidget {
+  const ExploreCardScreen({super.key});
 
   static const List<String> items = [
     'Item 1',
@@ -30,24 +30,18 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        label: const Text('Create Card'),
-        icon: const Icon(Icons.add),
-        backgroundColor: easyPurple,
-      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: sidePadding),
-          child: Icon(Icons.home_filled, size: 32, color: easyPurple),
+          child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
         ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Your Cards',
+              'Explore',
               style: appTitleStyle,
               textAlign: TextAlign.start,
             ),
@@ -81,13 +75,13 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 5),
                   Icon(
                     Icons.home_filled,
-                    color: black,
+                    color: inActiveGray,
                     size: 24,
                   ),
                   Text(
                     'Home',
                     style: TextStyle(
-                      color: black,
+                      color: inActiveGray,
                       height: 1.5,
                     ),
                   ),
@@ -104,13 +98,13 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 5),
                   Icon(
                     Icons.person_search_rounded,
-                    color: inActiveGray,
+                    color: black,
                     size: 24,
                   ),
                   Text(
                     'Explore',
                     style: TextStyle(
-                      color: inActiveGray,
+                      color: black,
                       height: 1.5,
                     ),
                   ),
