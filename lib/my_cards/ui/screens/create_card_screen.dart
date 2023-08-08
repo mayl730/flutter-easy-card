@@ -1,3 +1,4 @@
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
@@ -25,6 +26,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     'facebook': FocusNode(),
     'twitter': FocusNode(),
   };
+  late Color themePickerColor;
+  @override
+  void initState() {
+    super.initState();
+    themePickerColor = Colors.blue; // Material blue.
+    // dialogPickerColor = Colors.red;   // Material red.
+    // dialogSelectColor = const Color(0xFFA239CA); // A purple color.
+  }
 
   @override
   void dispose() {
@@ -36,8 +45,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -283,57 +290,32 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               focusNode: _fieldFocusNodes['twitter'],
                               decoration: loginInputDecoration),
                           const SizedBox(height: 20),
-                          //TODO: Use color picker instead!
                           const Text(
                             'Color Theme',
                             style: TextStyle(
                               fontSize: 14,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          FormBuilderDropdown(
-                            name: 'color',
-                            decoration: loginInputDecoration,
-                            items: const [
-                              DropdownMenuItem(
-                                value: "red",
-                                child: Text("Red"),
-                              ),
-                              DropdownMenuItem(
-                                value: "blue",
-                                child: Text("Blue"),
-                              ),
-                              DropdownMenuItem(
-                                value: "green",
-                                child: Text("Green"),
-                              ),
-                              DropdownMenuItem(
-                                value: "yellow",
-                                child: Text("Yellow"),
-                              ),
-                              DropdownMenuItem(
-                                value: "purple",
-                                child: Text("Purple"),
-                              ),
-                              DropdownMenuItem(
-                                value: "orange",
-                                child: Text("Orange"),
-                              ),
-                              DropdownMenuItem(
-                                value: "pink",
-                                child: Text("Pink"),
-                              ),
-                              DropdownMenuItem(
-                                value: "brown",
-                                child: Text("Brown"),
-                              ),
-                              DropdownMenuItem(
-                                value: "grey",
-                                child: Text("Grey"),
-                              ),
-                            ],
+                          SizedBox(
+                            width: double.infinity,
+                            child: ColorPicker(
+                              color: themePickerColor,
+                              spacing: 10,
+                              runSpacing: 10,
+                              pickersEnabled: const {
+                                ColorPickerType.primary: false,
+                                ColorPickerType.accent: false,
+                                ColorPickerType.bw: false,
+                                ColorPickerType.custom: false
+                              },
+                              enableShadesSelection: false,
+                              onColorChanged: (Color color) =>
+                                  setState(() => themePickerColor = color),
+                              width: 44,
+                              height: 44,
+                              borderRadius: 22,
+                            ),
                           ),
-                          const SizedBox(height: 20),
                           CustomActionButton(
                             label: 'Create Card',
                             onPressed: () {
