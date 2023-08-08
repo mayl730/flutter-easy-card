@@ -117,6 +117,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20),
                     FormBuilder(
                       key: _formKey,
                       child: Column(
@@ -137,6 +138,201 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               },
                               focusNode: _fieldFocusNodes['name'],
                               decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Title',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'title',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['title']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['title'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Company',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'company',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['company']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['company'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Phone',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'phone',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['phone']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['phone'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Email',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'email',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['email']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['email'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Website',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'website',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['website']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['website'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'LinkedIn',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'linkedin',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['linkedin']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['linkedin'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Facebook',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'facebook',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['facebook']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['facebook'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Instagram',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'instagram',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['instagram']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['instagram'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Twitter',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderTextField(
+                              name: 'twitter',
+                              onChanged: (val) {},
+                              onTap: () {
+                                _fieldFocusNodes['twitter']!.requestFocus();
+                              },
+                              focusNode: _fieldFocusNodes['twitter'],
+                              decoration: loginInputDecoration),
+                          const SizedBox(height: 20),
+                          //TODO: Use color picker instead!
+                          const Text(
+                            'Color Theme',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderDropdown(
+                            name: 'color',
+                            decoration: loginInputDecoration,
+                            items: const [
+                              DropdownMenuItem(
+                                value: "red",
+                                child: Text("Red"),
+                              ),
+                              DropdownMenuItem(
+                                value: "blue",
+                                child: Text("Blue"),
+                              ),
+                              DropdownMenuItem(
+                                value: "green",
+                                child: Text("Green"),
+                              ),
+                              DropdownMenuItem(
+                                value: "yellow",
+                                child: Text("Yellow"),
+                              ),
+                              DropdownMenuItem(
+                                value: "purple",
+                                child: Text("Purple"),
+                              ),
+                              DropdownMenuItem(
+                                value: "orange",
+                                child: Text("Orange"),
+                              ),
+                              DropdownMenuItem(
+                                value: "pink",
+                                child: Text("Pink"),
+                              ),
+                              DropdownMenuItem(
+                                value: "brown",
+                                child: Text("Brown"),
+                              ),
+                              DropdownMenuItem(
+                                value: "grey",
+                                child: Text("Grey"),
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 20),
                           CustomActionButton(
                             label: 'Create Card',
