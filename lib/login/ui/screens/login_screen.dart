@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 25.0,
                   ),
                   const Text('Login with your existing account.',
-                      style: contentStyle),
+                      style: subContentStyle),
                   const SizedBox(
                     height: 25.0,
                   ),

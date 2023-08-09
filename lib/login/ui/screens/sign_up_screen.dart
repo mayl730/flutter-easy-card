@@ -61,7 +61,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     height: 25.0,
                   ),
                   const Text('Please Sign Up to continue using Easy Card!',
-                      style: contentStyle),
+                      style: subContentStyle),
                   const SizedBox(
                     height: 25.0,
                   ),

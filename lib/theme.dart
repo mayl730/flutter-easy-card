@@ -24,6 +24,13 @@ const TextStyle titleH1TextStyle = TextStyle(
 
 const TextStyle contentStyle = TextStyle(
   fontSize: 16,
+  color: black,
+  height: 1.5,
+  fontWeight: FontWeight.w400,
+);
+
+const TextStyle subContentStyle = TextStyle(
+  fontSize: 16,
   color: easySubText,
   height: 1.5,
   fontWeight: FontWeight.w400,
