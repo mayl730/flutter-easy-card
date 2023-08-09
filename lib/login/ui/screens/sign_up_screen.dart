@@ -4,6 +4,7 @@ import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,6 +17,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   final FocusNode _emailFieldFocus = FocusNode();
   final FocusNode _passwordFieldFocus = FocusNode();
+
+  final _auth = FirebaseAuth.instance;
+  String? email;
+  String? password;
 
   @override
   void dispose() {
@@ -80,12 +85,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 8),
                         FormBuilderTextField(
                             name: 'email',
-                            onChanged: (val) {},
+                            onChanged: (val) {
+                              email = val;
+                            },
                             onTap: () {
                               _emailFieldFocus.requestFocus();
                             },
                             focusNode: _emailFieldFocus,
-                            decoration: loginInputDecoration),
+                            decoration: loginInputDecoration,
+                            keyboardType: TextInputType.emailAddress),
                         const SizedBox(height: 20),
                         const Text(
                           'Password',
@@ -95,7 +103,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         FormBuilderTextField(
                             name: 'password',
                             obscureText: true,
-                            onChanged: (val) {},
+                            onChanged: (val) {
+                              password = val;
+                            },
                             onTap: () {
                               _passwordFieldFocus.requestFocus();
                             },
@@ -104,8 +114,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 30),
                         CustomActionButton(
                           label: 'Sign Up',
-                          onPressed: () {
-                            context.go("/home");
+                          onPressed: () async{
+                            print('Email: $email Password: $password');
+                            await _auth
+                                .createUserWithEmailAndPassword(
+                                    email: email!, password: password!)
+                                .then((value) {
+                              print('User created: $value');
+                              // context.push("/home");
+                              context.go("/home");
+                            }).catchError((error) {
+                              print('Error: $error');
+                            });
+                            // context.go("/home");
                           },
                         ),
                         const SizedBox(height: 30),
