@@ -10,7 +10,7 @@ class CircleIcon extends StatelessWidget {
   const CircleIcon(
       {super.key,
       required this.iconData,
-      this.size = 48,
+      this.size = 35,
       this.backgroundColor = easyPurple,
       this.iconColor = Colors.white});
 

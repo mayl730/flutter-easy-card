@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:flutter_easy_card/components/circle_icon.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
@@ -17,6 +19,16 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
+      floatingActionButton: SizedBox(
+        width: 120,
+        child: CustomActionButton(
+          onPressed: () {
+            print('share');
+          },
+          icon: Icons.share,
+          label: 'Share',
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -24,7 +36,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
           padding: const EdgeInsets.only(left: 15),
           child: IconButton(
             icon: const Icon(
-              Icons.close,
+              Icons.arrow_back,
               color: black,
               size: 32,
             ),
@@ -33,6 +45,17 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
             },
           ),
         ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(fontSize: 20),
+            ),
+            onPressed: () {
+              print('edit');
+            },
+            child: const Text('Edit', style: purpleTextButton),
+          ),
+        ],
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -58,11 +81,12 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 14),
               const Text('John Doe',
                   style: titleH1TextStyle, textAlign: TextAlign.center),
               const Text('Software Engineer', style: appTitleStyle),
               const Text('Random Studio', style: appTitleStyle),
+              const SizedBox(height: 14),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: sidePadding),
                 child: Align(
@@ -77,7 +101,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                             backgroundColor: easyPurple,
                             iconColor: Colors.white,
                           ),
-
+                          SizedBox(width: 10),
                           Text(
                             'test@gmail.com',
                             textAlign: TextAlign.left,
@@ -85,6 +109,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 10),
                       Row(
                         children: [
                           CircleIcon(
@@ -92,6 +117,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                             backgroundColor: easyPurple,
                             iconColor: Colors.white,
                           ),
+                          SizedBox(width: 10),
                           Text(
                             '123456789',
                             textAlign: TextAlign.left,
@@ -102,7 +128,42 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: FaIcon(FontAwesomeIcons.globe,
+                        color: easyPurple, size: 30),
+                    onPressed: () {
+                      print('more');
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon:
+                        FaIcon(FontAwesomeIcons.linkedinIn, color: easyPurple, size: 30),
+                    onPressed: () {
+                      print('more');
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon: FaIcon(FontAwesomeIcons.facebook, color: easyPurple, size: 30),
+                    onPressed: () {
+                      print('more');
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  IconButton(
+                    icon: FaIcon(FontAwesomeIcons.twitter, color: easyPurple, size: 30),
+                    onPressed: () {
+                      print('more');
+                    },
+                  ),
+                ],
+              ),
             ],
           ),
         ),
