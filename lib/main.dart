@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
       routes: [
         GoRoute(
           path: '/',
-          // builder: (context, state) => const StartScreen(),
-          builder: (context, state) => const MyCardDetailsScreen(),
+          builder: (context, state) => const StartScreen(),
+          // builder: (context, state) => const MyCardDetailsScreen(),
           routes: [
             GoRoute(
               path: 'sign-up',
