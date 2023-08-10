@@ -14,13 +14,17 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
-  final FocusNode _emailFieldFocus = FocusNode();
-  final FocusNode _passwordFieldFocus = FocusNode();
+
+  final Map<String, FocusNode> _fieldFocusNodes = {
+    'email': FocusNode(),
+    'password': FocusNode(),
+  };
 
   @override
   void dispose() {
-    _emailFieldFocus.dispose();
-    _passwordFieldFocus.dispose();
+    for (var focusNode in _fieldFocusNodes.values) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -82,9 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             name: 'email',
                             onChanged: (val) {},
                             onTap: () {
-                              _emailFieldFocus.requestFocus();
+                              _fieldFocusNodes['email']!.requestFocus();
                             },
-                            focusNode: _emailFieldFocus,
+                            focusNode: _fieldFocusNodes['email'],
                             decoration: loginInputDecoration),
                         const SizedBox(height: 20),
                         const Text(
@@ -97,9 +101,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: true,
                             onChanged: (val) {},
                             onTap: () {
-                              _passwordFieldFocus.requestFocus();
+                              _fieldFocusNodes['password']!.requestFocus();
                             },
-                            focusNode: _passwordFieldFocus,
+                            focusNode: _fieldFocusNodes['password'],
                             decoration: loginInputDecoration),
                         const SizedBox(height: 30),
                         CustomActionButton(

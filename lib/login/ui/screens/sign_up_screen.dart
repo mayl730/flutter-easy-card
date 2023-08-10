@@ -18,16 +18,20 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final formKey = GlobalKey<FormBuilderState>();
-  final FocusNode _emailFieldFocus = FocusNode();
-  final FocusNode _passwordFieldFocus = FocusNode();
+
+  final Map<String, FocusNode> _fieldFocusNodes = {
+    'email': FocusNode(),
+    'password': FocusNode(),
+  };
 
   String? email;
   String? password;
 
   @override
   void dispose() {
-    _emailFieldFocus.dispose();
-    _passwordFieldFocus.dispose();
+    for (var focusNode in _fieldFocusNodes.values) {
+      focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -91,9 +95,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             email = val;
                           },
                           onTap: () {
-                            _emailFieldFocus.requestFocus();
+                            _fieldFocusNodes['email']!.requestFocus();
                           },
-                          focusNode: _emailFieldFocus,
+                          focusNode: _fieldFocusNodes['email'],
                           decoration: loginInputDecoration,
                           keyboardType: TextInputType.emailAddress,
                           validator: validateEmail,
@@ -111,9 +115,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             password = val;
                           },
                           onTap: () {
-                            _passwordFieldFocus.requestFocus();
+                            _fieldFocusNodes['password']!.requestFocus();
                           },
-                          focusNode: _passwordFieldFocus,
+                          focusNode: _fieldFocusNodes['password'],
                           decoration: loginInputDecoration,
                           validator: validatePassword,
                         ),
@@ -147,8 +151,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     email: email!,
                                     password: password!,
                                   ));
-                                } else {
-                                  print('validation failed');
                                 }
                               },
                             );
