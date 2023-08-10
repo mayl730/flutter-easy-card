@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
 import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
@@ -32,7 +34,10 @@ class MyApp extends StatelessWidget {
           routes: [
             GoRoute(
               path: 'sign-up',
-              builder: (context, state) => const SignUpScreen(),
+              builder: (context, state) => BlocProvider(
+                create: (context) => SignUpBloc(),
+                child: const SignUpScreen(),
+              ),
             ),
             GoRoute(
               path: 'login',

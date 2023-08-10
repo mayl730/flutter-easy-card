@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -112,21 +114,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             focusNode: _passwordFieldFocus,
                             decoration: loginInputDecoration),
                         const SizedBox(height: 30),
-                        CustomActionButton(
-                          label: 'Sign Up',
-                          onPressed: () async{
-                            print('Email: $email Password: $password');
-                            await _auth
-                                .createUserWithEmailAndPassword(
-                                    email: email!, password: password!)
-                                .then((value) {
-                              print('User created: $value');
-                              // context.push("/home");
+                        BlocConsumer<SignUpBloc, SignUpState>(
+                          bloc: BlocProvider.of<SignUpBloc>(context),
+                          listener: (context, state) {
+                            if (state is SignUpSuccess) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Account created!'),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
                               context.go("/home");
-                            }).catchError((error) {
-                              print('Error: $error');
-                            });
-                            // context.go("/home");
+                            }
+                            if (state is SignUpFailure) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.error),
+                                  behavior: SnackBarBehavior.floating,
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            return CustomActionButton(
+                              label: 'Sign Up',
+                              onPressed: () async {
+                                // print('Email: $email Password: $password');
+                                // await _auth
+                                //     .createUserWithEmailAndPassword(
+                                //         email: email!, password: password!)
+                                //     .then((value) {
+                                //   print('User created: $value');
+                                //   // context.push("/home");
+                                //   context.go("/home");
+                                // }).catchError((error) {
+                                //   print('Error: $error');
+                                // });
+                                BlocProvider.of<SignUpBloc>(context)
+                                    .add(CreateUser(
+                                  email: email!,
+                                  password: password!,
+                                ));
+                                // context.go("/home");
+                              },
+                            );
                           },
                         ),
                         const SizedBox(height: 30),
