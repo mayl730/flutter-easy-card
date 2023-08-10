@@ -6,7 +6,7 @@ import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,7 +20,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FocusNode _emailFieldFocus = FocusNode();
   final FocusNode _passwordFieldFocus = FocusNode();
 
-  final _auth = FirebaseAuth.instance;
   String? email;
   String? password;
 
@@ -117,45 +116,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         BlocConsumer<SignUpBloc, SignUpState>(
                           bloc: BlocProvider.of<SignUpBloc>(context),
                           listener: (context, state) {
+                            if (state is SignUpPending) {
+                              EasyLoading.show(status: 'Loading...');
+                            }
                             if (state is SignUpSuccess) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Account created!'),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                              EasyLoading.dismiss();
+                              EasyLoading.showSuccess(
+                                  duration: const Duration(seconds: 2),
+                                  'Account created!');
                               context.go("/home");
                             }
                             if (state is SignUpFailure) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(state.error),
-                                  behavior: SnackBarBehavior.floating,
-                                ),
-                              );
+                              EasyLoading.dismiss();
+                              EasyLoading.showError(state.error,
+                                  duration: const Duration(seconds: 2));
                             }
                           },
                           builder: (context, state) {
                             return CustomActionButton(
                               label: 'Sign Up',
                               onPressed: () async {
-                                // print('Email: $email Password: $password');
-                                // await _auth
-                                //     .createUserWithEmailAndPassword(
-                                //         email: email!, password: password!)
-                                //     .then((value) {
-                                //   print('User created: $value');
-                                //   // context.push("/home");
-                                //   context.go("/home");
-                                // }).catchError((error) {
-                                //   print('Error: $error');
-                                // });
                                 BlocProvider.of<SignUpBloc>(context)
                                     .add(CreateUser(
                                   email: email!,
                                   password: password!,
                                 ));
-                                // context.go("/home");
                               },
                             );
                           },
