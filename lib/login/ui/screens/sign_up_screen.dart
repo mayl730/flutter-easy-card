@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
+import 'package:flutter_easy_card/core/utils/form_validator.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -16,7 +17,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
   final FocusNode _emailFieldFocus = FocusNode();
   final FocusNode _passwordFieldFocus = FocusNode();
 
@@ -73,7 +74,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   const SizedBox(height: 8),
                   FormBuilder(
-                    key: _formKey,
+                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -85,16 +86,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 8),
                         FormBuilderTextField(
-                            name: 'email',
-                            onChanged: (val) {
-                              email = val;
-                            },
-                            onTap: () {
-                              _emailFieldFocus.requestFocus();
-                            },
-                            focusNode: _emailFieldFocus,
-                            decoration: loginInputDecoration,
-                            keyboardType: TextInputType.emailAddress),
+                          name: 'email',
+                          onChanged: (val) {
+                            email = val;
+                          },
+                          onTap: () {
+                            _emailFieldFocus.requestFocus();
+                          },
+                          focusNode: _emailFieldFocus,
+                          decoration: loginInputDecoration,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: validateEmail,
+                        ),
                         const SizedBox(height: 20),
                         const Text(
                           'Password',
@@ -102,16 +105,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 8),
                         FormBuilderTextField(
-                            name: 'password',
-                            obscureText: true,
-                            onChanged: (val) {
-                              password = val;
-                            },
-                            onTap: () {
-                              _passwordFieldFocus.requestFocus();
-                            },
-                            focusNode: _passwordFieldFocus,
-                            decoration: loginInputDecoration),
+                          name: 'password',
+                          obscureText: true,
+                          onChanged: (val) {
+                            password = val;
+                          },
+                          onTap: () {
+                            _passwordFieldFocus.requestFocus();
+                          },
+                          focusNode: _passwordFieldFocus,
+                          decoration: loginInputDecoration,
+                          validator: validatePassword,
+                        ),
                         const SizedBox(height: 30),
                         BlocConsumer<SignUpBloc, SignUpState>(
                           bloc: BlocProvider.of<SignUpBloc>(context),
@@ -136,11 +141,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return CustomActionButton(
                               label: 'Sign Up',
                               onPressed: () async {
-                                BlocProvider.of<SignUpBloc>(context)
-                                    .add(CreateUser(
-                                  email: email!,
-                                  password: password!,
-                                ));
+                                if (formKey.currentState!.saveAndValidate()) {
+                                  BlocProvider.of<SignUpBloc>(context)
+                                      .add(CreateUser(
+                                    email: email!,
+                                    password: password!,
+                                  ));
+                                } else {
+                                  print('validation failed');
+                                }
                               },
                             );
                           },
