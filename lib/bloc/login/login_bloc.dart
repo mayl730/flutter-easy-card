@@ -19,6 +19,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         print('User logged in: $user');
         emit(LoginSuccess());
       } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          emit(const LoginFailure(error: 'Wrong password! Please try again.'));
+        } else if (e.code == 'wrong-password') {
+          emit(const LoginFailure(error: 'Wrong password! Please try again.'));
+        }
       } catch (e) {
         emit(LoginFailure(error: e.toString()));
       }

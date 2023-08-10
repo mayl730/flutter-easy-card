@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
@@ -42,7 +43,10 @@ class MyApp extends StatelessWidget {
             ),
             GoRoute(
               path: 'login',
-              builder: (context, state) => const LoginScreen(),
+              builder: (context, state) => BlocProvider(
+                create: (context) => LoginBloc(),
+                child: const LoginScreen(),
+              ),
             ),
             GoRoute(
                 path: 'home',
@@ -55,7 +59,7 @@ class MyApp extends StatelessWidget {
                     path: 'create-card',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
-                      transitionDuration: Duration(milliseconds: 300),
+                      transitionDuration: const Duration(milliseconds: 300),
                       child: const CreateCardScreen(),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
