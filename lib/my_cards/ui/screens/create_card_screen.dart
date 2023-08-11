@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateCardScreen extends StatefulWidget {
   const CreateCardScreen({super.key});
@@ -27,12 +28,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     'twitter': FocusNode(),
   };
   late Color themePickerColor;
+
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
     super.initState();
-    themePickerColor = Colors.blue; // Material blue.
-    // dialogPickerColor = Colors.red;   // Material red.
-    // dialogSelectColor = const Color(0xFFA239CA); // A purple color.
+    themePickerColor = Colors.blue;
   }
 
   @override
@@ -319,7 +322,9 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           CustomActionButton(
                             label: 'Create Card',
                             onPressed: () {
-                              context.go("/home");
+                              // context.go("/home");
+                              print('Create Card');
+                              addDataToFirestore();
                             },
                           ),
                           const SizedBox(height: 30),
@@ -334,5 +339,31 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
         ),
       ),
     );
+  }
+}
+
+void addDataToFirestore() async {
+  CollectionReference card = FirebaseFirestore.instance.collection('cards');
+  User? user = FirebaseAuth.instance.currentUser;
+
+  try {
+    await card.add({
+      'colorTheme': 'blue',
+      'company': 'Stokes and Sons',
+      'creator': user?.email ?? 'no_creator',
+      'email': 'john_doe@gmail.com',
+      'facebook': '',
+      'imageUrl': '',
+      'isPrivate': false,
+      'jobTitle': '',
+      'linkedin': '',
+      'name': 'John Doe',
+      'phone': '',
+      'twitter': '',
+      'website': '',
+    });
+    print('Document added successfully');
+  } catch (e) {
+    print('Error adding document: $e');
   }
 }
