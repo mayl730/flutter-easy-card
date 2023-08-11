@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
+import 'package:flutter_easy_card/core/utils/form_validator.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -32,11 +33,13 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     'twitter': FocusNode(),
   };
   late Color themePickerColor;
+  late String colorThemeValue;
 
   @override
   void initState() {
     super.initState();
-    themePickerColor = Colors.blue;
+    themePickerColor = Colors.deepPurple;
+    colorThemeValue = '0xff673ab7';
   }
 
   @override
@@ -142,13 +145,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'name',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['name']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['name'],
-                              decoration: loginInputDecoration),
+                            name: 'name',
+                            onTap: () {
+                              _fieldFocusNodes['name']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['name'],
+                            decoration: loginInputDecoration,
+                            validator: validateName,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'Title',
@@ -158,13 +162,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'jobTitle',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['jobTitle']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['jobTitle'],
-                              decoration: loginInputDecoration),
+                            name: 'jobTitle',
+                            onTap: () {
+                              _fieldFocusNodes['jobTitle']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['jobTitle'],
+                            decoration: loginInputDecoration,
+                            validator: validateName,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'Company',
@@ -174,13 +179,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'company',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['company']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['company'],
-                              decoration: loginInputDecoration),
+                            name: 'company',
+                            onTap: () {
+                              _fieldFocusNodes['company']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['company'],
+                            decoration: loginInputDecoration,
+                            validator: validateName,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'Phone',
@@ -190,13 +196,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'phone',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['phone']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['phone'],
-                              decoration: loginInputDecoration),
+                            name: 'phone',
+                            onTap: () {
+                              _fieldFocusNodes['phone']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['phone'],
+                            decoration: loginInputDecoration,
+                            validator: validatePhoneNumber,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'Email',
@@ -206,13 +213,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'email',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['email']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['email'],
-                              decoration: loginInputDecoration),
+                            name: 'email',
+                            onTap: () {
+                              _fieldFocusNodes['email']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['email'],
+                            decoration: loginInputDecoration,
+                            validator: validateEmail,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'Website',
@@ -222,13 +230,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'website',
-                              onChanged: (val) {},
-                              onTap: () {
-                                _fieldFocusNodes['website']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['website'],
-                              decoration: loginInputDecoration),
+                            name: 'website',
+                            onTap: () {
+                              _fieldFocusNodes['website']!.requestFocus();
+                            },
+                            focusNode: _fieldFocusNodes['website'],
+                            decoration: loginInputDecoration,
+                            validator: validateWebURL,
+                          ),
                           const SizedBox(height: 20),
                           const Text(
                             'LinkedIn',
@@ -239,12 +248,12 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderTextField(
                               name: 'linkedin',
-                              onChanged: (val) {},
                               onTap: () {
                                 _fieldFocusNodes['linkedin']!.requestFocus();
                               },
                               focusNode: _fieldFocusNodes['linkedin'],
-                              decoration: loginInputDecoration),
+                              decoration: loginInputDecoration,
+                              validator: validateWebURL),
                           const SizedBox(height: 20),
                           const Text(
                             'Facebook',
@@ -255,12 +264,13 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderTextField(
                               name: 'facebook',
-                              onChanged: (val) {},
+
                               onTap: () {
                                 _fieldFocusNodes['facebook']!.requestFocus();
                               },
                               focusNode: _fieldFocusNodes['facebook'],
-                              decoration: loginInputDecoration),
+                              decoration: loginInputDecoration,
+                              validator: validateWebURL),
                           const SizedBox(height: 20),
                           const Text(
                             'Instagram',
@@ -271,12 +281,12 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderTextField(
                               name: 'instagram',
-                              onChanged: (val) {},
                               onTap: () {
                                 _fieldFocusNodes['instagram']!.requestFocus();
                               },
                               focusNode: _fieldFocusNodes['instagram'],
-                              decoration: loginInputDecoration),
+                              decoration: loginInputDecoration,
+                              validator: validateWebURL),
                           const SizedBox(height: 20),
                           const Text(
                             'Twitter',
@@ -287,12 +297,12 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderTextField(
                               name: 'twitter',
-                              onChanged: (val) {},
                               onTap: () {
                                 _fieldFocusNodes['twitter']!.requestFocus();
                               },
                               focusNode: _fieldFocusNodes['twitter'],
-                              decoration: loginInputDecoration),
+                              decoration: loginInputDecoration,
+                              validator: validateWebURL),
                           const SizedBox(height: 20),
                           const Text(
                             'Color Theme',
@@ -313,8 +323,13 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                 ColorPickerType.custom: false
                               },
                               enableShadesSelection: false,
-                              onColorChanged: (Color color) =>
-                                  setState(() => themePickerColor = color),
+                              onColorChanged: (Color color) {
+                                colorThemeValue = '0x${color.value.toRadixString(16)}';
+                                debugPrint(colorThemeValue);
+                                setState(() {
+                                  themePickerColor = color;
+                                });
+                              },
                               width: 44,
                               height: 44,
                               borderRadius: 22,
@@ -343,9 +358,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               return CustomActionButton(
                                 label: 'Create Card',
                                 onPressed: () {
-                                  // context.go("/home");
                                   debugPrint('Create Card');
-
                                   if (formKey.currentState!.saveAndValidate()) {
                                     final formData =
                                         formKey.currentState!.value;
@@ -354,7 +367,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                     BlocProvider.of<CreateCardBloc>(context)
                                         .add(CreateNewCard(
                                       cardData: CardModel(
-                                        colorTheme: themePickerColor.toString(),
+                                        colorTheme: colorThemeValue,
                                         company: formData['company'],
                                         creator: user?.email ?? 'no_creator',
                                         email: formData['email'],

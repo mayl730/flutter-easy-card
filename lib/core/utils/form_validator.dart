@@ -31,3 +31,44 @@ String? validatePassword(String? value) {
 
   return null;
 }
+
+String? validateWebURL(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  final urlRegex = RegExp(
+      r'^(https?:\/\/)?(www\.)?[a-zA-Z0-9]+(\.[a-zA-Z]{2,})(\/\S*)?$');
+
+  if (!urlRegex.hasMatch(value)) {
+    return 'Invalid website URL format';
+  }
+
+  return null;
+}
+
+String? validateName(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  if (value.length > 60) {
+    return 'Should not exceed 60 characters';
+  }
+
+  return null;
+}
+
+String? validatePhoneNumber(String? value) {
+  if (value == null || value.isEmpty) {
+    return null;
+  }
+
+  final phoneRegex = RegExp(r'^\+?[0-9]{8,}$');
+
+  if (!phoneRegex.hasMatch(value)) {
+    return 'Invalid phone number format';
+  }
+
+  return null;
+}
