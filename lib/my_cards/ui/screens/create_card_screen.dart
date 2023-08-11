@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/theme.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,10 +19,10 @@ class CreateCardScreen extends StatefulWidget {
 }
 
 class _CreateCardScreenState extends State<CreateCardScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final formKey = GlobalKey<FormBuilderState>();
   final Map<String, FocusNode> _fieldFocusNodes = {
     'name': FocusNode(),
-    'title': FocusNode(),
+    'jobTitle': FocusNode(),
     'company': FocusNode(),
     'phone': FocusNode(),
     'email': FocusNode(),
@@ -29,9 +32,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     'twitter': FocusNode(),
   };
   late Color themePickerColor;
-
-  final _firestore = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                     ),
                     const SizedBox(height: 20),
                     FormBuilder(
-                      key: _formKey,
+                      key: formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -158,12 +158,12 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 8),
                           FormBuilderTextField(
-                              name: 'title',
+                              name: 'jobTitle',
                               onChanged: (val) {},
                               onTap: () {
-                                _fieldFocusNodes['title']!.requestFocus();
+                                _fieldFocusNodes['jobTitle']!.requestFocus();
                               },
-                              focusNode: _fieldFocusNodes['title'],
+                              focusNode: _fieldFocusNodes['jobTitle'],
                               decoration: loginInputDecoration),
                           const SizedBox(height: 20),
                           const Text(
@@ -320,12 +320,58 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               borderRadius: 22,
                             ),
                           ),
-                          CustomActionButton(
-                            label: 'Create Card',
-                            onPressed: () {
-                              // context.go("/home");
-                              print('Create Card');
-                              addDataToFirestore();
+                          BlocConsumer<CreateCardBloc, CreateCardState>(
+                            bloc: BlocProvider.of<CreateCardBloc>(context),
+                            listener: (context, state) {
+                              if (state is CreateCardPending) {
+                                EasyLoading.show(status: 'Loading...');
+                              }
+                              if (state is CreateCardSuccess) {
+                                EasyLoading.dismiss();
+                                EasyLoading.showSuccess(
+                                    duration: const Duration(seconds: 2),
+                                    'Card Created!');
+                                context.go("/home");
+                              }
+                              if (state is CreateCardFailure) {
+                                EasyLoading.dismiss();
+                                EasyLoading.showError(state.error,
+                                    duration: const Duration(seconds: 2));
+                              }
+                            },
+                            builder: (context, state) {
+                              return CustomActionButton(
+                                label: 'Create Card',
+                                onPressed: () {
+                                  // context.go("/home");
+                                  debugPrint('Create Card');
+
+                                  if (formKey.currentState!.saveAndValidate()) {
+                                    final formData =
+                                        formKey.currentState!.value;
+                                    User? user =
+                                        FirebaseAuth.instance.currentUser;
+                                    BlocProvider.of<CreateCardBloc>(context)
+                                        .add(CreateNewCard(
+                                      cardData: CardModel(
+                                        colorTheme: themePickerColor.toString(),
+                                        company: formData['company'],
+                                        creator: user?.email ?? 'no_creator',
+                                        email: formData['email'],
+                                        facebook: formData['facebook'],
+                                        imageUrl: '',
+                                        isPrivate: false,
+                                        jobTitle: formData['jobTitle'],
+                                        linkedin: formData['linkedin'],
+                                        name: formData['name'],
+                                        phone: formData['phone'],
+                                        twitter: formData['twitter'],
+                                        website: formData['website'],
+                                      ),
+                                    ));
+                                  }
+                                },
+                              );
                             },
                           ),
                           const SizedBox(height: 30),
