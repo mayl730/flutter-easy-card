@@ -24,9 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     'password': FocusNode(),
   };
 
-  String? email;
-  String? password;
-
   @override
   void dispose() {
     for (var focusNode in _fieldFocusNodes.values) {
@@ -90,10 +87,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         const SizedBox(height: 8),
                         FormBuilderTextField(
-                          name: 'email',
-                          onChanged: (val) {
-                            email = val;
-                          },
+                          name: 'email', 
                           onTap: () {
                             _fieldFocusNodes['email']!.requestFocus();
                           },
@@ -111,9 +105,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         FormBuilderTextField(
                           name: 'password',
                           obscureText: true,
-                          onChanged: (val) {
-                            password = val;
-                          },
                           onTap: () {
                             _fieldFocusNodes['password']!.requestFocus();
                           },
@@ -145,11 +136,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return CustomActionButton(
                               label: 'Sign Up',
                               onPressed: () async {
+                                debugPrint('yourMessage');
                                 if (formKey.currentState!.saveAndValidate()) {
+                                  final formData = formKey.currentState!.value;
                                   BlocProvider.of<SignUpBloc>(context)
                                       .add(CreateUser(
-                                    email: email!,
-                                    password: password!,
+                                    email: formData['email']!,
+                                    password: formData['password']!,
                                   ));
                                 }
                               },

@@ -24,9 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
     'password': FocusNode(),
   };
 
-  String? email;
-  String? password;
-
   @override
   void dispose() {
     for (var focusNode in _fieldFocusNodes.values) {
@@ -91,9 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(height: 8),
                         FormBuilderTextField(
                           name: 'email',
-                          onChanged: (val) {
-                            email = val;
-                          },
                           onTap: () {
                             _fieldFocusNodes['email']!.requestFocus();
                           },
@@ -110,9 +104,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         FormBuilderTextField(
                           name: 'password',
                           obscureText: true,
-                          onChanged: (val) {
-                            password = val;
-                          },
                           onTap: () {
                             _fieldFocusNodes['password']!.requestFocus();
                           },
@@ -130,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               EasyLoading.dismiss();
                               EasyLoading.showSuccess(
                                   duration: const Duration(seconds: 2),
-                                  'Account created!');
+                                  'Login Success!');
                               context.go("/home");
                             }
                             if (state is LoginFailure) {
@@ -144,9 +135,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               label: 'Login',
                               onPressed: () async {
                                 if (formKey.currentState!.saveAndValidate()) {
-                                  BlocProvider.of<LoginBloc>(context).add(
-                                      UserLogin(
-                                          email: email!, password: password!));
+                                  final formData = formKey.currentState!.value;
+                                  BlocProvider.of<LoginBloc>(context)
+                                      .add(UserLogin(
+                                    email: formData['email']!,
+                                    password: formData['password']!,
+                                  ));
                                 }
                               },
                             );
