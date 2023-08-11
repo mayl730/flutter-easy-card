@@ -21,6 +21,7 @@ class CreateCardScreen extends StatefulWidget {
 
 class _CreateCardScreenState extends State<CreateCardScreen> {
   final formKey = GlobalKey<FormBuilderState>();
+
   final Map<String, FocusNode> _fieldFocusNodes = {
     'name': FocusNode(),
     'jobTitle': FocusNode(),
@@ -34,12 +35,14 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   };
   late Color themePickerColor;
   late String colorThemeValue;
+  late bool? isPrivate;
 
   @override
   void initState() {
     super.initState();
     themePickerColor = Colors.deepPurple;
     colorThemeValue = '0xff673ab7';
+    isPrivate = false;
   }
 
   @override
@@ -335,6 +338,35 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               borderRadius: 22,
                             ),
                           ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Privacy',
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          FormBuilderSwitch(
+                            name: 'isPrivate',
+                            initialValue: isPrivate,
+                            onChanged: (value) {
+                              setState(() {
+                                isPrivate = value;
+                              });
+                            },
+                            title: const Text(
+                              'Make this a private card',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            activeColor: easyPurple,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              filled: true,
+                              fillColor: Colors.transparent,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           BlocConsumer<CreateCardBloc, CreateCardState>(
                             bloc: BlocProvider.of<CreateCardBloc>(context),
                             listener: (context, state) {
@@ -358,8 +390,8 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               return CustomActionButton(
                                 label: 'Create Card',
                                 onPressed: () {
-                                  debugPrint('Create Card');
                                   final formData = formKey.currentState!.value;
+
                                   if (formKey.currentState!.saveAndValidate()) {
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
@@ -372,7 +404,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                         email: formData['email'] ?? '',
                                         facebook: formData['facebook'] ?? '',
                                         imageUrl: '',
-                                        isPrivate: false,
+                                        isPrivate: isPrivate ?? false,
                                         jobTitle: formData['jobTitle'] ?? '',
                                         linkedin: formData['linkedin'] ?? '',
                                         name: formData['name'] ?? '',
