@@ -47,9 +47,21 @@ String? validateWebURL(String? value) {
   return null;
 }
 
-String? validateName(String? value) {
+String? validateStringOptional(String? value) {
   if (value == null || value.isEmpty) {
     return null;
+  }
+
+  if (value.length > 60) {
+    return 'Should not exceed 60 characters';
+  }
+
+  return null;
+}
+
+String? validateStringRequired(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Should not be empty';
   }
 
   if (value.length > 60) {

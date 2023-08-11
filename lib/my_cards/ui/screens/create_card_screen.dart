@@ -138,7 +138,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Name',
+                            'Name *',
                             style: TextStyle(
                               fontSize: 14,
                             ),
@@ -151,7 +151,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                             },
                             focusNode: _fieldFocusNodes['name'],
                             decoration: loginInputDecoration,
-                            validator: validateName,
+                            validator: validateStringRequired,
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -168,7 +168,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                             },
                             focusNode: _fieldFocusNodes['jobTitle'],
                             decoration: loginInputDecoration,
-                            validator: validateName,
+                            validator: validateStringOptional,
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -185,7 +185,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                             },
                             focusNode: _fieldFocusNodes['company'],
                             decoration: loginInputDecoration,
-                            validator: validateName,
+                            validator: validateStringOptional,
                           ),
                           const SizedBox(height: 20),
                           const Text(
@@ -264,7 +264,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderTextField(
                               name: 'facebook',
-
                               onTap: () {
                                 _fieldFocusNodes['facebook']!.requestFocus();
                               },
@@ -324,7 +323,8 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               },
                               enableShadesSelection: false,
                               onColorChanged: (Color color) {
-                                colorThemeValue = '0x${color.value.toRadixString(16)}';
+                                colorThemeValue =
+                                    '0x${color.value.toRadixString(16)}';
                                 debugPrint(colorThemeValue);
                                 setState(() {
                                   themePickerColor = color;
@@ -359,27 +359,26 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                 label: 'Create Card',
                                 onPressed: () {
                                   debugPrint('Create Card');
+                                  final formData = formKey.currentState!.value;
                                   if (formKey.currentState!.saveAndValidate()) {
-                                    final formData =
-                                        formKey.currentState!.value;
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
                                     BlocProvider.of<CreateCardBloc>(context)
                                         .add(CreateNewCard(
                                       cardData: CardModel(
                                         colorTheme: colorThemeValue,
-                                        company: formData['company'],
+                                        company: formData['company'] ?? '',
                                         creator: user?.email ?? 'no_creator',
-                                        email: formData['email'],
-                                        facebook: formData['facebook'],
+                                        email: formData['email'] ?? '',
+                                        facebook: formData['facebook'] ?? '',
                                         imageUrl: '',
                                         isPrivate: false,
-                                        jobTitle: formData['jobTitle'],
-                                        linkedin: formData['linkedin'],
-                                        name: formData['name'],
-                                        phone: formData['phone'],
-                                        twitter: formData['twitter'],
-                                        website: formData['website'],
+                                        jobTitle: formData['jobTitle'] ?? '',
+                                        linkedin: formData['linkedin'] ?? '',
+                                        name: formData['name'] ?? '',
+                                        phone: formData['phone'] ?? '',
+                                        twitter: formData['twitter'] ?? '',
+                                        website: formData['website'] ?? '',
                                       ),
                                     ));
                                   }

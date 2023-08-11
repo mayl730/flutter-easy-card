@@ -10,11 +10,13 @@ part 'create_card_state.dart';
 class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
   CreateCardBloc() : super(CreateCardInitial()) {
     on<CreateNewCard>((event, emit) async {
+      print('CreateNewCard');
       emit(CreateCardPending());
       CollectionReference cardCollection =
           FirebaseFirestore.instance.collection('cards');
       try {
         await cardCollection.add(event.cardData.toMap());
+        print(event.cardData.toString());
         emit(CreateCardSuccess());
       } catch (e) {
         emit(CreateCardFailure(error: e.toString()));
