@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
+import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
@@ -343,25 +344,27 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
 }
 
 void addDataToFirestore() async {
-  CollectionReference card = FirebaseFirestore.instance.collection('cards');
+  CollectionReference cardCollection =
+      FirebaseFirestore.instance.collection('cards');
   User? user = FirebaseAuth.instance.currentUser;
 
+  CardModel card = CardModel(
+    colorTheme: 'red',
+    company: 'Stokes and Sons',
+    creator: user?.email ?? 'no_creator',
+    email: 'john_doe@gmail.com',
+    facebook: '',
+    imageUrl: '',
+    isPrivate: false,
+    jobTitle: '',
+    linkedin: '',
+    name: 'John Doe',
+    phone: '',
+    twitter: '',
+    website: '',
+  );
   try {
-    await card.add({
-      'colorTheme': 'blue',
-      'company': 'Stokes and Sons',
-      'creator': user?.email ?? 'no_creator',
-      'email': 'john_doe@gmail.com',
-      'facebook': '',
-      'imageUrl': '',
-      'isPrivate': false,
-      'jobTitle': '',
-      'linkedin': '',
-      'name': 'John Doe',
-      'phone': '',
-      'twitter': '',
-      'website': '',
-    });
+    await cardCollection.add(card.toMap());
     print('Document added successfully');
   } catch (e) {
     print('Error adding document: $e');
