@@ -21,24 +21,25 @@ class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
         if (event.imageFile != null) {
           final path = event.imageFile!.path;
 
-          final ref = FirebaseStorage.instance
+          Reference ref = FirebaseStorage.instance
               .ref()
               .child('card_images')
               .child('${DateTime.now()}.png');
-          final uploadTask = ref.putFile(event.imageFile!);
+          UploadTask uploadTask = ref.putFile(event.imageFile!);
           
-          final snapshot = await uploadTask.whenComplete(() => {});
+          TaskSnapshot snapshot = await uploadTask.whenComplete(() => {});
 
-          final imageUrl = await snapshot.ref.getDownloadURL();
+          String imageUrl = await snapshot.ref.getDownloadURL();
+
           print(imageUrl);
         }
 
         // Add Card entry
-        // CollectionReference cardCollection =
-        //     FirebaseFirestore.instance.collection('cards');
-        // await cardCollection.add(event.cardData.toMap());
+        CollectionReference cardCollection =
+            FirebaseFirestore.instance.collection('cards');
+        await cardCollection.add(event.cardData.toMap());
 
-        // print(event.cardData.toString());
+        print(event.cardData.toString());
         emit(CreateCardSuccess());
       } catch (e) {
         emit(CreateCardFailure(error: e.toString()));

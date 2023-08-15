@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CardModel {
@@ -65,5 +66,37 @@ class CardModel {
       'twitter': twitter,
       'website': website,
     };
+  }
+
+  CardModel copyWith({
+    String? colorTheme,
+    String? company,
+    String? creator,
+    String? email,
+    String? facebook,
+    String? imageUrl,
+    bool? isPrivate,
+    String? jobTitle,
+    String? linkedin,
+    String? name,
+    String? phone,
+    String? twitter,
+    String? website,
+  }) {
+    return CardModel(
+      colorTheme: colorTheme ?? this.colorTheme,
+      company: company ?? this.company,
+      creator: creator ?? this.creator,
+      email: email ?? this.email,
+      facebook: facebook ?? this.facebook,
+      imageUrl: imageUrl ?? this.imageUrl,
+      isPrivate: isPrivate ?? this.isPrivate,
+      jobTitle: jobTitle ?? this.jobTitle,
+      linkedin: linkedin ?? this.linkedin,
+      name: name ?? this.name,
+      phone: phone ?? this.phone,
+      twitter: twitter ?? this.twitter,
+      website: website ?? this.website,
+    );
   }
 }
