@@ -44,7 +44,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   Future pickImage() async {
     print('pickImage');
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     if (image == null) return;
     setState(() {
       imageFile = File(image.path);
