@@ -407,16 +407,13 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               return CustomActionButton(
                                 label: 'Create Card',
                                 onPressed: () {
-                                  final formData = formKey.currentState!.value;
-
                                   if (formKey.currentState!.saveAndValidate()) {
+                                    final formData =
+                                        formKey.currentState!.value;
+
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
-                                    // if (imageFilePath != null) {
-                                    //   BlocProvider.of<CreateCardBloc>(context)
-                                    //       .add(UploadImage(
-                                    //           imagePath: imageFilePath));
-                                    // }
+
                                     BlocProvider.of<CreateCardBloc>(context)
                                         .add(CreateNewCard(
                                             cardData: CardModel(
