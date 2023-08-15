@@ -42,7 +42,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   File? imageFile;
 
   Future pickImage() async {
-    print('pickImage');
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     if (image == null) return;
@@ -456,33 +455,5 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
         ),
       ),
     );
-  }
-}
-
-void addDataToFirestore() async {
-  CollectionReference cardCollection =
-      FirebaseFirestore.instance.collection('cards');
-  User? user = FirebaseAuth.instance.currentUser;
-
-  CardModel card = CardModel(
-    colorTheme: 'red',
-    company: 'Stokes and Sons',
-    creator: user?.email ?? 'no_creator',
-    email: 'john_doe@gmail.com',
-    facebook: '',
-    imageUrl: '',
-    isPrivate: false,
-    jobTitle: '',
-    linkedin: '',
-    name: 'John Doe',
-    phone: '',
-    twitter: '',
-    website: '',
-  );
-  try {
-    await cardCollection.add(card.toMap());
-    print('Document added successfully');
-  } catch (e) {
-    print('Error adding document: $e');
   }
 }
