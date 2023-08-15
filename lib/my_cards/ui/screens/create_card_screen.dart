@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateCardScreen extends StatefulWidget {
   const CreateCardScreen({super.key});
@@ -36,6 +39,18 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   late Color themePickerColor;
   late String colorThemeValue;
   late bool? isPrivate;
+  File? imageFile;
+
+  Future pickImage() async {
+    print('pickImage');
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    setState(() {
+      imageFile = File(image.path);
+      print(imageFile);
+    });
+  }
 
   @override
   void initState() {
@@ -104,14 +119,16 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           height: 200,
                           width: 250,
                           child: InkWell(
-                            onTap: () => {},
+                            onTap: pickImage,
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Container(
-                                color: Colors.grey[200],
-                                child: const Icon(Icons.person),
-                              ),
-                            ),
+                                borderRadius: BorderRadius.circular(20),
+                                child: imageFile != null
+                                    ? Image.file(File(imageFile!.path),
+                                        fit: BoxFit.cover)
+                                    : Container(
+                                        color: Colors.grey[200],
+                                        child: const Icon(Icons.person),
+                                      )),
                           ),
                         ),
                         Container(
@@ -395,24 +412,36 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                   if (formKey.currentState!.saveAndValidate()) {
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
+                                    // if (imageFilePath != null) {
+                                    //   BlocProvider.of<CreateCardBloc>(context)
+                                    //       .add(UploadImage(
+                                    //           imagePath: imageFilePath));
+                                    // }
                                     BlocProvider.of<CreateCardBloc>(context)
                                         .add(CreateNewCard(
-                                      cardData: CardModel(
-                                        colorTheme: colorThemeValue,
-                                        company: formData['company'] ?? '',
-                                        creator: user?.email ?? 'no_creator',
-                                        email: formData['email'] ?? '',
-                                        facebook: formData['facebook'] ?? '',
-                                        imageUrl: '',
-                                        isPrivate: isPrivate ?? false,
-                                        jobTitle: formData['jobTitle'] ?? '',
-                                        linkedin: formData['linkedin'] ?? '',
-                                        name: formData['name'] ?? '',
-                                        phone: formData['phone'] ?? '',
-                                        twitter: formData['twitter'] ?? '',
-                                        website: formData['website'] ?? '',
-                                      ),
-                                    ));
+                                            cardData: CardModel(
+                                              colorTheme: colorThemeValue,
+                                              company:
+                                                  formData['company'] ?? '',
+                                              creator:
+                                                  user?.email ?? 'no_creator',
+                                              email: formData['email'] ?? '',
+                                              facebook:
+                                                  formData['facebook'] ?? '',
+                                              imageUrl: '',
+                                              isPrivate: isPrivate ?? false,
+                                              jobTitle:
+                                                  formData['jobTitle'] ?? '',
+                                              linkedin:
+                                                  formData['linkedin'] ?? '',
+                                              name: formData['name'] ?? '',
+                                              phone: formData['phone'] ?? '',
+                                              twitter:
+                                                  formData['twitter'] ?? '',
+                                              website:
+                                                  formData['website'] ?? '',
+                                            ),
+                                            imageFile: imageFile));
                                   }
                                 },
                               );
