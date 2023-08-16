@@ -8,7 +8,7 @@ import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
 import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
-import 'package:flutter_easy_card/my_cards/ui/screens/my_card_screen.dart';
+import 'package:flutter_easy_card/my_cards/ui/screens/my_card_details_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
