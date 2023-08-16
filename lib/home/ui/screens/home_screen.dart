@@ -6,34 +6,21 @@ import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
-  // const HomeScreen({super.key});
-
-  HomeScreen({Key? key})
-      : myCardsBloc = MyCardsBloc()..add(FetchMyCards()),
-        super(key: key);
-
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.myCardsBloc});
   final MyCardsBloc myCardsBloc;
 
-  static const List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-  ];
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.myCardsBloc.add(FetchMyCards());
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +147,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: BlocBuilder<MyCardsBloc, MyCardsState>(
-          bloc: myCardsBloc,
+          bloc: widget.myCardsBloc,
           builder: (context, state) {
             if (state is MyCardsPending) {
               return const Center(child: CircularProgressIndicator());

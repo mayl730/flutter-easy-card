@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
+import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
@@ -16,6 +17,8 @@ import 'firebase_options.dart';
 import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
+
+final myCardsBloc = MyCardsBloc();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +44,10 @@ class MyApp extends StatelessWidget {
           path: '/',
           builder: (context, state) {
             // return const StartScreen();
-            return HomeScreen();
+            return BlocProvider(
+              create: (context) => myCardsBloc,
+              child: HomeScreen(myCardsBloc: myCardsBloc),
+            );
           },
           routes: [
             GoRoute(
@@ -62,7 +68,8 @@ class MyApp extends StatelessWidget {
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                       key: state.pageKey,
-                      child: HomeScreen(),
+                      // child: HomeScreen(),
+                      child: Placeholder(),
                     ),
                 routes: [
                   GoRoute(
