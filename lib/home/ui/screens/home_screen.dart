@@ -162,67 +162,71 @@ class HomeScreen extends StatelessWidget {
         child: BlocBuilder<MyCardsBloc, MyCardsState>(
           bloc: myCardsBloc,
           builder: (context, state) {
-            if (state is MyCardsPending){
+            if (state is MyCardsPending) {
               return const Center(child: CircularProgressIndicator());
-            } 
-            if (state is MyCardsSuccess){
+            }
+            if (state is MyCardsSuccess) {
               final cards = state.cards;
-              if(cards.isEmpty){
-                return Text('No card for this account.');
+              if (cards.isEmpty) {
+                return const Text(
+                    'No card for this account. You can start creating one!');
               }
               return GridView.builder(
-              padding: const EdgeInsets.all(20),
-              itemCount: items.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 22,
-                mainAxisSpacing: 22,
-                crossAxisCount: 2,
-                childAspectRatio: 0.85,
-              ),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    context.push('/home/my-card-details');
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 0,
-                          blurRadius: 12,
-                          offset: const Offset(0, 0),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 150,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              topRight: Radius.circular(20),
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  "https://dummyimage.com/600x600/000/fff"),
+                padding: const EdgeInsets.all(20),
+                itemCount: cards.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 22,
+                  mainAxisSpacing: 22,
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.85,
+                ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      context.push('/home/my-card-details');
+                      print(cards[index].id);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 0,
+                            blurRadius: 12,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    cards[index].imageUrl.isNotEmpty
+                                        ? cards[index].imageUrl
+                                        : "https://dummyimage.com/600x600/000/fff",
+                                  )),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Center(
-                            child: Text(items[index],
-                                style: thumbnailCardTitleStyle)),
-                      ],
+                          const SizedBox(height: 10),
+                          Center(
+                              child: Text(cards[index].name,
+                                  style: thumbnailCardTitleStyle)),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              );
             }
             return const Text("No User is found!");
           },
