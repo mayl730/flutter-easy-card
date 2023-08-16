@@ -7,7 +7,8 @@ import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
-  const MyCardDetailsScreen({super.key});
+  const MyCardDetailsScreen({super.key, required this.cardId});
+  final String cardId;
 
   @override
   State<MyCardDetailsScreen> createState() => _MyCardDetailsScreenState();
@@ -82,6 +83,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                 ),
               ),
               const SizedBox(height: 14),
+              Text(widget.cardId),
               const Text('John Doe',
                   style: titleH1TextStyle, textAlign: TextAlign.center),
               const Text('Software Engineer', style: appTitleStyle),

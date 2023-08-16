@@ -183,8 +183,8 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      context.push('/home/my-card-details');
                       print(cards[index].id);
+                      context.push('/home/my-card-details/${cards[index].id}');
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -228,7 +228,10 @@ class HomeScreen extends StatelessWidget {
                 },
               );
             }
-            return const Text("No User is found!");
+            if (state is MyCardsFailure) {
+              return const Text("Error!");
+            }
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),

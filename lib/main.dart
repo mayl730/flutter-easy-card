@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
   // MyApp({Key? key})
   //     : authenticationBloc = AuthenticationBloc()..add(CheckAuthentication()),
   //       super(key: key);
-        
+
   // final AuthenticationBloc authenticationBloc;
   @override
   Widget build(BuildContext context) {
@@ -87,8 +87,11 @@ class MyApp extends StatelessWidget {
                     ),
                   ),
                   GoRoute(
-                    path: 'my-card-details',
-                    builder: (context, state) => const MyCardDetailsScreen(),
+                    path: 'my-card-details/:cardId',
+                    builder: (context, state) {
+                      final String cardId = state.pathParameters['cardId']!;
+                      return MyCardDetailsScreen(cardId: cardId);
+                    },
                   ),
                 ]),
             GoRoute(
