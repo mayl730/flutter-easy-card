@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
+import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_easy_card/components/circle_icon.dart';
@@ -7,14 +10,22 @@ import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
-  const MyCardDetailsScreen({super.key, required this.cardId});
+  const MyCardDetailsScreen(
+      {super.key, required this.cardId, required this.myCardDetailsBloc});
   final String cardId;
+  final CardDetailsBloc myCardDetailsBloc;
 
   @override
   State<MyCardDetailsScreen> createState() => _MyCardDetailsScreenState();
 }
 
 class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.myCardDetailsBloc.add(FetchCardDetails(widget.cardId));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,103 +81,143 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 240,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image:
-                        NetworkImage("https://dummyimage.com/600x600/000/fff"),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              Text(widget.cardId),
-              const Text('John Doe',
-                  style: titleH1TextStyle, textAlign: TextAlign.center),
-              const Text('Software Engineer', style: appTitleStyle),
-              const Text('Random Studio', style: appTitleStyle),
-              const SizedBox(height: 14),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: sidePadding),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          CircleIcon(
-                            iconData: Icons.email,
-                            backgroundColor: easyPurple,
-                            iconColor: Colors.white,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'test@gmail.com',
-                            textAlign: TextAlign.left,
-                            style: contentStyle,
-                          ),
-                        ],
+          child: BlocBuilder<CardDetailsBloc, CardDetailsState>(
+            bloc: widget.myCardDetailsBloc,
+            builder: (context, state) {
+              if (state is CardDetailsPending) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if (state is CardDetailsFailure) {
+                return const Center(
+                  child: Text('Load failed'),
+                );
+              }
+
+              if (state is CardDetailsSuccess) {
+                final cardDetails = state.cardDetail;
+                return Column(
+                  children: [
+                    Container(
+                      height: 240,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(cardDetails.imageUrl != ""
+                              ? cardDetails.imageUrl
+                              : "https://dummyimage.com/600x600/000/fff"),
+                        ),
                       ),
-                      SizedBox(height: 10),
-                      Row(
-                        children: [
-                          CircleIcon(
-                            iconData: Icons.phone,
-                            backgroundColor: easyPurple,
-                            iconColor: Colors.white,
+                    ),
+                    const SizedBox(height: 14),
+                    Visibility(
+                      visible: cardDetails.name != "",
+                      child: Text(cardDetails.name,
+                          style: titleH1TextStyle, textAlign: TextAlign.center),
+                    ),
+                    Visibility(
+                      visible: cardDetails.jobTitle != "",
+                      child: Text(cardDetails.jobTitle, style: appTitleStyle)),
+                    Visibility(
+                      visible: cardDetails.company != "",
+                      child: Text(cardDetails.company, style: appTitleStyle)),
+                    const SizedBox(height: 14),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: sidePadding),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Visibility(
+                              visible: cardDetails.email != "",
+                              child: Row(
+                                children: [
+                                  const CircleIcon(
+                                    iconData: Icons.email,
+                                    backgroundColor: easyPurple,
+                                    iconColor: Colors.white,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    cardDetails.email,
+                                    textAlign: TextAlign.left,
+                                    style: contentStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Visibility(
+                              visible: cardDetails.phone != "",
+                              child: Row(
+                                children: [
+                                  const CircleIcon(
+                                    iconData: Icons.phone,
+                                    backgroundColor: easyPurple,
+                                    iconColor: Colors.white,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    cardDetails.phone,
+                                    textAlign: TextAlign.left,
+                                    style: contentStyle,
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Visibility(
+                          visible: cardDetails.website != "",
+                          child: IconButton(
+                            icon: FaIcon(FontAwesomeIcons.globe,
+                                color: easyPurple, size: 30),
+                            onPressed: () {
+                              print('more');
+                            },
                           ),
-                          SizedBox(width: 10),
-                          Text(
-                            '123456789',
-                            textAlign: TextAlign.left,
-                            style: contentStyle,
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.globe,
-                        color: easyPurple, size: 30),
-                    onPressed: () {
-                      print('more');
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  IconButton(
-                    icon:
-                        FaIcon(FontAwesomeIcons.linkedinIn, color: easyPurple, size: 30),
-                    onPressed: () {
-                      print('more');
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.facebook, color: easyPurple, size: 30),
-                    onPressed: () {
-                      print('more');
-                    },
-                  ),
-                  SizedBox(width: 10),
-                  IconButton(
-                    icon: FaIcon(FontAwesomeIcons.twitter, color: easyPurple, size: 30),
-                    onPressed: () {
-                      print('more');
-                    },
-                  ),
-                ],
-              ),
-            ],
+                        ),
+                        SizedBox(width: 10),
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.linkedinIn,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            print('more');
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.facebook,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            print('more');
+                          },
+                        ),
+                        SizedBox(width: 10),
+                        IconButton(
+                          icon: FaIcon(FontAwesomeIcons.twitter,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            print('more');
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+
+              return Container();
+            },
           ),
         ),
       ),

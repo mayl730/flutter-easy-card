@@ -12,12 +12,12 @@ final class CardDetailsInitial extends CardDetailsState {}
 final class CardDetailsPending extends CardDetailsState {}
 
 final class CardDetailsSuccess extends CardDetailsState {
-  final CardModelWithId? cardDetail;
+  final CardModelWithId cardDetail;
 
   const CardDetailsSuccess(this.cardDetail);
 
   @override
-  List<Object> get props => [cardDetail!];
+  List<Object> get props => [cardDetail];
 }
 
 final class CardDetailsFailure extends CardDetailsState {

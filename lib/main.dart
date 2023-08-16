@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
 final myCardsBloc = MyCardsBloc();
+final myCardDetailsBloc = CardDetailsBloc();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -98,7 +100,10 @@ class MyApp extends StatelessWidget {
                     path: 'my-card-details/:cardId',
                     builder: (context, state) {
                       final String cardId = state.pathParameters['cardId']!;
-                      return MyCardDetailsScreen(cardId: cardId);
+                      return BlocProvider<CardDetailsBloc>(
+                        create: (context) => myCardDetailsBloc,
+                        child: MyCardDetailsScreen(cardId: cardId, myCardDetailsBloc: myCardDetailsBloc),
+                      );
                     },
                   ),
                 ]),

@@ -37,7 +37,7 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
     }
 
     print(cardsList);
-     return cardsList;
+    return cardsList;
   } catch (e) {
     debugPrint('Error fetching cards: $e');
     return [];
@@ -46,9 +46,29 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
 
 Future<CardModelWithId?> fetchCardById(String cardId) async {
   try {
-    DocumentSnapshot cardSnapshot =
-        await FirebaseFirestore.instance.collection('cards').doc(cardId).get();
-    return CardModelWithId.fromSnapshot(cardSnapshot);
+    CollectionReference cardCollection =
+        FirebaseFirestore.instance.collection('cards');
+
+    DocumentSnapshot docSnapshot = await cardCollection.doc(cardId).get();
+
+    CardModelWithId card = CardModelWithId(
+      id: docSnapshot.id,
+      colorTheme: docSnapshot.get('colorTheme'),
+      company: docSnapshot.get('company'),
+      creator: docSnapshot.get('creator'),
+      email: docSnapshot.get('email'),
+      facebook: docSnapshot.get('facebook'),
+      imageUrl: docSnapshot.get('imageUrl'),
+      isPrivate: docSnapshot.get('isPrivate'),
+      jobTitle: docSnapshot.get('jobTitle'),
+      linkedin: docSnapshot.get('linkedin'),
+      name: docSnapshot.get('name'),
+      phone: docSnapshot.get('phone'),
+      twitter: docSnapshot.get('twitter'),
+      website: docSnapshot.get('website'),
+    );
+
+    return card;
   } catch (e) {
     print('Error fetching card: $e');
     return null;

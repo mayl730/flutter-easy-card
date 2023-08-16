@@ -12,9 +12,8 @@ class CardDetailsBloc extends Bloc<CardDetailsEvent, CardDetailsState> {
       emit(CardDetailsPending());
       try {
         String cardId = event.cardId;
-        CardModelWithId? cardDetail = await fetchCardById(cardId);
-        print(cardDetail);
-        emit(CardDetailsSuccess(cardDetail));
+        CardModelWithId? cardDetails = await fetchCardById(cardId);
+        emit(CardDetailsSuccess(cardDetails!));
       } catch (e) {
         emit(CardDetailsFailure(e.toString()));
       }
