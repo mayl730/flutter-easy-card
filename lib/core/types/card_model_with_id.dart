@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CardModel {
+class CardModelWithId {
+  final String id;
   final String colorTheme;
   final String company;
   final String creator;
@@ -15,7 +16,8 @@ class CardModel {
   final String twitter;
   final String website;
 
-  CardModel({
+  CardModelWithId({
+    required this.id,
     required this.colorTheme,
     required this.company,
     required this.creator,
@@ -31,8 +33,9 @@ class CardModel {
     required this.website,
   });
 
-  factory CardModel.fromSnapshot(DocumentSnapshot snapshot) {
-    return CardModel(
+  factory CardModelWithId.fromSnapshot(DocumentSnapshot snapshot) {
+    return CardModelWithId(
+      id: snapshot['id'],
       colorTheme: snapshot['colorTheme'],
       company: snapshot['company'],
       creator: snapshot['creator'],
@@ -51,6 +54,7 @@ class CardModel {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'colorTheme': colorTheme,
       'company': company,
       'creator': creator,
@@ -67,7 +71,8 @@ class CardModel {
     };
   }
 
-  CardModel copyWith({
+  CardModelWithId copyWith({
+    String? id,
     String? colorTheme,
     String? company,
     String? creator,
@@ -82,7 +87,8 @@ class CardModel {
     String? twitter,
     String? website,
   }) {
-    return CardModel(
+    return CardModelWithId(
+      id: id ?? this.id,
       colorTheme: colorTheme ?? this.colorTheme,
       company: company ?? this.company,
       creator: creator ?? this.creator,
