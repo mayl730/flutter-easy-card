@@ -225,7 +225,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 20),
                           const Text(
-                            'Email',
+                            'Email *',
                             style: TextStyle(
                               fontSize: 14,
                             ),

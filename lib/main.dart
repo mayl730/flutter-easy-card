@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
@@ -26,17 +27,21 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  // MyApp({Key? key})
+  //     : authenticationBloc = AuthenticationBloc()..add(CheckAuthentication()),
+  //       super(key: key);
+        
+  // final AuthenticationBloc authenticationBloc;
   @override
   Widget build(BuildContext context) {
     final router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          // builder: (context, state) => const StartScreen(),
-          builder: (context, state) => BlocProvider(
-            create: (context) => CreateCardBloc(),
-            child: const CreateCardScreen(),
-          ),
+          builder: (context, state) {
+            return const StartScreen();
+          },
           routes: [
             GoRoute(
               path: 'sign-up',
@@ -64,7 +69,10 @@ class MyApp extends StatelessWidget {
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       transitionDuration: const Duration(milliseconds: 300),
-                      child: const CreateCardScreen(),
+                      child: BlocProvider(
+                        create: (context) => CreateCardBloc(),
+                        child: const CreateCardScreen(),
+                      ),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               SlideTransition(

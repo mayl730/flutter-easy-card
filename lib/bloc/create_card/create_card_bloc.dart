@@ -28,7 +28,12 @@ class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
           imageUrl = await snapshot.ref.getDownloadURL();
         }
 
-        CardModel updatedCardData = event.cardData.copyWith(imageUrl: imageUrl);
+        String? creatorEmail = FirebaseAuth.instance.currentUser?.email;
+
+        CardModel updatedCardData = event.cardData.copyWith(
+          imageUrl: imageUrl,
+          creator: creatorEmail ?? 'no_creator',
+        );
 
         CollectionReference cardCollection =
             FirebaseFirestore.instance.collection('cards');

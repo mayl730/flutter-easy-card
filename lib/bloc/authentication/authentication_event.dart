@@ -7,3 +7,4 @@ sealed class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class CheckAuthentication extends AuthenticationEvent {}

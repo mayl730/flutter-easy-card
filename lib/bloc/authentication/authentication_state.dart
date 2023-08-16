@@ -9,9 +9,11 @@ sealed class AuthenticationState extends Equatable {
 
 class AuthenticationInitial extends AuthenticationState {}
 
-class AuthenticationPending extends AuthenticationState {}
+class AuthenticationCheck extends AuthenticationState {}
 
-class AuthenticationSuccess extends AuthenticationState {}
+class AuthenticationLoggedIn extends AuthenticationState {}
+
+class AuthenticationLoggedOut extends AuthenticationState {}
 
 class AuthenticationFail extends AuthenticationState {
   final String error;
