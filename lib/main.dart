@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           path: '/',
           builder: (context, state) {
             // return const StartScreen();
-            return BlocProvider(
+            return BlocProvider<MyCardsBloc>(
               create: (context) => myCardsBloc,
               child: HomeScreen(myCardsBloc: myCardsBloc),
             );
@@ -67,10 +67,11 @@ class MyApp extends StatelessWidget {
             GoRoute(
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
-                      key: state.pageKey,
-                      // child: HomeScreen(),
-                      child: Placeholder(),
-                    ),
+                    key: state.pageKey,
+                    child: BlocProvider<MyCardsBloc>(
+                      create: (context) => myCardsBloc,
+                      child: HomeScreen(myCardsBloc: myCardsBloc),
+                    )),
                 routes: [
                   GoRoute(
                     path: 'create-card',

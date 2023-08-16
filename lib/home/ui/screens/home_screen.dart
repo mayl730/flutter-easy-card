@@ -21,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
     widget.myCardsBloc.add(FetchMyCards());
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
