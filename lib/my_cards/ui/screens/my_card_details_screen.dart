@@ -9,6 +9,8 @@ import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
+
 
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
@@ -36,7 +38,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
         width: 120,
         child: CustomActionButton(
           onPressed: () {
-            print('share');
+            Share.share('Check out My name Card! https://example.com/${widget.cardId}}');
           },
           icon: Icons.share,
           label: 'Share',
