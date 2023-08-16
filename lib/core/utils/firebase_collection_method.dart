@@ -37,9 +37,20 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
     }
 
     print(cardsList);
+     return cardsList;
   } catch (e) {
     debugPrint('Error fetching cards: $e');
+    return [];
   }
+}
 
-  return cardsList;
+Future<CardModelWithId?> fetchCardById(String cardId) async {
+  try {
+    DocumentSnapshot cardSnapshot =
+        await FirebaseFirestore.instance.collection('cards').doc(cardId).get();
+    return CardModelWithId.fromSnapshot(cardSnapshot);
+  } catch (e) {
+    print('Error fetching card: $e');
+    return null;
+  }
 }
