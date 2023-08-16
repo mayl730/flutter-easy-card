@@ -8,6 +8,7 @@ import 'package:flutter_easy_card/components/circle_icon.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
@@ -89,13 +90,11 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                   child: CircularProgressIndicator(),
                 );
               }
-
               if (state is CardDetailsFailure) {
                 return const Center(
                   child: Text('Load failed'),
                 );
               }
-
               if (state is CardDetailsSuccess) {
                 final cardDetails = state.cardDetail;
                 return Column(
@@ -118,11 +117,12 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                           style: titleH1TextStyle, textAlign: TextAlign.center),
                     ),
                     Visibility(
-                      visible: cardDetails.jobTitle != "",
-                      child: Text(cardDetails.jobTitle, style: appTitleStyle)),
+                        visible: cardDetails.jobTitle != "",
+                        child:
+                            Text(cardDetails.jobTitle, style: appTitleStyle)),
                     Visibility(
-                      visible: cardDetails.company != "",
-                      child: Text(cardDetails.company, style: appTitleStyle)),
+                        visible: cardDetails.company != "",
+                        child: Text(cardDetails.company, style: appTitleStyle)),
                     const SizedBox(height: 14),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: sidePadding),
@@ -179,43 +179,55 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                         Visibility(
                           visible: cardDetails.website != "",
                           child: IconButton(
-                            icon: FaIcon(FontAwesomeIcons.globe,
+                            icon: const FaIcon(FontAwesomeIcons.globe,
                                 color: easyPurple, size: 30),
                             onPressed: () {
-                              print('more');
+                              launchUrl(Uri.parse(cardDetails.website),
+                                  mode: LaunchMode.externalApplication);
                             },
                           ),
                         ),
-                        SizedBox(width: 10),
-                        IconButton(
-                          icon: FaIcon(FontAwesomeIcons.linkedinIn,
-                              color: easyPurple, size: 30),
-                          onPressed: () {
-                            print('more');
-                          },
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: cardDetails.linkedin != "",
+                          child: IconButton(
+                            icon: const FaIcon(FontAwesomeIcons.linkedinIn,
+                                color: easyPurple, size: 30),
+                            onPressed: () {
+                              launchUrl(Uri.parse(cardDetails.linkedin),
+                                  mode: LaunchMode.externalApplication);
+                            },
+                          ),
                         ),
-                        SizedBox(width: 10),
-                        IconButton(
-                          icon: FaIcon(FontAwesomeIcons.facebook,
-                              color: easyPurple, size: 30),
-                          onPressed: () {
-                            print('more');
-                          },
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: cardDetails.facebook != "",
+                          child: IconButton(
+                            icon: const FaIcon(FontAwesomeIcons.facebook,
+                                color: easyPurple, size: 30),
+                            onPressed: () {
+                              launchUrl(Uri.parse(cardDetails.facebook),
+                                  mode: LaunchMode.externalApplication);
+                            },
+                          ),
                         ),
-                        SizedBox(width: 10),
-                        IconButton(
-                          icon: FaIcon(FontAwesomeIcons.twitter,
-                              color: easyPurple, size: 30),
-                          onPressed: () {
-                            print('more');
-                          },
+                        const SizedBox(width: 10),
+                        Visibility(
+                          visible: cardDetails.twitter != "",
+                          child: IconButton(
+                            icon: const FaIcon(FontAwesomeIcons.twitter,
+                                color: easyPurple, size: 30),
+                            onPressed: () {
+                              launchUrl(Uri.parse(cardDetails.twitter),
+                                  mode: LaunchMode.externalApplication);
+                            },
+                          ),
                         ),
                       ],
                     ),
                   ],
                 );
               }
-
               return Container();
             },
           ),
