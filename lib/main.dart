@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           path: '/',
           builder: (context, state) {
             // return const StartScreen();
-            return const HomeScreen();
+            return HomeScreen();
           },
           routes: [
             GoRoute(
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                       key: state.pageKey,
-                      child: const HomeScreen(),
+                      child: HomeScreen(),
                     ),
                 routes: [
                   GoRoute(

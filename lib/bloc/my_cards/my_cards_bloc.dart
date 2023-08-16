@@ -13,7 +13,7 @@ class MyCardsBloc extends Bloc<MyCardsEvent, MyCardsState> {
     on<FetchMyCards>((event, emit) async {
       emit(MyCardsPending());
       try {
-        User? user = await getCurrentUser();
+        User? user = getCurrentUser();
         String userEmail;
 
         if (user == null) {

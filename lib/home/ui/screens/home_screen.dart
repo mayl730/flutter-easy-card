@@ -1,11 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  // const HomeScreen({super.key});
+
+  HomeScreen({Key? key})
+      : myCardsBloc = MyCardsBloc()..add(FetchMyCards()),
+        super(key: key);
+
+  final MyCardsBloc myCardsBloc;
 
   static const List<String> items = [
     'Item 1',
@@ -27,10 +35,8 @@ class HomeScreen extends StatelessWidget {
     'Item 5',
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    fetchCardsByCreator("test6@gmail.com");
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
@@ -153,57 +159,72 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: GridView.builder(
-          padding: const EdgeInsets.all(20),
-          itemCount: items.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 22,
-            mainAxisSpacing: 22,
-            crossAxisCount: 2,
-            childAspectRatio: 0.85,
-          ),
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                context.push('/home/my-card-details');
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0,
-                      blurRadius: 12,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 150,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "https://dummyimage.com/600x600/000/fff"),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Center(
-                        child:
-                            Text(items[index], style: thumbnailCardTitleStyle)),
-                  ],
-                ),
+        child: BlocBuilder<MyCardsBloc, MyCardsState>(
+          bloc: myCardsBloc,
+          builder: (context, state) {
+            if (state is MyCardsPending){
+              return const Center(child: CircularProgressIndicator());
+            } 
+            if (state is MyCardsSuccess){
+              final cards = state.cards;
+              if(cards.isEmpty){
+                return Text('No card for this account.');
+              }
+              return GridView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: items.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 22,
+                mainAxisSpacing: 22,
+                crossAxisCount: 2,
+                childAspectRatio: 0.85,
               ),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () {
+                    context.push('/home/my-card-details');
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 0,
+                          blurRadius: 12,
+                          offset: const Offset(0, 0),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 150,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                  "https://dummyimage.com/600x600/000/fff"),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Center(
+                            child: Text(items[index],
+                                style: thumbnailCardTitleStyle)),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
+            }
+            return const Text("No User is found!");
           },
         ),
       ),
