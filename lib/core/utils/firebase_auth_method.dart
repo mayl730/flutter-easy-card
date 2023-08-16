@@ -10,3 +10,9 @@ Future<bool> isUserLoggedIn() async {
     return false;
   }
 }
+
+User? getCurrentUser() {
+  FirebaseAuth auth = FirebaseAuth.instance;
+  User? user = auth.currentUser;
+  return user;
+}

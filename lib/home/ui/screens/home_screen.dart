@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,8 +27,10 @@ class HomeScreen extends StatelessWidget {
     'Item 5',
   ];
 
+
   @override
   Widget build(BuildContext context) {
+    fetchCardsByCreator("test6@gmail.com");
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
@@ -156,7 +160,7 @@ class HomeScreen extends StatelessWidget {
             crossAxisSpacing: 22,
             mainAxisSpacing: 22,
             crossAxisCount: 2,
-            childAspectRatio: 0.8,
+            childAspectRatio: 0.85,
           ),
           itemBuilder: (context, index) {
             return InkWell(

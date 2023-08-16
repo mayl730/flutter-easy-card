@@ -40,7 +40,8 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/',
           builder: (context, state) {
-            return const StartScreen();
+            // return const StartScreen();
+            return const HomeScreen();
           },
           routes: [
             GoRoute(
