@@ -66,7 +66,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
               textStyle: const TextStyle(fontSize: 20),
             ),
             onPressed: () {
-              print('edit');
+              context.push('/home/edit-card/${widget.cardId}');
             },
             child: const Text('Edit', style: purpleTextButton),
           ),

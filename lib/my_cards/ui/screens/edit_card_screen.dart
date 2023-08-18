@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
@@ -14,14 +15,17 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateCardScreen extends StatefulWidget {
-  const CreateCardScreen({super.key});
+class EditCardScreen extends StatefulWidget {
+  const EditCardScreen(
+      {super.key, required this.cardId, required this.myCardDetailsBloc});
+  final String cardId;
+  final CardDetailsBloc myCardDetailsBloc;
 
   @override
-  State<CreateCardScreen> createState() => _CreateCardScreenState();
+  State<EditCardScreen> createState() => _EditCardScreenState();
 }
 
-class _CreateCardScreenState extends State<CreateCardScreen> {
+class _EditCardScreenState extends State<EditCardScreen> {
   final formKey = GlobalKey<FormBuilderState>();
 
   final Map<String, FocusNode> _fieldFocusNodes = {
@@ -35,27 +39,54 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
     'facebook': FocusNode(),
     'twitter': FocusNode(),
   };
-  late Color themePickerColor;
-  late String colorThemeValue;
+  Color themePickerColor = Colors.deepPurple;
+  String colorThemeValue = '0xff673ab7';
   late bool? isPrivate;
   File? imageFile;
+  String imageUrl = "";
 
   Future pickImage() async {
     final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final XFile? image =
+        await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     if (image == null) return;
     setState(() {
       imageFile = File(image.path);
-      print(imageFile);
     });
   }
 
   @override
   void initState() {
     super.initState();
-    themePickerColor = Colors.deepPurple;
-    colorThemeValue = '0xff673ab7';
-    isPrivate = false;
+    widget.myCardDetailsBloc.add(FetchCardDetails(widget.cardId));
+
+    widget.myCardDetailsBloc.stream.listen((state) {
+      if (state is CardDetailsSuccess) {
+        final cardDetails = state.cardDetail;
+        formKey.currentState!.patchValue({
+          'name': cardDetails.name,
+          'jobTitle': cardDetails.jobTitle,
+          'company': cardDetails.company,
+          'phone': cardDetails.phone,
+          'email': cardDetails.email,
+          'website': cardDetails.website,
+          'linkedin': cardDetails.linkedin,
+          'facebook': cardDetails.facebook,
+          'twitter': cardDetails.twitter,
+        });
+        setState(() {
+          themePickerColor = Color(int.parse(cardDetails.colorTheme));
+          colorThemeValue = cardDetails.colorTheme;
+          isPrivate = cardDetails.isPrivate;
+          imageUrl = cardDetails.imageUrl;
+          print(isPrivate);
+        });
+      } else {
+         setState(() {
+          isPrivate = false;
+        });
+      }
+    });
   }
 
   @override
@@ -95,7 +126,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                'Create Card',
+                'Edit Card',
                 style: appTitleStyle,
                 textAlign: TextAlign.start,
               ),
@@ -119,14 +150,20 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           child: InkWell(
                             onTap: pickImage,
                             child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: imageFile != null
-                                    ? Image.file(File(imageFile!.path),
-                                        fit: BoxFit.cover)
-                                    : Container(
-                                        color: Colors.grey[200],
-                                        child: const Icon(Icons.person),
-                                      )),
+                              borderRadius: BorderRadius.circular(20),
+                              child: imageFile != null
+                                  ? Image.file(File(imageFile!.path),
+                                      fit: BoxFit.cover)
+                                  : (imageUrl != ""
+                                      ? Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Container(
+                                          color: Colors.grey[200],
+                                          child: const Icon(Icons.person),
+                                        )),
+                            ),
                           ),
                         ),
                         Container(
@@ -289,22 +326,22 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               decoration: loginInputDecoration,
                               validator: validateWebURL),
                           const SizedBox(height: 20),
-                          const Text(
-                            'Instagram',
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          FormBuilderTextField(
-                              name: 'instagram',
-                              onTap: () {
-                                _fieldFocusNodes['instagram']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['instagram'],
-                              decoration: loginInputDecoration,
-                              validator: validateWebURL),
-                          const SizedBox(height: 20),
+                          // const Text(
+                          //   'Instagram',
+                          //   style: TextStyle(
+                          //     fontSize: 14,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 8),
+                          // FormBuilderTextField(
+                          //     name: 'instagram',
+                          //     onTap: () {
+                          //       _fieldFocusNodes['instagram']!.requestFocus();
+                          //     },
+                          //     focusNode: _fieldFocusNodes['instagram'],
+                          //     decoration: loginInputDecoration,
+                          //     validator: validateWebURL),
+                          // const SizedBox(height: 20),
                           const Text(
                             'Twitter',
                             style: TextStyle(
@@ -363,7 +400,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           const SizedBox(height: 8),
                           FormBuilderSwitch(
                             name: 'isPrivate',
-                            initialValue: isPrivate,
+                            initialValue: isPrivate ?? false,
                             onChanged: (value) {
                               setState(() {
                                 isPrivate = value;
@@ -382,64 +419,40 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          BlocConsumer<CreateCardBloc, CreateCardState>(
-                            bloc: BlocProvider.of<CreateCardBloc>(context),
-                            listener: (context, state) {
-                              if (state is CreateCardPending) {
-                                EasyLoading.show(status: 'Loading...');
-                              }
-                              if (state is CreateCardSuccess) {
-                                EasyLoading.dismiss();
-                                EasyLoading.showSuccess(
-                                    duration: const Duration(seconds: 2),
-                                    'Card Created!');
-                                context.go("/home");
-                              }
-                              if (state is CreateCardFailure) {
-                                EasyLoading.dismiss();
-                                EasyLoading.showError(state.error,
-                                    duration: const Duration(seconds: 2));
-                              }
-                            },
-                            builder: (context, state) {
-                              return CustomActionButton(
-                                label: 'Create Card',
-                                onPressed: () {
-                                  if (formKey.currentState!.saveAndValidate()) {
-                                    final formData =
-                                        formKey.currentState!.value;
+                          CustomActionButton(
+                            label: 'Create Card',
+                            onPressed: () {
+                              if (formKey.currentState!.saveAndValidate()) {
+                                final formData = formKey.currentState!.value;
 
-                                    User? user =
-                                        FirebaseAuth.instance.currentUser;
+                                User? user = FirebaseAuth.instance.currentUser;
 
-                                    BlocProvider.of<CreateCardBloc>(context)
-                                        .add(CreateNewCard(
-                                            cardData: CardModel(
-                                              colorTheme: colorThemeValue,
-                                              company:
-                                                  formData['company'] ?? '',
-                                              creator:
-                                                  user?.email ?? 'no_creator',
-                                              email: formData['email'] ?? '',
-                                              facebook:
-                                                  formData['facebook'] ?? '',
-                                              imageUrl: '',
-                                              isPrivate: isPrivate ?? false,
-                                              jobTitle:
-                                                  formData['jobTitle'] ?? '',
-                                              linkedin:
-                                                  formData['linkedin'] ?? '',
-                                              name: formData['name'] ?? '',
-                                              phone: formData['phone'] ?? '',
-                                              twitter:
-                                                  formData['twitter'] ?? '',
-                                              website:
-                                                  formData['website'] ?? '',
-                                            ),
-                                            imageFile: imageFile));
-                                  }
-                                },
-                              );
+                                // BlocProvider.of<CreateCardBloc>(context)
+                                //     .add(CreateNewCard(
+                                //         cardData: CardModel(
+                                //           colorTheme: colorThemeValue,
+                                //           company:
+                                //               formData['company'] ?? '',
+                                //           creator:
+                                //               user?.email ?? 'no_creator',
+                                //           email: formData['email'] ?? '',
+                                //           facebook:
+                                //               formData['facebook'] ?? '',
+                                //           imageUrl: '',
+                                //           isPrivate: isPrivate ?? false,
+                                //           jobTitle:
+                                //               formData['jobTitle'] ?? '',
+                                //           linkedin:
+                                //               formData['linkedin'] ?? '',
+                                //           name: formData['name'] ?? '',
+                                //           phone: formData['phone'] ?? '',
+                                //           twitter:
+                                //               formData['twitter'] ?? '',
+                                //           website:
+                                //               formData['website'] ?? '',
+                                //         ),
+                                //         imageFile: imageFile));
+                              }
                             },
                           ),
                           const SizedBox(height: 30),
