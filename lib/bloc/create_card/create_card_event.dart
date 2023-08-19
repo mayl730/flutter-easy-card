@@ -9,11 +9,10 @@ sealed class CreateCardEvent extends Equatable {
 
 class CreateNewCard extends CreateCardEvent {
   final CardModel cardData;
-  File? imageFile;
+  final File? imageFile;
 
-  CreateNewCard({
+  const CreateNewCard({
     required this.cardData,
     this.imageFile,
   });
 }
-
