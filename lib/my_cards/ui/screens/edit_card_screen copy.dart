@@ -41,9 +41,9 @@ class _EditCardScreenState extends State<EditCardScreen> {
   };
   Color themePickerColor = Colors.deepPurple;
   String colorThemeValue = '0xff673ab7';
-  // late bool isPrivate;
+  late bool isPrivate;
   File? imageFile;
-  // String imageUrl = "";
+  String imageUrl = "";
 
   Future pickImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -63,8 +63,27 @@ class _EditCardScreenState extends State<EditCardScreen> {
     widget.myCardDetailsBloc.stream.listen((state) {
       if (state is CardDetailsSuccess) {
         final cardDetails = state.cardDetail;
+        formKey.currentState!.patchValue({
+          'name': cardDetails.name,
+          'jobTitle': cardDetails.jobTitle,
+          'company': cardDetails.company,
+          'phone': cardDetails.phone,
+          'email': cardDetails.email,
+          'website': cardDetails.website,
+          'linkedin': cardDetails.linkedin,
+          'facebook': cardDetails.facebook,
+          'twitter': cardDetails.twitter,
+        });
         setState(() {
           themePickerColor = Color(int.parse(cardDetails.colorTheme));
+          colorThemeValue = cardDetails.colorTheme;
+          isPrivate = cardDetails.isPrivate;
+          imageUrl = cardDetails.imageUrl;
+          print(isPrivate);
+        });
+      } else {
+        setState(() {
+          isPrivate = false;
         });
       }
     });
@@ -128,7 +147,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                       );
                     }
                     if (state is CardDetailsSuccess) {
-                      final cardDetails = state.cardDetail;
                       return Column(
                         children: [
                           const SizedBox(height: 20),
@@ -145,9 +163,9 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                     child: imageFile != null
                                         ? Image.file(File(imageFile!.path),
                                             fit: BoxFit.cover)
-                                        : (cardDetails.imageUrl != ""
+                                        : (imageUrl != ""
                                             ? Image.network(
-                                                cardDetails.imageUrl,
+                                                imageUrl,
                                                 fit: BoxFit.cover,
                                               )
                                             : Container(
@@ -196,7 +214,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   onTap: () {
                                     _fieldFocusNodes['name']!.requestFocus();
                                   },
-                                  initialValue: cardDetails.name,
                                   focusNode: _fieldFocusNodes['name'],
                                   decoration: loginInputDecoration,
                                   validator: validateStringRequired,
@@ -215,7 +232,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                     _fieldFocusNodes['jobTitle']!
                                         .requestFocus();
                                   },
-                                  initialValue: cardDetails.jobTitle,
                                   focusNode: _fieldFocusNodes['jobTitle'],
                                   decoration: loginInputDecoration,
                                   validator: validateStringOptional,
@@ -233,7 +249,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   onTap: () {
                                     _fieldFocusNodes['company']!.requestFocus();
                                   },
-                                  initialValue: cardDetails.company,
                                   focusNode: _fieldFocusNodes['company'],
                                   decoration: loginInputDecoration,
                                   validator: validateStringOptional,
@@ -251,7 +266,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   onTap: () {
                                     _fieldFocusNodes['phone']!.requestFocus();
                                   },
-                                  initialValue: cardDetails.phone,
                                   focusNode: _fieldFocusNodes['phone'],
                                   decoration: loginInputDecoration,
                                   validator: validatePhoneNumber,
@@ -269,7 +283,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   onTap: () {
                                     _fieldFocusNodes['email']!.requestFocus();
                                   },
-                                  initialValue: cardDetails.email,
                                   focusNode: _fieldFocusNodes['email'],
                                   decoration: loginInputDecoration,
                                   validator: validateEmail,
@@ -287,7 +300,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   onTap: () {
                                     _fieldFocusNodes['website']!.requestFocus();
                                   },
-                                  initialValue: cardDetails.website,
                                   focusNode: _fieldFocusNodes['website'],
                                   decoration: loginInputDecoration,
                                   validator: validateWebURL,
@@ -306,7 +318,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                       _fieldFocusNodes['linkedin']!
                                           .requestFocus();
                                     },
-                                    initialValue: cardDetails.linkedin,
                                     focusNode: _fieldFocusNodes['linkedin'],
                                     decoration: loginInputDecoration,
                                     validator: validateWebURL),
@@ -324,11 +335,26 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                       _fieldFocusNodes['facebook']!
                                           .requestFocus();
                                     },
-                                    initialValue: cardDetails.facebook,
                                     focusNode: _fieldFocusNodes['facebook'],
                                     decoration: loginInputDecoration,
                                     validator: validateWebURL),
                                 const SizedBox(height: 20),
+                                // const Text(
+                                //   'Instagram',
+                                //   style: TextStyle(
+                                //     fontSize: 14,
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 8),
+                                // FormBuilderTextField(
+                                //     name: 'instagram',
+                                //     onTap: () {
+                                //       _fieldFocusNodes['instagram']!.requestFocus();
+                                //     },
+                                //     focusNode: _fieldFocusNodes['instagram'],
+                                //     decoration: loginInputDecoration,
+                                //     validator: validateWebURL),
+                                // const SizedBox(height: 20),
                                 const Text(
                                   'Twitter',
                                   style: TextStyle(
@@ -342,7 +368,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                       _fieldFocusNodes['twitter']!
                                           .requestFocus();
                                     },
-                                    initialValue: cardDetails.twitter,
                                     focusNode: _fieldFocusNodes['twitter'],
                                     decoration: loginInputDecoration,
                                     validator: validateWebURL),
@@ -389,12 +414,12 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                 const SizedBox(height: 8),
                                 FormBuilderSwitch(
                                   name: 'isPrivate',
-                                  initialValue: cardDetails.isPrivate,
-                                  // onChanged: (value) {
-                                  //   setState(() {
-                                  //     isPrivate = value!;
-                                  //   });
-                                  // },
+                                  initialValue: isPrivate,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isPrivate = value!;
+                                    });
+                                  },
                                   title: const Text(
                                     'Make this a private card',
                                     style: TextStyle(fontSize: 14),
@@ -419,8 +444,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
 
                                       User? user =
                                           FirebaseAuth.instance.currentUser;
-
-                                          print(formData);
 
                                       // BlocProvider.of<CreateCardBloc>(context)
                                       //     .add(CreateNewCard(
