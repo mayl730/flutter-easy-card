@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
+import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/core/utils/form_validator.dart';
@@ -390,11 +391,6 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                 FormBuilderSwitch(
                                   name: 'isPrivate',
                                   initialValue: cardDetails.isPrivate,
-                                  // onChanged: (value) {
-                                  //   setState(() {
-                                  //     isPrivate = value!;
-                                  //   });
-                                  // },
                                   title: const Text(
                                     'Make this a private card',
                                     style: TextStyle(fontSize: 14),
@@ -422,31 +418,33 @@ class _EditCardScreenState extends State<EditCardScreen> {
 
                                           print(formData);
 
-                                      // BlocProvider.of<CreateCardBloc>(context)
-                                      //     .add(CreateNewCard(
-                                      //         cardData: CardModel(
-                                      //           colorTheme: colorThemeValue,
-                                      //           company:
-                                      //               formData['company'] ?? '',
-                                      //           creator:
-                                      //               user?.email ?? 'no_creator',
-                                      //           email: formData['email'] ?? '',
-                                      //           facebook:
-                                      //               formData['facebook'] ?? '',
-                                      //           imageUrl: '',
-                                      //           isPrivate: isPrivate ?? false,
-                                      //           jobTitle:
-                                      //               formData['jobTitle'] ?? '',
-                                      //           linkedin:
-                                      //               formData['linkedin'] ?? '',
-                                      //           name: formData['name'] ?? '',
-                                      //           phone: formData['phone'] ?? '',
-                                      //           twitter:
-                                      //               formData['twitter'] ?? '',
-                                      //           website:
-                                      //               formData['website'] ?? '',
-                                      //         ),
-                                      //         imageFile: imageFile));
+                                      BlocProvider.of<EditCardBloc>(context)
+                                          .add(EditCard(
+                                              cardData: CardModel(
+                                                colorTheme: colorThemeValue,
+                                                company:
+                                                    formData['company'] ?? '',
+                                                creator:
+                                                    user?.email ?? 'no_creator',
+                                                email: formData['email'] ?? '',
+                                                facebook:
+                                                    formData['facebook'] ?? '',
+                                                imageUrl: '',
+                                                isPrivate: formData['isPrivate'],
+                                                jobTitle:
+                                                    formData['jobTitle'] ?? '',
+                                                linkedin:
+                                                    formData['linkedin'] ?? '',
+                                                name: formData['name'] ?? '',
+                                                phone: formData['phone'] ?? '',
+                                                twitter:
+                                                    formData['twitter'] ?? '',
+                                                website:
+                                                    formData['website'] ?? '',
+                                              ),
+                                              imageFile: imageFile,
+                                              cardId: widget.cardId
+                                              ));
                                     }
                                   },
                                 ),

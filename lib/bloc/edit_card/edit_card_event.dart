@@ -9,10 +9,12 @@ sealed class EditCardEvent extends Equatable {
 
 class EditCard extends EditCardEvent {
   final CardModel cardData;
+  final String cardId;
   final File? imageFile;
 
   const EditCard({
     required this.cardData,
+    required this.cardId,
     this.imageFile,
   });
 }
