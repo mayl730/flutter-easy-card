@@ -18,9 +18,13 @@ import 'package:image_picker/image_picker.dart';
 
 class EditCardScreen extends StatefulWidget {
   const EditCardScreen(
-      {super.key, required this.cardId, required this.myCardDetailsBloc});
+      {super.key,
+      required this.cardId,
+      required this.myCardDetailsBloc,
+      required this.editCardBloc});
   final String cardId;
   final CardDetailsBloc myCardDetailsBloc;
+  final EditCardBloc editCardBloc;
 
   @override
   State<EditCardScreen> createState() => _EditCardScreenState();
@@ -405,21 +409,41 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 20),
-                                CustomActionButton(
-                                  label: 'Create Card',
-                                  onPressed: () {
-                                    if (formKey.currentState!
-                                        .saveAndValidate()) {
-                                      final formData =
-                                          formKey.currentState!.value;
+                                BlocConsumer<EditCardBloc, EditCardState>(
+                                  bloc: widget.editCardBloc,
+                                  listener: (context, state) {
+                                    if (state is EditCardPending) {
+                                      EasyLoading.show(status: 'Loading...');
+                                    }
+                                    if (state is EditCardSuccess) {
+                                      EasyLoading.dismiss();
+                                      EasyLoading.showSuccess(
+                                          duration: const Duration(seconds: 2),
+                                          'Card Edited!');
+                                      context.push(
+                                          "/home/my-card-details/${widget.cardId}");
+                                    }
+                                    if (state is EditCardFailure) {
+                                      EasyLoading.dismiss();
+                                      EasyLoading.showError(state.error,
+                                          duration: const Duration(seconds: 2));
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    return CustomActionButton(
+                                      label: 'Create Card',
+                                      onPressed: () {
+                                        if (formKey.currentState!
+                                            .saveAndValidate()) {
+                                          final formData =
+                                              formKey.currentState!.value;
 
-                                      User? user =
-                                          FirebaseAuth.instance.currentUser;
+                                          User? user =
+                                              FirebaseAuth.instance.currentUser;
 
                                           print(formData);
 
-                                      BlocProvider.of<EditCardBloc>(context)
-                                          .add(EditCard(
+                                          widget.editCardBloc.add(EditCard(
                                               cardData: CardModel(
                                                 colorTheme: colorThemeValue,
                                                 company:
@@ -430,7 +454,8 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                                 facebook:
                                                     formData['facebook'] ?? '',
                                                 imageUrl: '',
-                                                isPrivate: formData['isPrivate'],
+                                                isPrivate:
+                                                    formData['isPrivate'],
                                                 jobTitle:
                                                     formData['jobTitle'] ?? '',
                                                 linkedin:
@@ -443,9 +468,10 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                                     formData['website'] ?? '',
                                               ),
                                               imageFile: imageFile,
-                                              cardId: widget.cardId
-                                              ));
-                                    }
+                                              cardId: widget.cardId));
+                                        }
+                                      },
+                                    );
                                   },
                                 ),
                                 const SizedBox(height: 30),

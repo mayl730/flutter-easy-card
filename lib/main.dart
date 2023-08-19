@@ -127,7 +127,9 @@ class MyApp extends StatelessWidget {
                         ],
                         child: EditCardScreen(
                             cardId: cardId,
-                            myCardDetailsBloc: myCardDetailsBloc),
+                            myCardDetailsBloc: myCardDetailsBloc,
+                            editCardBloc: editCardBloc
+                            ),
                       );
                     },
                   ),
