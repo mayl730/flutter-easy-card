@@ -35,8 +35,6 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
 
       cardsList.add(card);
     }
-
-    print(cardsList);
     return cardsList;
   } catch (e) {
     debugPrint('Error fetching cards: $e');

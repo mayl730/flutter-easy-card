@@ -74,7 +74,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
       }
     });
   }
-
+  
   @override
   void dispose() {
     for (var focusNode in _fieldFocusNodes.values) {

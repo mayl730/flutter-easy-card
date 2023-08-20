@@ -81,10 +81,6 @@ class MyApp extends StatelessWidget {
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
-                    // child: BlocProvider<MyCardsBloc>(
-                    //   create: (context) => myCardsBloc..add(FetchMyCards()),
-                    //   child: const HomeScreen(),
-                    // )
                     child: BlocProvider<MyCardsBloc>.value(
                         value: myCardsBloc..add(FetchMyCards()),
                         child: const HomeScreen())),
@@ -94,8 +90,8 @@ class MyApp extends StatelessWidget {
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       transitionDuration: const Duration(milliseconds: 300),
-                      child: BlocProvider(
-                        create: (context) => createCardBloc,
+                      child: BlocProvider.value(
+                        value: createCardBloc,
                         child: const CreateCardScreen(),
                       ),
                       transitionsBuilder:
@@ -127,20 +123,10 @@ class MyApp extends StatelessWidget {
                     path: 'edit-card/:cardId',
                     builder: (context, state) {
                       final String cardId = state.pathParameters['cardId']!;
-                      return MultiBlocProvider(
-                        providers: [
-                          BlocProvider<CardDetailsBloc>(
-                            create: (context) => myCardDetailsBloc,
-                          ),
-                          BlocProvider(
-                            create: (context) => editCardBloc,
-                          ),
-                        ],
-                        child: EditCardScreen(
+                      return EditCardScreen(
                             cardId: cardId,
                             myCardDetailsBloc: myCardDetailsBloc,
-                            editCardBloc: editCardBloc),
-                      );
+                            editCardBloc: editCardBloc);
                     },
                   ),
                 ]),
