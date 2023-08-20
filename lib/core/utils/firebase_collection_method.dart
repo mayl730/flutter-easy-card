@@ -109,3 +109,14 @@ Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
     return [];
   }
 }
+
+Future<void> deleteCardById(String cardId) async {
+  try {
+    CollectionReference cardCollection =
+        FirebaseFirestore.instance.collection('cards');
+    await cardCollection.doc(cardId).delete();
+    debugPrint('Card with ID $cardId deleted successfully');
+  } catch (e) {
+    debugPrint('Error deleting card: $e');
+  }
+}

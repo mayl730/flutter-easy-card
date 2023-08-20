@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
+import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
@@ -21,10 +22,12 @@ class EditCardScreen extends StatefulWidget {
       {super.key,
       required this.cardId,
       required this.myCardDetailsBloc,
-      required this.editCardBloc});
+      required this.editCardBloc,
+      required this.deleteCardBloc});
   final String cardId;
   final CardDetailsBloc myCardDetailsBloc;
   final EditCardBloc editCardBloc;
+  final DeleteCardBloc deleteCardBloc;
 
   @override
   State<EditCardScreen> createState() => _EditCardScreenState();
@@ -469,60 +472,88 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   },
                                 ),
                                 const SizedBox(height: 15),
-                                Center(
-                                  child: TextButton(
-                                      onPressed: () {
-                                        debugPrint('Delete Card');
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              actionsAlignment:
-                                                  MainAxisAlignment.center,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  22.0))),
-                                              title: const Text(
-                                                'Delete Card',
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              content: const Text(
-                                                  'Are you sure you want to delete this card?',
-                                                  textAlign: TextAlign.center),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Cancel',
-                                                      style:
-                                                          customTextButton()),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () {
-                                                    debugPrint('Delete Card');
-
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: Text('Delete',
-                                                      style: customTextButton(
-                                                          color: Colors.red)),
-                                                ),
-                                              ],
+                                BlocConsumer<DeleteCardBloc, DeleteCardState>(
+                                  bloc: widget.deleteCardBloc,
+                                  listener: (context, state) {
+                                    if (state is DeleteCardPending) {
+                                      EasyLoading.show(status: 'Loading...');
+                                    }
+                                    if (state is DeleteCardSuccess) {
+                                      EasyLoading.dismiss();
+                                      EasyLoading.showSuccess(
+                                          duration: const Duration(seconds: 2),
+                                          'Card Deleted!');
+                                      context.go("/home");
+                                    }
+                                    if (state is DeleteCardFailure) {
+                                      EasyLoading.dismiss();
+                                      EasyLoading.showError(state.error,
+                                          duration: const Duration(seconds: 2));
+                                    }
+                                  },
+                                  builder: (context, state) {
+                                    return Center(
+                                      child: TextButton(
+                                          onPressed: () {
+                                            debugPrint('Delete Card');
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  actionsAlignment:
+                                                      MainAxisAlignment.center,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius.circular(
+                                                                      22.0))),
+                                                  title: const Text(
+                                                    'Delete Card',
+                                                    textAlign: TextAlign.center,
+                                                  ),
+                                                  content: const Text(
+                                                      'Are you sure you want to delete this card?',
+                                                      textAlign:
+                                                          TextAlign.center),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child: Text('Cancel',
+                                                          style:
+                                                              customTextButton()),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        debugPrint(
+                                                            'Delete Card');
+                                                        widget.deleteCardBloc.add(
+                                                            DeleteCardRequest(
+                                                                widget.cardId));
+                                                      },
+                                                      child: Text('Delete',
+                                                          style:
+                                                              customTextButton(
+                                                                  color: Colors
+                                                                      .red)),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
                                             );
                                           },
-                                        );
-                                      },
-                                      child: const Text(
-                                        'Delete Card',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 16,
-                                        ),
-                                      )),
+                                          child: const Text(
+                                            'Delete Card',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 16,
+                                            ),
+                                          )),
+                                    );
+                                  },
                                 ),
                                 const SizedBox(height: 30),
                               ],

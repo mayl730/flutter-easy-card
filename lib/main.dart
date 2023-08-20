@@ -5,6 +5,7 @@ import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
+import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
@@ -25,6 +26,7 @@ final myCardsBloc = MyCardsBloc();
 final myCardDetailsBloc = CardDetailsBloc();
 final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
+final deleteCardBloc = DeleteCardBloc();
 
 final exploreCardsBloc = ExploreCardsBloc();
 
@@ -115,7 +117,9 @@ class MyApp extends StatelessWidget {
                       return EditCardScreen(
                           cardId: cardId,
                           myCardDetailsBloc: myCardDetailsBloc,
-                          editCardBloc: editCardBloc);
+                          editCardBloc: editCardBloc,
+                          deleteCardBloc: deleteCardBloc,
+                          );
                     },
                   ),
                 ]),
