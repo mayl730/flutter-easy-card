@@ -37,11 +37,8 @@ String? validateWebURL(String? value) {
     return null;
   }
 
-  final urlRegex = RegExp(
-      r'^(https?:\/\/)?(www\.)?[a-zA-Z0-9]+(\.[a-zA-Z]{2,})(\/\S*)?$');
-
-  if (!urlRegex.hasMatch(value)) {
-    return 'Invalid website URL format';
+   if (value.length > 255) {
+    return 'Should not exceed 255 characters';
   }
 
   return null;

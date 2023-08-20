@@ -431,7 +431,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                   },
                                   builder: (context, state) {
                                     return CustomActionButton(
-                                      label: 'Create Card',
+                                      label: 'Submit',
                                       onPressed: () {
                                         if (formKey.currentState!
                                             .saveAndValidate()) {
@@ -441,19 +441,17 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                           User? user =
                                               FirebaseAuth.instance.currentUser;
 
-                                          print(formData);
-
                                           widget.editCardBloc.add(EditCard(
                                               cardData: CardModel(
                                                 colorTheme: colorThemeValue,
                                                 company:
                                                     formData['company'] ?? '',
                                                 creator:
-                                                    user?.email ?? 'no_creator',
+                                                    cardDetails.creator,
                                                 email: formData['email'] ?? '',
                                                 facebook:
                                                     formData['facebook'] ?? '',
-                                                imageUrl: '',
+                                                imageUrl: cardDetails.imageUrl,
                                                 isPrivate:
                                                     formData['isPrivate'],
                                                 jobTitle:

@@ -290,22 +290,6 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                               validator: validateWebURL),
                           const SizedBox(height: 20),
                           const Text(
-                            'Instagram',
-                            style: TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          FormBuilderTextField(
-                              name: 'instagram',
-                              onTap: () {
-                                _fieldFocusNodes['instagram']!.requestFocus();
-                              },
-                              focusNode: _fieldFocusNodes['instagram'],
-                              decoration: loginInputDecoration,
-                              validator: validateWebURL),
-                          const SizedBox(height: 20),
-                          const Text(
                             'Twitter',
                             style: TextStyle(
                               fontSize: 14,

@@ -15,9 +15,11 @@ class EditCardBloc extends Bloc<EditCardEvent, EditCardState> {
       emit(EditCardPending());
 
       try {
-        String imageUrl = '';
+        CollectionReference cardCollection =
+            FirebaseFirestore.instance.collection('cards');
 
         if (event.imageFile != null) {
+          String imageUrl = '';
           Reference ref = FirebaseStorage.instance
               .ref()
               .child('card_images')
@@ -25,16 +27,15 @@ class EditCardBloc extends Bloc<EditCardEvent, EditCardState> {
           UploadTask uploadTask = ref.putFile(event.imageFile!);
           TaskSnapshot snapshot = await uploadTask.whenComplete(() => {});
           imageUrl = await snapshot.ref.getDownloadURL();
+          CardModel updatedCardDataWithNewImage = event.cardData.copyWith(
+            imageUrl: imageUrl,
+          );
+          await cardCollection
+              .doc(event.cardId)
+              .update(updatedCardDataWithNewImage.toMap());
+        } else {
+          await cardCollection.doc(event.cardId).update(event.cardData.toMap());
         }
-
-        CardModel updatedCardData = event.cardData.copyWith(
-          imageUrl: imageUrl,
-        );
-
-        CollectionReference cardCollection =
-            FirebaseFirestore.instance.collection('cards');
-
-        await cardCollection.doc(event.cardId).update(updatedCardData.toMap());
         print('edit card success!');
         emit(EditCardSuccess());
       } catch (e) {
