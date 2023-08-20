@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
+import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
@@ -19,6 +19,7 @@ import 'package:flutter_easy_card/home/ui/screens/my_cards/edit_card_screen.dart
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_card_details_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/settings/settings_screen.dart';
+import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -32,6 +33,7 @@ final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
+final logoutBloc = LogoutBloc();
 
 final exploreCardsBloc = ExploreCardsBloc();
 
@@ -60,13 +62,7 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/',
           builder: (context, state) {
-            // return const StartScreen();
-
-            // return BlocProvider<MyCardsBloc>(
-            //   create: (context) => myCardsBloc..add(FetchMyCards()),
-            //   child: const HomeScreen(),
-            // );
-            return MyCardsScreen(myCardsBloc: myCardsBloc);
+            return const StartScreen();
           },
           routes: [
             GoRoute(
@@ -154,7 +150,9 @@ class MyApp extends StatelessWidget {
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                       key: state.pageKey,
                       child: SettingsScreen(
-                          settingsBloc: settingsBloc, authService: authService),
+                          settingsBloc: settingsBloc,
+                          logoutBloc: logoutBloc,
+                          authService: authService),
                     )),
           ],
         ),

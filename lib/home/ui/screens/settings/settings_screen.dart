@@ -1,17 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
 import 'package:flutter_easy_card/main.dart';
 import 'package:flutter_easy_card/theme.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen(
-      {super.key, required this.settingsBloc, required this.authService});
+      {super.key,
+      required this.settingsBloc,
+      required this.authService,
+      required this.logoutBloc});
 
   final SettingsBloc settingsBloc;
+  final LogoutBloc logoutBloc;
   final AuthService authService;
 
   @override
@@ -182,10 +188,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(10),
-              child: TextButton(
-                  onPressed: () {},
-                  child: Text('Logout',
-                      style: customTextButton(color: Colors.red))),
+              child: BlocConsumer<LogoutBloc, LogoutState>(
+                bloc: widget.logoutBloc,
+                listener: (context, state) {
+                  if (state is LogoutPending) {
+                    EasyLoading.show(status: 'Loading...');
+                  }
+                  if (state is LogoutSuccess) {
+                    EasyLoading.dismiss();
+                    EasyLoading.showSuccess(
+                        duration: const Duration(seconds: 2),
+                        'Logout Success!');
+                    context.go('/');
+                  }
+                  if (state is LogoutFailure) {
+                    EasyLoading.dismiss();
+                    EasyLoading.showError(state.message,
+                        duration: const Duration(seconds: 2));
+                  }
+                },
+                builder: (context, state) {
+                  return TextButton(
+                      onPressed: () {
+                        widget.logoutBloc.add(
+                            LogoutRequest(authService: widget.authService));
+                      },
+                      child: Text('Logout',
+                          style: customTextButton(color: Colors.red)));
+                },
+              ),
             ),
             const Divider(
               height: 1,
