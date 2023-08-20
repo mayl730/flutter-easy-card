@@ -9,6 +9,7 @@ import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
+import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/explore_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/other_card_details_screen.dart';
@@ -29,6 +30,7 @@ final myCardDetailsBloc = CardDetailsBloc();
 final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
+final settingsBloc = SettingsBloc();
 
 final exploreCardsBloc = ExploreCardsBloc();
 
@@ -146,7 +148,7 @@ class MyApp extends StatelessWidget {
             ),
             GoRoute(path: 'settings', pageBuilder: (context, state) => NoTransitionPage<void>(
               key: state.pageKey,
-              child: SettingsScreen(),
+              child: SettingsScreen(settingsBloc: settingsBloc),
             )),
           ],
         ),

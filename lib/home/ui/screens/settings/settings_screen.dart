@@ -1,15 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({super.key});
+  const SettingsScreen({super.key, required this.settingsBloc});
+
+  final SettingsBloc settingsBloc;
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    widget.settingsBloc.add(FetchUserInfo());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
