@@ -11,6 +11,7 @@ import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
+import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/explore_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/other_card_details_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/create_card_screen.dart';
@@ -33,6 +34,8 @@ final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
 
 final exploreCardsBloc = ExploreCardsBloc();
+
+AuthService authService = AuthService();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,20 +122,20 @@ class MyApp extends StatelessWidget {
                     builder: (context, state) {
                       final String cardId = state.pathParameters['cardId']!;
                       return EditCardScreen(
-                          cardId: cardId,
-                          myCardDetailsBloc: myCardDetailsBloc,
-                          editCardBloc: editCardBloc,
-                          deleteCardBloc: deleteCardBloc,
-                          );
+                        cardId: cardId,
+                        myCardDetailsBloc: myCardDetailsBloc,
+                        editCardBloc: editCardBloc,
+                        deleteCardBloc: deleteCardBloc,
+                      );
                     },
                   ),
                 ]),
             GoRoute(
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
-                key: state.pageKey,
-                child: ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)
-              ),
+                  key: state.pageKey,
+                  child:
+                      ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)),
               routes: [
                 GoRoute(
                   path: 'other-card-details/:cardId',
@@ -146,10 +149,13 @@ class MyApp extends StatelessWidget {
                 ),
               ],
             ),
-            GoRoute(path: 'settings', pageBuilder: (context, state) => NoTransitionPage<void>(
-              key: state.pageKey,
-              child: SettingsScreen(settingsBloc: settingsBloc),
-            )),
+            GoRoute(
+                path: 'settings',
+                pageBuilder: (context, state) => NoTransitionPage<void>(
+                      key: state.pageKey,
+                      child: SettingsScreen(
+                          settingsBloc: settingsBloc, authService: authService),
+                    )),
           ],
         ),
       ],

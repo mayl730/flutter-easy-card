@@ -8,4 +8,8 @@ sealed class SettingsEvent extends Equatable {
 }
 
 
-class FetchUserInfo extends SettingsEvent {}
+class FetchUserInfo extends SettingsEvent {
+final AuthService authService;
+
+const FetchUserInfo({required this.authService});
+}
