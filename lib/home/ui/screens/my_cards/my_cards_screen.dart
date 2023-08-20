@@ -159,7 +159,7 @@ void initState() {
                     'No card for this account. You can start creating one!');
               }
               return GridView.builder(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
                 itemCount: cards.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 22,

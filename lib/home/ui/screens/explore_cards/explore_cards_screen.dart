@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
-import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
@@ -149,7 +148,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                     'No card for this account. You can start creating one!');
               }
               return GridView.builder(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
                 itemCount: cards.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisSpacing: 22,
@@ -160,7 +159,6 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      print(cards[index].id);
                       context.push(
                           '/explore-cards/other-card-details/${cards[index].id}');
                     },
