@@ -15,7 +15,9 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateCardScreen extends StatefulWidget {
-  const CreateCardScreen({super.key});
+  const CreateCardScreen({super.key, required this.createCardBloc});
+
+  final CreateCardBloc createCardBloc;
 
   @override
   State<CreateCardScreen> createState() => _CreateCardScreenState();
@@ -41,12 +43,11 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
   File? imageFile;
 
   Future pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     if (image == null) return;
     setState(() {
       imageFile = File(image.path);
-      print(imageFile);
     });
   }
 
@@ -367,7 +368,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                           ),
                           const SizedBox(height: 20),
                           BlocConsumer<CreateCardBloc, CreateCardState>(
-                            bloc: BlocProvider.of<CreateCardBloc>(context),
+                            bloc: widget.createCardBloc,
                             listener: (context, state) {
                               if (state is CreateCardPending) {
                                 EasyLoading.show(status: 'Loading...');
@@ -396,7 +397,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
 
-                                    BlocProvider.of<CreateCardBloc>(context)
+                                   widget.createCardBloc
                                         .add(CreateNewCard(
                                             cardData: CardModel(
                                               colorTheme: colorThemeValue,

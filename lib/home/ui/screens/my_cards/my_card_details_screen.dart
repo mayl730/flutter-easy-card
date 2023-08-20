@@ -12,18 +12,25 @@ import 'package:share_plus/share_plus.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
-      {super.key, required this.cardId});
+      {super.key, required this.cardId, required this.cardDetailsBloc});
   final String cardId;
+  final CardDetailsBloc cardDetailsBloc;
 
   @override
   State<MyCardDetailsScreen> createState() => _MyCardDetailsScreenState();
 }
 
 class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.cardDetailsBloc.add(FetchCardDetails(widget.cardId));
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CardDetailsBloc, CardDetailsState>(
+      bloc: widget.cardDetailsBloc,
       builder: (context, state) {
         if (state is CardDetailsPending) {
           return const Center(

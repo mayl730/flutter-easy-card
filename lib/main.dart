@@ -58,10 +58,7 @@ class MyApp extends StatelessWidget {
             //   create: (context) => myCardsBloc..add(FetchMyCards()),
             //   child: const HomeScreen(),
             // );
-            return BlocProvider<MyCardsBloc>.value(
-              value: myCardsBloc..add(FetchMyCards()),
-              child: const MyCardsScreen(),
-            );
+            return MyCardsScreen(myCardsBloc: myCardsBloc);
           },
           routes: [
             GoRoute(
@@ -82,19 +79,14 @@ class MyApp extends StatelessWidget {
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
-                    child: BlocProvider<MyCardsBloc>.value(
-                        value: myCardsBloc..add(FetchMyCards()),
-                        child: const MyCardsScreen())),
+                    child: MyCardsScreen(myCardsBloc: myCardsBloc)),
                 routes: [
                   GoRoute(
                     path: 'create-card',
                     pageBuilder: (context, state) => CustomTransitionPage<void>(
                       key: state.pageKey,
                       transitionDuration: const Duration(milliseconds: 300),
-                      child: BlocProvider.value(
-                        value: createCardBloc,
-                        child: const CreateCardScreen(),
-                      ),
+                      child: CreateCardScreen(createCardBloc: createCardBloc),
                       transitionsBuilder:
                           (context, animation, secondaryAnimation, child) =>
                               SlideTransition(
@@ -111,12 +103,9 @@ class MyApp extends StatelessWidget {
                     path: 'my-card-details/:cardId',
                     builder: (context, state) {
                       final String cardId = state.pathParameters['cardId']!;
-                      return BlocProvider<CardDetailsBloc>(
-                        create: (context) =>
-                            myCardDetailsBloc..add(FetchCardDetails(cardId)),
-                        child: MyCardDetailsScreen(
-                          cardId: cardId,
-                        ),
+                      return MyCardDetailsScreen(
+                        cardId: cardId,
+                        cardDetailsBloc: myCardDetailsBloc,
                       );
                     },
                   ),
@@ -135,10 +124,7 @@ class MyApp extends StatelessWidget {
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: BlocProvider<ExploreCardsBloc>.value(
-                  value: exploreCardsBloc..add(FetchAllCards()),
-                  child: const ExploreCardsScreen(),
-                ),
+                child: ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)
               ),
             ),
           ],

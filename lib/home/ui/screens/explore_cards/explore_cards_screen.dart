@@ -6,14 +6,19 @@ import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class ExploreCardsScreen extends StatefulWidget {
-  const ExploreCardsScreen({super.key});
+  const ExploreCardsScreen({super.key, required this.exploreCardsBloc});
+  final ExploreCardsBloc exploreCardsBloc;
 
   @override
   State<ExploreCardsScreen> createState() => _ExploreCardsScreenState();
 }
 
 class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
- 
+  @override
+  void initState() {
+    super.initState();
+    widget.exploreCardsBloc.add(FetchAllCards());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,6 +138,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
       ),
       body: SafeArea(
         child: BlocBuilder<ExploreCardsBloc, ExploreCardsState>(
+          bloc: widget.exploreCardsBloc,
           builder: (context, state) {
             if (state is ExploreCardsPending) {
               return const Center(child: CircularProgressIndicator());
