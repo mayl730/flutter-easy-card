@@ -74,7 +74,7 @@ class _EditCardScreenState extends State<EditCardScreen> {
       }
     });
   }
-  
+
   @override
   void dispose() {
     for (var focusNode in _fieldFocusNodes.values) {
@@ -438,16 +438,12 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                           final formData =
                                               formKey.currentState!.value;
 
-                                          User? user =
-                                              FirebaseAuth.instance.currentUser;
-
                                           widget.editCardBloc.add(EditCard(
                                               cardData: CardModel(
                                                 colorTheme: colorThemeValue,
                                                 company:
                                                     formData['company'] ?? '',
-                                                creator:
-                                                    cardDetails.creator,
+                                                creator: cardDetails.creator,
                                                 email: formData['email'] ?? '',
                                                 facebook:
                                                     formData['facebook'] ?? '',
@@ -471,6 +467,62 @@ class _EditCardScreenState extends State<EditCardScreen> {
                                       },
                                     );
                                   },
+                                ),
+                                const SizedBox(height: 15),
+                                Center(
+                                  child: TextButton(
+                                      onPressed: () {
+                                        debugPrint('Delete Card');
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              actionsAlignment:
+                                                  MainAxisAlignment.center,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  22.0))),
+                                              title: const Text(
+                                                'Delete Card',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this card?',
+                                                  textAlign: TextAlign.center),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Cancel',
+                                                      style:
+                                                          customTextButton()),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    debugPrint('Delete Card');
+
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('Delete',
+                                                      style: customTextButton(
+                                                          color: Colors.red)),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Text(
+                                        'Delete Card',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 16,
+                                        ),
+                                      )),
                                 ),
                                 const SizedBox(height: 30),
                               ],
