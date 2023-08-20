@@ -72,19 +72,19 @@ void initState() {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             TextButton.icon(
-              onPressed: () => {context.go("/home")},
+              onPressed: () => {},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
                   Icon(
                     Icons.home_filled,
-                    color: black,
+                    color: easyPurple,
                     size: 24,
                   ),
                   Text(
                     'Home',
                     style: TextStyle(
-                      color: black,
+                      color: easyPurple,
                       height: 1.5,
                     ),
                   ),
@@ -96,7 +96,6 @@ void initState() {
             ),
             TextButton.icon(
               onPressed: () => {
-                print('explore pressed'),
                 context.go("/explore-cards")
                 },
               icon: const Column(
@@ -121,7 +120,7 @@ void initState() {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {context.go("/home")},
+              onPressed: () => {context.go("/settings")},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),

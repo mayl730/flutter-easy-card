@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_easy_card/home/ui/screens/my_cards/create_card_screen.da
 import 'package:flutter_easy_card/home/ui/screens/my_cards/edit_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_card_details_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_cards_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/settings/settings_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -142,6 +144,10 @@ class MyApp extends StatelessWidget {
                 ),
               ],
             ),
+            GoRoute(path: 'settings', pageBuilder: (context, state) => NoTransitionPage<void>(
+              key: state.pageKey,
+              child: SettingsScreen(),
+            )),
           ],
         ),
       ],

@@ -93,13 +93,13 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                   SizedBox(height: 5),
                   Icon(
                     Icons.person_search_rounded,
-                    color: black,
+                    color: easyPurple,
                     size: 24,
                   ),
                   Text(
                     'Explore',
                     style: TextStyle(
-                      color: black,
+                      color: easyPurple,
                       height: 1.5,
                     ),
                   ),
@@ -110,8 +110,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
               ),
             ),
             TextButton.icon(
-              // onPressed: () => {context.go("/home")},
-              onPressed: () => {},
+              onPressed: () => {context.go("/settings")},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
@@ -162,7 +161,8 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                   return InkWell(
                     onTap: () {
                       print(cards[index].id);
-                      context.push('/explore-cards/other-card-details/${cards[index].id}');
+                      context.push(
+                          '/explore-cards/other-card-details/${cards[index].id}');
                     },
                     child: Container(
                       decoration: BoxDecoration(
