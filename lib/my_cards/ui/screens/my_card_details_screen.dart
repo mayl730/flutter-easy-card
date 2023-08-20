@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
-
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
       {super.key, required this.cardId, required this.myCardDetailsBloc});
@@ -31,210 +30,209 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.white,
-      floatingActionButton: SizedBox(
-        width: 120,
-        child: CustomActionButton(
-          onPressed: () {
-            Share.share('Check out My name Card! https://example.com/${widget.cardId}}');
-          },
-          icon: Icons.share,
-          label: 'Share',
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 15),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              color: black,
-              size: 32,
+    return BlocBuilder<CardDetailsBloc, CardDetailsState>(
+      bloc: widget.myCardDetailsBloc,
+      builder: (context, state) {
+        if (state is CardDetailsPending) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is CardDetailsFailure) {
+          return const Center(
+            child: Text('Load failed'),
+          );
+        }
+        if (state is CardDetailsSuccess) {
+          final cardDetails = state.cardDetail;
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: Colors.white,
+            floatingActionButton: SizedBox(
+              width: 120,
+              child: CustomActionButton(
+                onPressed: () {
+                  Share.share(
+                      'Check out My name Card! https://example.com/${widget.cardId}}');
+                },
+                icon: Icons.share,
+                label: 'Share',
+              ),
             ),
-            onPressed: () {
-              GoRouter.of(context).pop();
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20),
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    color: black,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    context.go("/home");
+                  },
+                ),
+              ),
+              actions: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    context.push('/home/edit-card/${widget.cardId}');
+                  },
+                  child: const Text('Edit', style: purpleTextButton),
+                ),
+              ],
+              title: const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'My Card Details',
+                    style: appTitleStyle,
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
             ),
-            onPressed: () {
-              context.push('/home/edit-card/${widget.cardId}');
-            },
-            child: const Text('Edit', style: purpleTextButton),
-          ),
-        ],
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              'My Card Details',
-              style: appTitleStyle,
-              textAlign: TextAlign.start,
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: BlocBuilder<CardDetailsBloc, CardDetailsState>(
-            bloc: widget.myCardDetailsBloc,
-            builder: (context, state) {
-              if (state is CardDetailsPending) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (state is CardDetailsFailure) {
-                return const Center(
-                  child: Text('Load failed'),
-                );
-              }
-              if (state is CardDetailsSuccess) {
-                final cardDetails = state.cardDetail;
-                return Column(
-                  children: [
-                    Container(
-                      height: 240,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(cardDetails.imageUrl != ""
-                              ? cardDetails.imageUrl
-                              : "https://dummyimage.com/600x600/000/fff"),
-                        ),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                  child: Column(
+                children: [
+                  Container(
+                    height: 240,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(cardDetails.imageUrl != ""
+                            ? cardDetails.imageUrl
+                            : "https://dummyimage.com/600x600/000/fff"),
                       ),
                     ),
-                    const SizedBox(height: 14),
-                    Visibility(
-                      visible: cardDetails.name != "",
-                      child: Text(cardDetails.name,
-                          style: titleH1TextStyle, textAlign: TextAlign.center),
-                    ),
-                    Visibility(
-                        visible: cardDetails.jobTitle != "",
-                        child:
-                            Text(cardDetails.jobTitle, style: appTitleStyle)),
-                    Visibility(
-                        visible: cardDetails.company != "",
-                        child: Text(cardDetails.company, style: appTitleStyle)),
-                    const SizedBox(height: 14),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: sidePadding),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Visibility(
-                              visible: cardDetails.email != "",
-                              child: Row(
-                                children: [
-                                  const CircleIcon(
-                                    iconData: Icons.email,
-                                    backgroundColor: easyPurple,
-                                    iconColor: Colors.white,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    cardDetails.email,
-                                    textAlign: TextAlign.left,
-                                    style: contentStyle,
-                                  ),
-                                ],
-                              ),
+                  ),
+                  const SizedBox(height: 14),
+                  Visibility(
+                    visible: cardDetails.name != "",
+                    child: Text(cardDetails.name,
+                        style: titleH1TextStyle, textAlign: TextAlign.center),
+                  ),
+                  Visibility(
+                      visible: cardDetails.jobTitle != "",
+                      child: Text(cardDetails.jobTitle, style: appTitleStyle)),
+                  Visibility(
+                      visible: cardDetails.company != "",
+                      child: Text(cardDetails.company, style: appTitleStyle)),
+                  const SizedBox(height: 14),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: sidePadding),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Visibility(
+                            visible: cardDetails.email != "",
+                            child: Row(
+                              children: [
+                                const CircleIcon(
+                                  iconData: Icons.email,
+                                  backgroundColor: easyPurple,
+                                  iconColor: Colors.white,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  cardDetails.email,
+                                  textAlign: TextAlign.left,
+                                  style: contentStyle,
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 10),
-                            Visibility(
-                              visible: cardDetails.phone != "",
-                              child: Row(
-                                children: [
-                                  const CircleIcon(
-                                    iconData: Icons.phone,
-                                    backgroundColor: easyPurple,
-                                    iconColor: Colors.white,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Text(
-                                    cardDetails.phone,
-                                    textAlign: TextAlign.left,
-                                    style: contentStyle,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 10),
+                          Visibility(
+                            visible: cardDetails.phone != "",
+                            child: Row(
+                              children: [
+                                const CircleIcon(
+                                  iconData: Icons.phone,
+                                  backgroundColor: easyPurple,
+                                  iconColor: Colors.white,
+                                ),
+                                const SizedBox(width: 10),
+                                Text(
+                                  cardDetails.phone,
+                                  textAlign: TextAlign.left,
+                                  style: contentStyle,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: cardDetails.website != "",
-                          child: IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.globe,
-                                color: easyPurple, size: 30),
-                            onPressed: () {
-                              launchUrl(Uri.parse(cardDetails.website),
-                                  mode: LaunchMode.externalApplication);
-                            },
-                          ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Visibility(
+                        visible: cardDetails.website != "",
+                        child: IconButton(
+                          icon: const FaIcon(FontAwesomeIcons.globe,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            launchUrl(Uri.parse(cardDetails.website),
+                                mode: LaunchMode.externalApplication);
+                          },
                         ),
-                        const SizedBox(width: 10),
-                        Visibility(
-                          visible: cardDetails.linkedin != "",
-                          child: IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.linkedinIn,
-                                color: easyPurple, size: 30),
-                            onPressed: () {
-                              launchUrl(Uri.parse(cardDetails.linkedin),
-                                  mode: LaunchMode.externalApplication);
-                            },
-                          ),
+                      ),
+                      const SizedBox(width: 10),
+                      Visibility(
+                        visible: cardDetails.linkedin != "",
+                        child: IconButton(
+                          icon: const FaIcon(FontAwesomeIcons.linkedinIn,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            launchUrl(Uri.parse(cardDetails.linkedin),
+                                mode: LaunchMode.externalApplication);
+                          },
                         ),
-                        const SizedBox(width: 10),
-                        Visibility(
-                          visible: cardDetails.facebook != "",
-                          child: IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.facebook,
-                                color: easyPurple, size: 30),
-                            onPressed: () {
-                              launchUrl(Uri.parse(cardDetails.facebook),
-                                  mode: LaunchMode.externalApplication);
-                            },
-                          ),
+                      ),
+                      const SizedBox(width: 10),
+                      Visibility(
+                        visible: cardDetails.facebook != "",
+                        child: IconButton(
+                          icon: const FaIcon(FontAwesomeIcons.facebook,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            launchUrl(Uri.parse(cardDetails.facebook),
+                                mode: LaunchMode.externalApplication);
+                          },
                         ),
-                        const SizedBox(width: 10),
-                        Visibility(
-                          visible: cardDetails.twitter != "",
-                          child: IconButton(
-                            icon: const FaIcon(FontAwesomeIcons.twitter,
-                                color: easyPurple, size: 30),
-                            onPressed: () {
-                              launchUrl(Uri.parse(cardDetails.twitter),
-                                  mode: LaunchMode.externalApplication);
-                            },
-                          ),
+                      ),
+                      const SizedBox(width: 10),
+                      Visibility(
+                        visible: cardDetails.twitter != "",
+                        child: IconButton(
+                          icon: const FaIcon(FontAwesomeIcons.twitter,
+                              color: easyPurple, size: 30),
+                          onPressed: () {
+                            launchUrl(Uri.parse(cardDetails.twitter),
+                                mode: LaunchMode.externalApplication);
+                          },
                         ),
-                      ],
-                    ),
-                  ],
-                );
-              }
-              return Container();
-            },
-          ),
-        ),
-      ),
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+            ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }
