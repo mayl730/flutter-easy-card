@@ -12,8 +12,12 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
     if (creatorEmail == "") {
       return cardsList;
     }
-    QuerySnapshot querySnapshot =
-        await cardCollection.where('creator', isEqualTo: creatorEmail).get();
+    QuerySnapshot querySnapshot = await cardCollection
+        .where('creator', isEqualTo: creatorEmail)
+        // .orderBy('createdAt', descending: true)
+        .get();
+
+        //TODO: Add orderBy('createdAt', descending: true) back in when it's working
 
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
       CardModelWithId card = CardModelWithId(
