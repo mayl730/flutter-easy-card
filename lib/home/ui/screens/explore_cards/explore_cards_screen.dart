@@ -144,8 +144,13 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
             if (state is ExploreCardsSuccess) {
               final cards = state.cards;
               if (cards.isEmpty) {
-                return const Text(
-                    'No card for this account. You can start creating one!');
+                return const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                      'No cards found. Please try again later.',
+                      style: appTitleStyle,
+                      textAlign: TextAlign.center),
+                );
               }
               return GridView.builder(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),

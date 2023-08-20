@@ -13,9 +13,8 @@ class MyCardsScreen extends StatefulWidget {
 }
 
 class _MyCardsScreenState extends State<MyCardsScreen> {
-
-@override
-void initState() {
+  @override
+  void initState() {
     super.initState();
     widget.myCardsBloc.add(FetchMyCards());
   }
@@ -95,9 +94,7 @@ void initState() {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {
-                context.go("/explore-cards")
-                },
+              onPressed: () => {context.go("/explore-cards")},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
@@ -155,8 +152,13 @@ void initState() {
             if (state is MyCardsSuccess) {
               final cards = state.cards;
               if (cards.isEmpty) {
-                return const Text(
-                    'No card for this account. You can start creating one!');
+                return const Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                      'No card for this account. You can start creating one!',
+                      style: appTitleStyle,
+                      textAlign: TextAlign.center),
+                );
               }
               return GridView.builder(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
