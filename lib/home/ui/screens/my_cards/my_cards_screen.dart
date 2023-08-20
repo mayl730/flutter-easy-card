@@ -4,14 +4,14 @@ import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MyCardsScreen extends StatefulWidget {
+  const MyCardsScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MyCardsScreen> createState() => _MyCardsScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MyCardsScreenState extends State<MyCardsScreen> {
 
   @override
   Widget build(BuildContext context) {

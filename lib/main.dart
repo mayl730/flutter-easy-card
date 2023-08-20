@@ -10,10 +10,10 @@ import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/explore_cards_screen.dart';
-import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
-import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
-import 'package:flutter_easy_card/my_cards/ui/screens/edit_card_screen.dart';
-import 'package:flutter_easy_card/my_cards/ui/screens/my_card_details_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/my_cards/create_card_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/my_cards/edit_card_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/my_cards/my_card_details_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/my_cards/my_cards_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
             // );
             return BlocProvider<MyCardsBloc>.value(
               value: myCardsBloc..add(FetchMyCards()),
-              child: const HomeScreen(),
+              child: const MyCardsScreen(),
             );
           },
           routes: [
@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                     key: state.pageKey,
                     child: BlocProvider<MyCardsBloc>.value(
                         value: myCardsBloc..add(FetchMyCards()),
-                        child: const HomeScreen())),
+                        child: const MyCardsScreen())),
                 routes: [
                   GoRoute(
                     path: 'create-card',
