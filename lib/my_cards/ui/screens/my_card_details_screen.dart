@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
-import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_easy_card/components/circle_icon.dart';
@@ -13,25 +12,18 @@ import 'package:share_plus/share_plus.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
-      {super.key, required this.cardId, required this.myCardDetailsBloc});
+      {super.key, required this.cardId});
   final String cardId;
-  final CardDetailsBloc myCardDetailsBloc;
 
   @override
   State<MyCardDetailsScreen> createState() => _MyCardDetailsScreenState();
 }
 
 class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    widget.myCardDetailsBloc.add(FetchCardDetails(widget.cardId));
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CardDetailsBloc, CardDetailsState>(
-      bloc: widget.myCardDetailsBloc,
       builder: (context, state) {
         if (state is CardDetailsPending) {
           return const Center(
@@ -72,7 +64,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                     size: 32,
                   ),
                   onPressed: () {
-                    context.go("/home");
+                    context.push("/home");
                   },
                 ),
               ),

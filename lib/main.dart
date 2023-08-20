@@ -26,6 +26,8 @@ final myCardDetailsBloc = CardDetailsBloc();
 final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 
+final exploreCardsBloc = MyCardsBloc();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -50,9 +52,14 @@ class MyApp extends StatelessWidget {
           path: '/',
           builder: (context, state) {
             // return const StartScreen();
-            return BlocProvider<MyCardsBloc>(
-              create: (context) => myCardsBloc,
-                      child: const HomeScreen(),
+
+            // return BlocProvider<MyCardsBloc>(
+            //   create: (context) => myCardsBloc..add(FetchMyCards()),
+            //   child: const HomeScreen(),
+            // );
+            return BlocProvider<MyCardsBloc>.value(
+              value: myCardsBloc..add(FetchMyCards()),
+              child: const HomeScreen(),
             );
           },
           routes: [
@@ -74,10 +81,13 @@ class MyApp extends StatelessWidget {
                 path: 'home',
                 pageBuilder: (context, state) => NoTransitionPage<void>(
                     key: state.pageKey,
-                    child: BlocProvider<MyCardsBloc>(
-                      create: (context) => myCardsBloc,
-                      child: const HomeScreen(),
-                    )),
+                    // child: BlocProvider<MyCardsBloc>(
+                    //   create: (context) => myCardsBloc..add(FetchMyCards()),
+                    //   child: const HomeScreen(),
+                    // )
+                    child: BlocProvider<MyCardsBloc>.value(
+                        value: myCardsBloc..add(FetchMyCards()),
+                        child: const HomeScreen())),
                 routes: [
                   GoRoute(
                     path: 'create-card',
@@ -105,10 +115,11 @@ class MyApp extends StatelessWidget {
                     builder: (context, state) {
                       final String cardId = state.pathParameters['cardId']!;
                       return BlocProvider<CardDetailsBloc>(
-                        create: (context) => myCardDetailsBloc,
+                        create: (context) =>
+                            myCardDetailsBloc..add(FetchCardDetails(cardId)),
                         child: MyCardDetailsScreen(
-                            cardId: cardId,
-                            myCardDetailsBloc: myCardDetailsBloc),
+                          cardId: cardId,
+                        ),
                       );
                     },
                   ),
@@ -128,8 +139,7 @@ class MyApp extends StatelessWidget {
                         child: EditCardScreen(
                             cardId: cardId,
                             myCardDetailsBloc: myCardDetailsBloc,
-                            editCardBloc: editCardBloc
-                            ),
+                            editCardBloc: editCardBloc),
                       );
                     },
                   ),
@@ -138,7 +148,7 @@ class MyApp extends StatelessWidget {
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: ExploreCardScreen(allCardsBloc: myCardsBloc),
+                child: ExploreCardScreen(allCardsBloc: exploreCardsBloc),
               ),
             ),
           ],

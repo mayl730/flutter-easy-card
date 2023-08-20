@@ -24,14 +24,6 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          context.push('/home/create-card');
-        },
-        label: const Text('Create Card'),
-        icon: const Icon(Icons.add),
-        backgroundColor: easyPurple,
-      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -43,7 +35,7 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'My Cards',
+              'Explore Cards',
               style: appTitleStyle,
               textAlign: TextAlign.start,
             ),
@@ -117,7 +109,8 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {context.go("/home")},
+              // onPressed: () => {context.go("/home")},
+              onPressed: () => {},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),

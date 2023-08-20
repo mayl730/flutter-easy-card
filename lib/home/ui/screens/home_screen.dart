@@ -12,17 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<MyCardsBloc>(context).add(FetchMyCards());
-  }
-
-  @override
-  void dispose() {
-    BlocProvider.of<MyCardsBloc>(context).close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +88,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {context.go("/explore-cards")},
+              onPressed: () => {
+                print('explore pressed'),
+                context.go("/explore-cards")
+                },
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
@@ -149,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: BlocBuilder<MyCardsBloc, MyCardsState>(
-          bloc: BlocProvider.of<MyCardsBloc>(context),
+          // bloc: BlocProvider.of<MyCardsBloc>(context),
           builder: (context, state) {
             if (state is MyCardsPending) {
               return const Center(child: CircularProgressIndicator());
