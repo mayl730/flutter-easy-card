@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/home/ui/screens/explore_cards/explore_cards_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/explore_cards/other_card_details_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/create_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/edit_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_card_details_screen.dart';
@@ -18,7 +18,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
 
-import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
@@ -126,6 +125,18 @@ class MyApp extends StatelessWidget {
                 key: state.pageKey,
                 child: ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)
               ),
+              routes: [
+                GoRoute(
+                  path: 'other-card-details/:cardId',
+                  builder: (context, state) {
+                    final String cardId = state.pathParameters['cardId']!;
+                    return OtherCardDetailsScreen(
+                      cardId: cardId,
+                      cardDetailsBloc: myCardDetailsBloc,
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),

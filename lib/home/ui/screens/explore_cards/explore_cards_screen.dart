@@ -162,7 +162,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                   return InkWell(
                     onTap: () {
                       print(cards[index].id);
-                      context.push('/home/my-card-details/${cards[index].id}');
+                      context.push('/explore-cards/other-card-details/${cards[index].id}');
                     },
                     child: Container(
                       decoration: BoxDecoration(
