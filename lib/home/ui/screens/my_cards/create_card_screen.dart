@@ -378,7 +378,7 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                 EasyLoading.showSuccess(
                                     duration: const Duration(seconds: 2),
                                     'Card Created!');
-                                context.go("/home");
+                                context.push("/home");
                               }
                               if (state is CreateCardFailure) {
                                 EasyLoading.dismiss();
