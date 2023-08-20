@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class ExploreCardsScreen extends StatefulWidget {
-  const ExploreCardsScreen({super.key, required this.exploreCardsBloc});
-  final MyCardsBloc exploreCardsBloc;
+  const ExploreCardsScreen({super.key});
 
   @override
   State<ExploreCardsScreen> createState() => _ExploreCardsScreenState();
 }
 
 class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
-  @override
-  void initState() {
-    super.initState();
-    widget.exploreCardsBloc.add(FetchMyCards());
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -136,13 +132,12 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
         ),
       ),
       body: SafeArea(
-        child: BlocBuilder<MyCardsBloc, MyCardsState>(
-          bloc: widget.exploreCardsBloc,
+        child: BlocBuilder<ExploreCardsBloc, ExploreCardsState>(
           builder: (context, state) {
-            if (state is MyCardsPending) {
+            if (state is ExploreCardsPending) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is MyCardsSuccess) {
+            if (state is ExploreCardsSuccess) {
               final cards = state.cards;
               if (cards.isEmpty) {
                 return const Text(
@@ -205,7 +200,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                 },
               );
             }
-            if (state is MyCardsFailure) {
+            if (state is ExploreCardsFailure) {
               return const Text("Error!");
             }
             return const Center(child: CircularProgressIndicator());
