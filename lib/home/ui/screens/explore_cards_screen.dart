@@ -4,19 +4,19 @@ import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class ExploreCardScreen extends StatefulWidget {
-  const ExploreCardScreen({super.key, required this.allCardsBloc});
-  final MyCardsBloc allCardsBloc;
+class ExploreCardsScreen extends StatefulWidget {
+  const ExploreCardsScreen({super.key, required this.exploreCardsBloc});
+  final MyCardsBloc exploreCardsBloc;
 
   @override
-  State<ExploreCardScreen> createState() => _ExploreCardScreenState();
+  State<ExploreCardsScreen> createState() => _ExploreCardsScreenState();
 }
 
-class _ExploreCardScreenState extends State<ExploreCardScreen> {
+class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
   @override
   void initState() {
     super.initState();
-    widget.allCardsBloc.add(FetchMyCards());
+    widget.exploreCardsBloc.add(FetchMyCards());
   }
 
   @override
@@ -29,7 +29,7 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: sidePadding),
-          child: Icon(Icons.home_filled, size: 32, color: easyPurple),
+          child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
         ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -69,13 +69,13 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
                   SizedBox(height: 5),
                   Icon(
                     Icons.home_filled,
-                    color: black,
+                    color: inActiveGray,
                     size: 24,
                   ),
                   Text(
                     'Home',
                     style: TextStyle(
-                      color: black,
+                      color: inActiveGray,
                       height: 1.5,
                     ),
                   ),
@@ -86,19 +86,19 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {context.go("/explore-cards")},
+              onPressed: () => {},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
                   Icon(
                     Icons.person_search_rounded,
-                    color: inActiveGray,
+                    color: black,
                     size: 24,
                   ),
                   Text(
                     'Explore',
                     style: TextStyle(
-                      color: inActiveGray,
+                      color: black,
                       height: 1.5,
                     ),
                   ),
@@ -137,7 +137,7 @@ class _ExploreCardScreenState extends State<ExploreCardScreen> {
       ),
       body: SafeArea(
         child: BlocBuilder<MyCardsBloc, MyCardsState>(
-          bloc: widget.allCardsBloc,
+          bloc: widget.exploreCardsBloc,
           builder: (context, state) {
             if (state is MyCardsPending) {
               return const Center(child: CircularProgressIndicator());

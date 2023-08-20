@@ -8,7 +8,7 @@ import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
-import 'package:flutter_easy_card/home/ui/screens/explore_card_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/explore_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/home_screen.dart';
 import 'package:flutter_easy_card/my_cards/ui/screens/create_card_screen.dart';
 import 'package:flutter_easy_card/my_cards/ui/screens/edit_card_screen.dart';
@@ -134,7 +134,7 @@ class MyApp extends StatelessWidget {
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: ExploreCardScreen(allCardsBloc: exploreCardsBloc),
+                child: ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc),
               ),
             ),
           ],
