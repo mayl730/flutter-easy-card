@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
-import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.myCardsBloc});
-  final MyCardsBloc myCardsBloc;
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -18,7 +15,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    widget.myCardsBloc.add(FetchMyCards());
+    BlocProvider.of<MyCardsBloc>(context).add(FetchMyCards());
+  }
+
+  @override
+  void dispose() {
+    BlocProvider.of<MyCardsBloc>(context).close();
+    super.dispose();
   }
 
   @override
@@ -146,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: BlocBuilder<MyCardsBloc, MyCardsState>(
-          bloc: widget.myCardsBloc,
+          bloc: BlocProvider.of<MyCardsBloc>(context),
           builder: (context, state) {
             if (state is MyCardsPending) {
               return const Center(child: CircularProgressIndicator());

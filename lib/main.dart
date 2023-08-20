@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             // return const StartScreen();
             return BlocProvider<MyCardsBloc>(
               create: (context) => myCardsBloc,
-              child: HomeScreen(myCardsBloc: myCardsBloc),
+                      child: const HomeScreen(),
             );
           },
           routes: [
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                     key: state.pageKey,
                     child: BlocProvider<MyCardsBloc>(
                       create: (context) => myCardsBloc,
-                      child: HomeScreen(myCardsBloc: myCardsBloc),
+                      child: const HomeScreen(),
                     )),
                 routes: [
                   GoRoute(
@@ -138,7 +138,7 @@ class MyApp extends StatelessWidget {
               path: 'explore-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
                 key: state.pageKey,
-                child: const ExploreCardScreen(),
+                child: ExploreCardScreen(allCardsBloc: myCardsBloc),
               ),
             ),
           ],

@@ -1,47 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class ExploreCardScreen extends StatelessWidget {
-  const ExploreCardScreen({super.key});
+class ExploreCardScreen extends StatefulWidget {
+  const ExploreCardScreen({super.key, required this.allCardsBloc});
+  final MyCardsBloc allCardsBloc;
 
-  static const List<String> items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-    'Item 5',
-  ];
+  @override
+  State<ExploreCardScreen> createState() => _ExploreCardScreenState();
+}
+
+class _ExploreCardScreenState extends State<ExploreCardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    widget.allCardsBloc.add(FetchMyCards());
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.push('/home/create-card');
+        },
+        label: const Text('Create Card'),
+        icon: const Icon(Icons.add),
+        backgroundColor: easyPurple,
+      ),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: sidePadding),
-          child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
+          child: Icon(Icons.home_filled, size: 32, color: easyPurple),
         ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Explore',
+              'My Cards',
               style: appTitleStyle,
               textAlign: TextAlign.start,
             ),
@@ -75,13 +77,13 @@ class ExploreCardScreen extends StatelessWidget {
                   SizedBox(height: 5),
                   Icon(
                     Icons.home_filled,
-                    color: inActiveGray,
+                    color: black,
                     size: 24,
                   ),
                   Text(
                     'Home',
                     style: TextStyle(
-                      color: inActiveGray,
+                      color: black,
                       height: 1.5,
                     ),
                   ),
@@ -98,13 +100,13 @@ class ExploreCardScreen extends StatelessWidget {
                   SizedBox(height: 5),
                   Icon(
                     Icons.person_search_rounded,
-                    color: black,
+                    color: inActiveGray,
                     size: 24,
                   ),
                   Text(
                     'Explore',
                     style: TextStyle(
-                      color: black,
+                      color: inActiveGray,
                       height: 1.5,
                     ),
                   ),
@@ -141,62 +143,103 @@ class ExploreCardScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: GridView.builder(
-          padding: const EdgeInsets.all(20),
-          itemCount: items.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisSpacing: 22,
-            mainAxisSpacing: 22,
-            crossAxisCount: 2,
-            childAspectRatio: 0.8,
-          ),
-          itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('Tap'),
-                ));
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      spreadRadius: 0,
-                      blurRadius: 12,
-                      offset: const Offset(0, 0),
-                    ),
-                  ],
+        child: BlocBuilder<MyCardsBloc, MyCardsState>(
+          bloc: widget.allCardsBloc,
+          builder: (context, state) {
+            if (state is MyCardsPending) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is MyCardsSuccess) {
+              final cards = state.cards;
+              if (cards.isEmpty) {
+                return const Text(
+                    'No card for this account. You can start creating one!');
+              }
+              return GridView.builder(
+                padding: const EdgeInsets.all(20),
+                itemCount: cards.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisSpacing: 22,
+                  mainAxisSpacing: 22,
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.85,
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 150,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                              "https://dummyimage.com/600x600/000/fff"),
-                        ),
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      print(cards[index].id);
+                      context.push('/home/my-card-details/${cards[index].id}');
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 0,
+                            blurRadius: 12,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(
+                                    cards[index].imageUrl.isNotEmpty
+                                        ? cards[index].imageUrl
+                                        : "https://dummyimage.com/600x600/000/fff",
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Center(
+                              child: Text(cards[index].name,
+                                  style: thumbnailCardTitleStyle)),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Center(
-                        child:
-                            Text(items[index], style: thumbnailCardTitleStyle)),
-                  ],
-                ),
-              ),
-            );
+                  );
+                },
+              );
+            }
+            if (state is MyCardsFailure) {
+              return const Text("Error!");
+            }
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
     );
   }
 }
+
+
+
+// AppBar(
+//         backgroundColor: Colors.white,
+//         elevation: 0,
+//         leading: const Padding(
+//           padding: EdgeInsets.only(left: sidePadding),
+//           child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
+//         ),
+//         title: const Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Explore',
+//               style: appTitleStyle,
+//               textAlign: TextAlign.start,
+//             ),
+//           ],
+//         ),
+//       ),

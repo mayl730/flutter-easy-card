@@ -5,12 +5,14 @@ class CustomActionButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
   final IconData? icon;
+  final Color? color;
 
   const CustomActionButton({
     super.key,
     required this.label,
     required this.onPressed,
     this.icon,
+    this.color,
   });
 
   @override
@@ -28,8 +30,8 @@ class CustomActionButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(
-            easyPurple,
+          backgroundColor: MaterialStateProperty.all<Color?>(
+            color ?? easyPurple,
           ),
           elevation: MaterialStateProperty.all<double>(0),
         ),

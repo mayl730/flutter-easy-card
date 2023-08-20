@@ -57,6 +57,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                 },
                 icon: Icons.share,
                 label: 'Share',
+                color: Color(int.parse(cardDetails.colorTheme)),
               ),
             ),
             appBar: AppBar(
@@ -77,13 +78,10 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
               ),
               actions: [
                 TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
                   onPressed: () {
                     context.push('/home/edit-card/${widget.cardId}');
                   },
-                  child: const Text('Edit', style: purpleTextButton),
+                  child: Text('Edit', style: customTextButton()),
                 ),
               ],
               title: const Row(
@@ -136,9 +134,10 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                             visible: cardDetails.email != "",
                             child: Row(
                               children: [
-                                const CircleIcon(
+                                CircleIcon(
                                   iconData: Icons.email,
-                                  backgroundColor: easyPurple,
+                                  backgroundColor:
+                                      Color(int.parse(cardDetails.colorTheme)),
                                   iconColor: Colors.white,
                                 ),
                                 const SizedBox(width: 10),
@@ -155,9 +154,10 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                             visible: cardDetails.phone != "",
                             child: Row(
                               children: [
-                                const CircleIcon(
+                                CircleIcon(
                                   iconData: Icons.phone,
-                                  backgroundColor: easyPurple,
+                                  backgroundColor:
+                                      Color(int.parse(cardDetails.colorTheme)),
                                   iconColor: Colors.white,
                                 ),
                                 const SizedBox(width: 10),
@@ -180,8 +180,9 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                       Visibility(
                         visible: cardDetails.website != "",
                         child: IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.globe,
-                              color: easyPurple, size: 30),
+                          icon: FaIcon(FontAwesomeIcons.globe,
+                              color: Color(int.parse(cardDetails.colorTheme)),
+                              size: 30),
                           onPressed: () {
                             launchUrl(Uri.parse(cardDetails.website),
                                 mode: LaunchMode.externalApplication);
@@ -192,8 +193,9 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                       Visibility(
                         visible: cardDetails.linkedin != "",
                         child: IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.linkedinIn,
-                              color: easyPurple, size: 30),
+                          icon: FaIcon(FontAwesomeIcons.linkedinIn,
+                              color: Color(int.parse(cardDetails.colorTheme)),
+                              size: 30),
                           onPressed: () {
                             launchUrl(Uri.parse(cardDetails.linkedin),
                                 mode: LaunchMode.externalApplication);
@@ -204,8 +206,9 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                       Visibility(
                         visible: cardDetails.facebook != "",
                         child: IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.facebook,
-                              color: easyPurple, size: 30),
+                          icon: FaIcon(FontAwesomeIcons.facebook,
+                              color: Color(int.parse(cardDetails.colorTheme)),
+                              size: 30),
                           onPressed: () {
                             launchUrl(Uri.parse(cardDetails.facebook),
                                 mode: LaunchMode.externalApplication);
@@ -216,8 +219,9 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                       Visibility(
                         visible: cardDetails.twitter != "",
                         child: IconButton(
-                          icon: const FaIcon(FontAwesomeIcons.twitter,
-                              color: easyPurple, size: 30),
+                          icon: FaIcon(FontAwesomeIcons.twitter,
+                              color: Color(int.parse(cardDetails.colorTheme)),
+                              size: 30),
                           onPressed: () {
                             launchUrl(Uri.parse(cardDetails.twitter),
                                 mode: LaunchMode.externalApplication);

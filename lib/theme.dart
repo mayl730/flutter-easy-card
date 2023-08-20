@@ -57,12 +57,14 @@ const TextStyle thumbnailCardTitleStyle = TextStyle(
   fontWeight: FontWeight.w700,
 );
 
-const TextStyle purpleTextButton = TextStyle(
-  fontSize: 16,
-  color: easyPurple,
-  height: 1.5,
-  fontWeight: FontWeight.w700,
-);
+TextStyle customTextButton({Color? color}) {
+  return TextStyle(
+    fontSize: 16,
+    color: color ?? easyPurple,
+    height: 1.5,
+    fontWeight: FontWeight.w700,
+  );
+}
 
 // Input Decoration
 const InputDecoration loginInputDecoration = InputDecoration(
