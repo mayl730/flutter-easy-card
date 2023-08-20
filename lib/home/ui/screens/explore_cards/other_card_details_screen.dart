@@ -112,7 +112,7 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
                         fit: BoxFit.cover,
                         image: NetworkImage(cardDetails.imageUrl != ""
                             ? cardDetails.imageUrl
-                            : "https://dummyimage.com/600x600/000/fff"),
+                            : "https://firebasestorage.googleapis.com/v0/b/flutter-easy-card.appspot.com/o/assets%2Fno_image2.jpg?alt=media&token=87f4b01f-7250-4346-b3c8-2dd2964a463e"),
                       ),
                     ),
                   ),
