@@ -40,7 +40,6 @@ final settingsBloc = SettingsBloc();
 final logoutBloc = LogoutBloc();
 final exploreCardsBloc = ExploreCardsBloc();
 // TODO: Grab login/sign bloc to pass to sign up and login screens
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -54,12 +53,9 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
-
-  
 }
 
 class _MyAppState extends State<MyApp> {
-  
   @override
   void initState() {
     super.initState();
@@ -77,7 +73,8 @@ class _MyAppState extends State<MyApp> {
           },
           redirect: (BuildContext context, GoRouterState state) {
             final appState = authenticationBloc.state;
-            if (appState is AuthenticationLoggedIn) {
+            if (appState is AuthenticationLoggedIn &&
+                state.uri == Uri(path: '/')) {
               return '/home';
             } else {
               return null;
