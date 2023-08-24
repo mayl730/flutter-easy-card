@@ -71,15 +71,17 @@ class _MyAppState extends State<MyApp> {
           builder: (context, state) {
             return const StartScreen();
           },
-          redirect: (BuildContext context, GoRouterState state) {
-            final appState = authenticationBloc.state;
-            if (appState is AuthenticationLoggedIn &&
-                state.uri == Uri(path: '/')) {
-              return '/home';
-            } else {
-              return null;
-            }
-          },
+          // redirect: (BuildContext context, GoRouterState state) {
+          //   final appState = authenticationBloc.state;
+          //   if (appState is AuthenticationLoggedIn &&
+          //       state.uri == Uri(path: '/')) {
+          //     return '/home';
+          //   } else if (appState is AuthenticationLoggedOut &&
+          //       state.uri != Uri(path: '/')) {
+          //     return '/';
+          //   }
+          //     return null;            
+          // },
           routes: [
             GoRoute(
               path: 'sign-up',
