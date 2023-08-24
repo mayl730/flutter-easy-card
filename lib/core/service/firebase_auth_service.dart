@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+// TODO: Create abstract class for AuthService instead of hardcoding
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<User?> getCurrentUser() async {

@@ -7,4 +7,7 @@ sealed class AuthenticationEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CheckAuthentication extends AuthenticationEvent {}
+class CheckAuthentication extends AuthenticationEvent {
+  final AuthService authService;
+  const CheckAuthentication({required this.authService});
+}
