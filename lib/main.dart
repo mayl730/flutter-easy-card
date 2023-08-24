@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
@@ -27,6 +28,9 @@ import 'firebase_options.dart';
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
+AuthService authService = AuthService();
+
+final authenticationBloc = AuthenticationBloc();
 final myCardsBloc = MyCardsBloc();
 final myCardDetailsBloc = CardDetailsBloc();
 final createCardBloc = CreateCardBloc();
@@ -34,10 +38,8 @@ final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
 final logoutBloc = LogoutBloc();
-
 final exploreCardsBloc = ExploreCardsBloc();
-
-AuthService authService = AuthService();
+// TODO: Grab login/sign bloc to pass to sign up and login screens
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,14 +49,23 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // MyApp({Key? key})
-  //     : authenticationBloc = AuthenticationBloc()..add(CheckAuthentication()),
-  //       super(key: key);
+  @override
+  State<MyApp> createState() => _MyAppState();
 
-  // final AuthenticationBloc authenticationBloc;
+  
+}
+
+class _MyAppState extends State<MyApp> {
+  
+  @override
+  void initState() {
+    super.initState();
+    authenticationBloc.add(CheckAuthentication(authService: authService));
+  }
+
   @override
   Widget build(BuildContext context) {
     final router = GoRouter(
@@ -63,6 +74,14 @@ class MyApp extends StatelessWidget {
           path: '/',
           builder: (context, state) {
             return const StartScreen();
+          },
+          redirect: (BuildContext context, GoRouterState state) {
+            final appState = authenticationBloc.state;
+            if (appState is AuthenticationLoggedIn) {
+              return '/home';
+            } else {
+              return null;
+            }
           },
           routes: [
             GoRoute(
