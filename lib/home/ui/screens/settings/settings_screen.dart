@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
@@ -199,7 +200,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     EasyLoading.showSuccess(
                         duration: const Duration(seconds: 2),
                         'Logout Success!');
-                    context.push('/');
+                    context.go('/');
                   }
                   if (state is LogoutFailure) {
                     EasyLoading.dismiss();
@@ -212,6 +213,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         widget.logoutBloc.add(
                             LogoutRequest(authService: widget.authService));
+                        BlocProvider.of<AuthenticationBloc>(context)
+                            .add(const LogoutAuthentication());
                       },
                       child: Text('Logout',
                           style: customTextButton(color: Colors.red)));

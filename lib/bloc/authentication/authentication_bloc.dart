@@ -15,13 +15,15 @@ class AuthenticationBloc
         final user = await event.authService.getCurrentUser();
         if (user != null) {
           emit(AuthenticationLoggedIn());
-        } else {
-          emit(AuthenticationLoggedOut());
-        }
+        } 
       } catch (e) {
         emit(AuthenticationFail(error: e.toString()));
       }
        notifyListeners();
+    });
+    
+    on<LogoutAuthentication>((event, emit) async {
+        emit(AuthenticationLoggedOut());
     });
   }
 }
