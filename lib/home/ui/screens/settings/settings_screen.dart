@@ -199,7 +199,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     EasyLoading.showSuccess(
                         duration: const Duration(seconds: 2),
                         'Logout Success!');
-                    context.go('/');
+                    context.push('/');
                   }
                   if (state is LogoutFailure) {
                     EasyLoading.dismiss();
