@@ -23,6 +23,7 @@ import 'package:flutter_easy_card/home/ui/screens/settings/settings_screen.dart'
 import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     authenticationBloc.add(CheckAuthentication(authService: authService));
   }
+//TODO: Fix redirect issue: https://github.com/felangel/bloc/issues/3747
 
   @override
   Widget build(BuildContext context) {
@@ -71,17 +73,15 @@ class _MyAppState extends State<MyApp> {
           builder: (context, state) {
             return const StartScreen();
           },
-          // redirect: (BuildContext context, GoRouterState state) {
-          //   final appState = authenticationBloc.state;
-          //   if (appState is AuthenticationLoggedIn &&
-          //       state.uri == Uri(path: '/')) {
-          //     return '/home';
-          //   } else if (appState is AuthenticationLoggedOut &&
-          //       state.uri != Uri(path: '/')) {
-          //     return '/';
-          //   }
-          //     return null;            
-          // },
+          redirect: (BuildContext context, GoRouterState state, ) {
+            final appState = authenticationBloc.state;
+            if (appState is AuthenticationLoggedIn &&
+                state.uri == Uri(path: '/')) {
+              return '/home';
+            }
+            print(appState);
+            return null;
+          },
           routes: [
             GoRoute(
               path: 'sign-up',
@@ -89,6 +89,15 @@ class _MyAppState extends State<MyApp> {
                 create: (context) => SignUpBloc(),
                 child: const SignUpScreen(),
               ),
+              redirect: (BuildContext context, GoRouterState state) {
+                final appState = authenticationBloc.state;
+                if (appState is AuthenticationLoggedIn &&
+                    state.uri == Uri(path: '/')) {
+                  return '/home';
+                }
+                print(appState);
+                return null;
+              },
             ),
             GoRoute(
               path: 'login',
@@ -176,9 +185,12 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
     );
-    return MaterialApp.router(
-      routerConfig: router,
-      builder: EasyLoading.init(),
+    return BlocProvider(
+      create: (context) => authenticationBloc,
+      child: MaterialApp.router(
+        routerConfig: router,
+        builder: EasyLoading.init(),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
@@ -6,7 +7,7 @@ part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
-    extends Bloc<AuthenticationEvent, AuthenticationState> {
+    extends Bloc<AuthenticationEvent, AuthenticationState> with ChangeNotifier {
   AuthenticationBloc() : super(AuthenticationInitial()) {
     on<CheckAuthentication>((event, emit) async {
       emit(AuthenticationChecking());
@@ -20,6 +21,7 @@ class AuthenticationBloc
       } catch (e) {
         emit(AuthenticationFail(error: e.toString()));
       }
+       notifyListeners();
     });
   }
 }
