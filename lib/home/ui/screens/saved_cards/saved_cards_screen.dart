@@ -4,15 +4,15 @@ import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
-class ExploreCardsScreen extends StatefulWidget {
-  const ExploreCardsScreen({super.key, required this.exploreCardsBloc});
+class SavedCardsScreen extends StatefulWidget {
+  const SavedCardsScreen({super.key, required this.exploreCardsBloc});
   final ExploreCardsBloc exploreCardsBloc;
 
   @override
-  State<ExploreCardsScreen> createState() => _ExploreCardsScreenState();
+  State<SavedCardsScreen> createState() => _SavedCardsScreenState();
 }
 
-class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
+class _SavedCardsScreenState extends State<SavedCardsScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,13 +29,13 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
         elevation: 0,
         leading: const Padding(
           padding: EdgeInsets.only(left: sidePadding),
-          child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
+          child: Icon(Icons.bookmark, size: 32, color: easyPurple),
         ),
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              'Explore Cards',
+              'Saved Cards',
               style: appTitleStyle,
               textAlign: TextAlign.start,
             ),
@@ -86,19 +86,19 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
               ),
             ),
             TextButton.icon(
-              onPressed: () => {},
+              onPressed: () => {context.go("/explore-cards")},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
                   Icon(
                     Icons.person_search_rounded,
-                    color: easyPurple,
+                    color: inActiveGray,
                     size: 24,
                   ),
                   Text(
                     'Explore',
                     style: TextStyle(
-                      color: easyPurple,
+                      color: inActiveGray,
                       height: 1.5,
                     ),
                   ),
@@ -109,19 +109,19 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
               ),
             ),
              TextButton.icon(
-              onPressed: () => {context.go("/saved-cards")},
+              onPressed: () => {},
               icon: const Column(
                 children: [
                   SizedBox(height: 5),
                   Icon(
                     Icons.bookmark,
-                    color: inActiveGray,
+                    color: easyPurple,
                     size: 24,
                   ),
                   Text(
                     'Saved',
                     style: TextStyle(
-                      color: inActiveGray,
+                      color: easyPurple,
                       height: 1.5,
                     ),
                   ),
@@ -242,24 +242,3 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
     );
   }
 }
-
-
-
-// AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         leading: const Padding(
-//           padding: EdgeInsets.only(left: sidePadding),
-//           child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
-//         ),
-//         title: const Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           children: [
-//             Text(
-//               'Explore',
-//               style: appTitleStyle,
-//               textAlign: TextAlign.start,
-//             ),
-//           ],
-//         ),
-//       ),

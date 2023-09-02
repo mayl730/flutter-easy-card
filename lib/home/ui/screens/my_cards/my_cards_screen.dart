@@ -117,6 +117,29 @@ class _MyCardsScreenState extends State<MyCardsScreen> {
               ),
             ),
             TextButton.icon(
+              onPressed: () => {context.go("/saved-cards")},
+              icon: const Column(
+                children: [
+                  SizedBox(height: 5),
+                  Icon(
+                    Icons.bookmark,
+                    color: inActiveGray,
+                    size: 24,
+                  ),
+                  Text(
+                    'Saved',
+                    style: TextStyle(
+                      color: inActiveGray,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+              label: const Text(
+                '',
+              ),
+            ),
+            TextButton.icon(
               onPressed: () => {context.go("/settings")},
               icon: const Column(
                 children: [

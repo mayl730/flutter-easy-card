@@ -19,6 +19,7 @@ import 'package:flutter_easy_card/home/ui/screens/my_cards/create_card_screen.da
 import 'package:flutter_easy_card/home/ui/screens/my_cards/edit_card_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_card_details_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/my_cards/my_cards_screen.dart';
+import 'package:flutter_easy_card/home/ui/screens/saved_cards/saved_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/settings/settings_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -159,6 +160,25 @@ class _MyAppState extends State<MyApp> {
                   key: state.pageKey,
                   child:
                       ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)),
+              routes: [
+                GoRoute(
+                  path: 'other-card-details/:cardId',
+                  builder: (context, state) {
+                    final String cardId = state.pathParameters['cardId']!;
+                    return OtherCardDetailsScreen(
+                      cardId: cardId,
+                      cardDetailsBloc: myCardDetailsBloc,
+                    );
+                  },
+                ),
+              ],
+            ),
+            GoRoute(
+              path: 'saved-cards',
+              pageBuilder: (context, state) => NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child:
+                      SavedCardsScreen(exploreCardsBloc: exploreCardsBloc)),
               routes: [
                 GoRoute(
                   path: 'other-card-details/:cardId',
