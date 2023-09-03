@@ -17,7 +17,7 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
         // .orderBy('createdAt', descending: true)
         .get();
 
-        //TODO: Add orderBy('createdAt', descending: true) back in when it's working
+    //TODO: Add orderBy('createdAt', descending: true) back in when it's working
 
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
       CardModelWithId card = CardModelWithId(
@@ -46,7 +46,7 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
   }
 }
 
-Future<CardModelWithId?> fetchCardById(String cardId) async {
+Future<CardModelWithId?> fetchCardByCardId(String cardId) async {
   try {
     CollectionReference cardCollection =
         FirebaseFirestore.instance.collection('cards');
@@ -122,5 +122,40 @@ Future<void> deleteCardById(String cardId) async {
     debugPrint('Card with ID $cardId deleted successfully');
   } catch (e) {
     debugPrint('Error deleting card: $e');
+  }
+}
+
+Future<List<String>> fetchSavedCardIdsByUserId(String userId) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final QuerySnapshot querySnapshot =
+        await savedCardsCollection.where('userId', isEqualTo: userId).get();
+
+    final List<String> savedCardIds =
+        querySnapshot.docs.map((doc) => doc.get('cardId') as String).toList();
+
+    return savedCardIds;
+  } catch (e) {
+    debugPrint('Error deleting card: $e');
+    return [];
+  }
+}
+
+Future<void> saveCard(String userId, String cardId) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final Timestamp timestamp = Timestamp.now();
+
+    await savedCardsCollection.add({
+      'userId': userId,
+      'cardId': cardId,
+      'savedAt': timestamp,
+    });
+  } catch (e) {
+    debugPrint('Error saving card: $e');
   }
 }

@@ -12,7 +12,7 @@ class CardDetailsBloc extends Bloc<CardDetailsEvent, CardDetailsState> {
       emit(CardDetailsPending());
       try {
         String cardId = event.cardId;
-        CardModelWithId? cardDetails = await fetchCardById(cardId);
+        CardModelWithId? cardDetails = await fetchCardByCardId(cardId);
         emit(CardDetailsSuccess(cardDetails!));
       } catch (e) {
         emit(CardDetailsFailure(e.toString()));
