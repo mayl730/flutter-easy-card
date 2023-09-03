@@ -5,13 +5,13 @@ import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
 import 'package:flutter_easy_card/core/utils/firebase_auth_method.dart';
 import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 
-part 'saved_cards_event.dart';
-part 'saved_cards_state.dart';
+part 'load_saved_cards_event.dart';
+part 'load_saved_cards_state.dart';
 
-class SavedCardsBloc extends Bloc<SavedCardsEvent, SavedCardsState> {
-  SavedCardsBloc() : super(SavedCardsInitial()) {
-    on<SavedCardsEvent>((event, emit) async{
-       emit(SavedCardsPending());
+class LoadSavedCardsBloc extends Bloc<LoadSavedCardsEvent, LoadSavedCardsState> {
+  LoadSavedCardsBloc() : super(LoadSavedCardsInitial()) {
+    on<LoadSavedCardsEvent>((event, emit) async{
+       emit(LoadSavedCardsPending());
       try {
         User? user = getCurrentUser();
         String userId;
@@ -21,9 +21,9 @@ class SavedCardsBloc extends Bloc<SavedCardsEvent, SavedCardsState> {
         }
         userId = user!.uid;
         List<CardModelWithId> cards = await fetchCardsFromSavedCards(userId);
-        emit(SavedCardsSuccess(cards));
+        emit(LoadSavedCardsSuccess(cards));
       } catch (e) {
-        emit(SavedCardsFailure(e.toString()));
+        emit(LoadSavedCardsFailure(e.toString()));
       }
     });
   }
