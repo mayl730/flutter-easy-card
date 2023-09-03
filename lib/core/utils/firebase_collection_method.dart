@@ -114,6 +114,25 @@ Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
   }
 }
 
+Future<List<CardModelWithId>> fetchCardsFromSavedCards(String userId) async {
+  List<CardModelWithId> cardsList = [];
+  try {
+    List<String> savedCardIds = await fetchSavedCardIdsByUserId(userId);
+
+    for (String cardId in savedCardIds) {
+      CardModelWithId? card = await fetchCardByCardId(cardId);
+      if (card != null) {
+        cardsList.add(card);
+      }
+    }
+    debugPrint(cardsList.toString());
+    return cardsList;
+  } catch (e) {
+    debugPrint('Error fetching cards: $e');
+    return [];
+  }
+}
+
 Future<void> deleteCardById(String cardId) async {
   try {
     CollectionReference cardCollection =
