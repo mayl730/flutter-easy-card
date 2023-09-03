@@ -13,8 +13,9 @@ final class CardDetailsPending extends CardDetailsState {}
 
 final class CardDetailsSuccess extends CardDetailsState {
   final CardModelWithId cardDetail;
+  final bool isSaved;
 
-  const CardDetailsSuccess(this.cardDetail);
+  const CardDetailsSuccess({required this.cardDetail, required this.isSaved});
 
   @override
   List<Object> get props => [cardDetail];

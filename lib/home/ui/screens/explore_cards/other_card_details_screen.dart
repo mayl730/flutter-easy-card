@@ -48,6 +48,7 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
         }
         if (state is CardDetailsSuccess) {
           final cardDetails = state.cardDetail;
+          final isSaved = state.isSaved;
           return Scaffold(
             extendBodyBehindAppBar: true,
             backgroundColor: Colors.white,
@@ -71,7 +72,7 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
                   width: 65,
                   child: CustomActionIconButton(
                     onPressed: () {},
-                    icon: Icons.bookmark_border,
+                    icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
                     color: Color(int.parse(cardDetails.colorTheme)),
                   ),
                 ),

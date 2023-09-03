@@ -133,6 +133,29 @@ Future<List<CardModelWithId>> fetchCardsFromSavedCards(String userId) async {
   }
 }
 
+Future<bool> checkIfCardIsSaved({required String userId, required String cardId}) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final QuerySnapshot querySnapshot = await savedCardsCollection
+        .where('userId', isEqualTo: userId)
+        .where('cardId', isEqualTo: cardId)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    debugPrint('Error checkIfCardIsSaved: $e');
+    return false;
+  }
+}
+
+
+
 Future<void> deleteCardById(String cardId) async {
   try {
     CollectionReference cardCollection =
