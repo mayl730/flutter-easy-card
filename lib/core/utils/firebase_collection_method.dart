@@ -114,6 +114,8 @@ Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
   }
 }
 
+// Collection: savedCards functions
+
 Future<List<CardModelWithId>> fetchCardsFromSavedCards(String userId) async {
   List<CardModelWithId> cardsList = [];
   try {
@@ -154,6 +156,43 @@ Future<bool> checkIfCardIsSaved({required String userId, required String cardId}
   }
 }
 
+// write a addSavedCard function
+
+Future<void> addSaveCard({required String userId, required String cardId}) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final Timestamp timestamp = Timestamp.now();
+
+    await savedCardsCollection.add({
+      'userId': userId,
+      'cardId': cardId,
+      'savedAt': timestamp,
+    });
+  } catch (e) {
+    debugPrint('Error saving card: $e');
+  }
+}
+
+Future<void> removeSavedCard({required String userId, required String cardId}) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final QuerySnapshot querySnapshot = await savedCardsCollection
+        .where('userId', isEqualTo: userId)
+        .where('cardId', isEqualTo: cardId)
+        .get();
+
+    final String savedCardId = querySnapshot.docs.first.id;
+
+    await savedCardsCollection.doc(savedCardId).delete();
+  } catch (e) {
+    debugPrint('Error deleteSavedCard: $e');
+  }
+}
+
 
 
 Future<void> deleteCardById(String cardId) async {
@@ -182,22 +221,5 @@ Future<List<String>> fetchSavedCardIdsByUserId(String userId) async {
   } catch (e) {
     debugPrint('Error fetchSavedCardIdsByUserId: $e');
     return [];
-  }
-}
-
-Future<void> saveCard(String userId, String cardId) async {
-  try {
-    CollectionReference savedCardsCollection =
-        FirebaseFirestore.instance.collection('savedCards');
-
-    final Timestamp timestamp = Timestamp.now();
-
-    await savedCardsCollection.add({
-      'userId': userId,
-      'cardId': cardId,
-      'savedAt': timestamp,
-    });
-  } catch (e) {
-    debugPrint('Error saving card: $e');
   }
 }

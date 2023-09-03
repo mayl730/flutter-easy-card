@@ -15,3 +15,12 @@ class FetchCardDetails extends CardDetailsEvent {
   @override
   List<Object> get props => [cardId];
 }
+
+class SaveCard extends CardDetailsEvent {
+  final String cardId;
+
+  const SaveCard({required this.cardId});
+
+  @override
+  List<Object> get props => [cardId];
+}

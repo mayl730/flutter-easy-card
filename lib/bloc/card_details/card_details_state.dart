@@ -28,3 +28,18 @@ final class CardDetailsFailure extends CardDetailsState {
   @override
   List<Object> get props => [error];
 }
+
+final class SaveCardPending extends CardDetailsState {}
+
+final class SaveCardSuccess extends CardDetailsState {
+  final bool isSaved;
+  const SaveCardSuccess({required this.isSaved});
+}
+
+final class SaveCardFailure extends CardDetailsState {
+  final String error;
+  const SaveCardFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}
