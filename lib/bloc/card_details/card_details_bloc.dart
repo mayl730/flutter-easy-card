@@ -24,27 +24,5 @@ class CardDetailsBloc extends Bloc<CardDetailsEvent, CardDetailsState> {
         emit(CardDetailsFailure(e.toString()));
       }
     });
-
-    on<SaveCard>((event, emit) async {
-      emit(SaveCardPending());
-      try {
-        String cardId = event.cardId;
-        User? user = getCurrentUser();
-        String userId = user!.uid;
-        
-        bool isSaved = await checkIfCardIsSaved(userId: userId, cardId: cardId);
-        if (isSaved) {
-          await removeSavedCard(userId: userId, cardId: cardId);
-          print('removeSavedCard');
-          emit(const SaveCardSuccess(isSaved: false));
-        } else {
-          await addSaveCard(userId: userId, cardId: cardId);
-           print('addSavedCard');
-          emit(const SaveCardSuccess(isSaved: true));
-        }
-      } catch (e) {
-        emit(SaveCardFailure(e.toString()));
-      }
-    });
   }
 }

@@ -171,7 +171,7 @@ class _SavedCardsScreenState extends State<SavedCardsScreen> {
                 return const Padding(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                      'No cards found. Please try again later.',
+                      'No saved card. Explore cards and save them to view them here!',
                       style: appTitleStyle,
                       textAlign: TextAlign.center),
                 );

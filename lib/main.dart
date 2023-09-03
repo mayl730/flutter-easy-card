@@ -11,6 +11,7 @@ import 'package:flutter_easy_card/bloc/load_saved_cards/load_saved_cards_bloc.da
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
+import 'package:flutter_easy_card/bloc/save_card/save_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
@@ -43,6 +44,7 @@ final settingsBloc = SettingsBloc();
 final logoutBloc = LogoutBloc();
 final exploreCardsBloc = ExploreCardsBloc();
 final loadSavedCardsBloc = LoadSavedCardsBloc();
+final saveCardBloc = SaveCardBloc();
 
 // TODO: Grab login/sign bloc to pass to sign up and login screens
 void main() async {
@@ -171,6 +173,7 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
+                      saveCardBloc: saveCardBloc,
                     );
                   },
                 ),
@@ -190,6 +193,7 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
+                      saveCardBloc: saveCardBloc,
                     );
                   },
                 ),

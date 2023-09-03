@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
+import 'package:flutter_easy_card/bloc/save_card/save_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -13,17 +14,19 @@ import 'package:share_plus/share_plus.dart';
 
 class OtherCardDetailsScreen extends StatefulWidget {
   const OtherCardDetailsScreen(
-      {super.key, required this.cardId, required this.cardDetailsBloc});
+      {super.key,
+      required this.cardId,
+      required this.cardDetailsBloc,
+      required this.saveCardBloc});
   final String cardId;
   final CardDetailsBloc cardDetailsBloc;
+  final SaveCardBloc saveCardBloc;
 
   @override
   State<OtherCardDetailsScreen> createState() => _OtherCardDetailsScreenState();
 }
 
 class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
-  bool isSaved = false;
-
   @override
   void initState() {
     super.initState();
@@ -50,7 +53,7 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
         }
         if (state is CardDetailsSuccess) {
           final cardDetails = state.cardDetail;
-          isSaved = state.isSaved;
+          bool isSaved = state.isSaved;
           return Scaffold(
             extendBodyBehindAppBar: true,
             backgroundColor: Colors.white,
@@ -70,22 +73,25 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                SizedBox(
-                  width: 65,
-                  child: CustomActionIconButton(
-                    onPressed: () {
-                      widget.cardDetailsBloc
-                          .add(SaveCard(cardId: widget.cardId));
-                      if (state is SaveCardSuccess) {
-                        setState(() {
-                          isSaved = state.isSaved;
-                        });
-                      }
-                    },
-                    icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
-                    color: Color(int.parse(cardDetails.colorTheme)),
-                  ),
-                ),
+                BlocBuilder<SaveCardBloc, SaveCardState>(
+                  bloc: widget.saveCardBloc,
+                  builder: (context, state) {
+                    if (state is SaveCardSuccess) {
+                      isSaved = state.isSaved;
+                    }
+                    return SizedBox(
+                      width: 65,
+                      child: CustomActionIconButton(
+                        onPressed: () {
+                          widget.saveCardBloc
+                              .add(SaveCard(cardId: widget.cardId));
+                        },
+                        icon: isSaved ? Icons.bookmark : Icons.bookmark_border,
+                        color: Color(int.parse(cardDetails.colorTheme)),
+                      ),
+                    );
+                  },
+                )
               ],
             ),
             appBar: AppBar(
