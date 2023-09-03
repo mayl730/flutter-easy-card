@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
+import 'firebase_options.dart';
+
 import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
@@ -24,11 +28,6 @@ import 'package:flutter_easy_card/home/ui/screens/my_cards/my_cards_screen.dart'
 import 'package:flutter_easy_card/home/ui/screens/saved_cards/saved_cards_screen.dart';
 import 'package:flutter_easy_card/home/ui/screens/settings/settings_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/start_screen.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'firebase_options.dart';
-
 import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
@@ -41,12 +40,12 @@ final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
+final loginBloc = LoginBloc();
 final logoutBloc = LogoutBloc();
 final exploreCardsBloc = ExploreCardsBloc();
 final loadSavedCardsBloc = LoadSavedCardsBloc();
 final saveCardBloc = SaveCardBloc();
 
-// TODO: Grab login/sign bloc to pass to sign up and login screens
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -68,7 +67,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     authenticationBloc.add(CheckAuthentication(authService: authService));
   }
-//TODO: Fix redirect issue: https://github.com/felangel/bloc/issues/3747
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +77,15 @@ class _MyAppState extends State<MyApp> {
           builder: (context, state) {
             return const StartScreen();
           },
-          redirect: (BuildContext context, GoRouterState state, ) {
+          redirect: (
+            BuildContext context,
+            GoRouterState state,
+          ) {
             final appState = authenticationBloc.state;
             if (appState is AuthenticationLoggedIn &&
                 state.uri == Uri(path: '/')) {
               return '/home';
             }
-            print(appState);
             return null;
           },
           routes: [
@@ -101,14 +101,13 @@ class _MyAppState extends State<MyApp> {
                     state.uri == Uri(path: '/')) {
                   return '/home';
                 }
-                print(appState);
                 return null;
               },
             ),
             GoRoute(
               path: 'login',
               builder: (context, state) => BlocProvider(
-                create: (context) => LoginBloc(),
+                create: (context) => loginBloc,
                 child: const LoginScreen(),
               ),
             ),
@@ -182,8 +181,7 @@ class _MyAppState extends State<MyApp> {
               path: 'saved-cards',
               pageBuilder: (context, state) => NoTransitionPage<void>(
                   key: state.pageKey,
-                  child:
-                      SavedCardsScreen(savedCardsBloc: loadSavedCardsBloc)),
+                  child: SavedCardsScreen(savedCardsBloc: loadSavedCardsBloc)),
               routes: [
                 GoRoute(
                   path: 'other-card-details/:cardId',
