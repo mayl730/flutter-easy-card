@@ -13,14 +13,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
 class OtherCardDetailsScreen extends StatefulWidget {
-  const OtherCardDetailsScreen(
+  OtherCardDetailsScreen(
       {super.key,
       required this.cardId,
       required this.cardDetailsBloc,
-      required this.saveCardBloc});
+      });
   final String cardId;
   final CardDetailsBloc cardDetailsBloc;
-  final SaveCardBloc saveCardBloc;
+  final SaveCardBloc saveCardBloc = SaveCardBloc();
 
   @override
   State<OtherCardDetailsScreen> createState() => _OtherCardDetailsScreenState();

@@ -173,7 +173,6 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
-                      saveCardBloc: saveCardBloc,
                     );
                   },
                 ),
@@ -193,7 +192,6 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
-                      saveCardBloc: saveCardBloc,
                     );
                   },
                 ),
