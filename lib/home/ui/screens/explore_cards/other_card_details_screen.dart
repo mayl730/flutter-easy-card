@@ -30,6 +30,9 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String currentParentRoute =
+        GoRouter.of(context).routerDelegate.currentConfiguration.uri.toString();
+
     return BlocBuilder<CardDetailsBloc, CardDetailsState>(
       bloc: widget.cardDetailsBloc,
       builder: (context, state) {
@@ -68,7 +71,7 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
                   width: 65,
                   child: CustomActionIconButton(
                     onPressed: () {},
-                    icon: Icons.favorite_border_outlined,
+                    icon: Icons.bookmark_border,
                     color: Color(int.parse(cardDetails.colorTheme)),
                   ),
                 ),
@@ -86,7 +89,14 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
                     size: 32,
                   ),
                   onPressed: () {
-                    context.push("/explore-cards");
+                    if (currentParentRoute.startsWith('/explore-cards')) {
+                      debugPrint(currentParentRoute);
+                      context.push("/explore-cards");
+                    }
+                    if (currentParentRoute.startsWith('/saved-cards')) {
+                      debugPrint(currentParentRoute);
+                      context.push("/saved-cards");
+                    }
                   },
                 ),
               ),
@@ -246,8 +256,5 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
     );
   }
 }
-
-
-
 
 //  padding: EdgeInsets.symmetric(horizontal: sidePadding),

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/explore_cards/explore_cards_bloc.dart';
+import 'package:flutter_easy_card/bloc/saved_cards/saved_cards_bloc.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 
 class SavedCardsScreen extends StatefulWidget {
-  const SavedCardsScreen({super.key, required this.exploreCardsBloc});
-  final ExploreCardsBloc exploreCardsBloc;
+  const SavedCardsScreen({super.key, required this.savedCardsBloc});
+  final SavedCardsBloc savedCardsBloc;
 
   @override
   State<SavedCardsScreen> createState() => _SavedCardsScreenState();
@@ -16,7 +17,7 @@ class _SavedCardsScreenState extends State<SavedCardsScreen> {
   @override
   void initState() {
     super.initState();
-    widget.exploreCardsBloc.add(FetchAllCards());
+    widget.savedCardsBloc.add(FetchSavedCards());
   }
 
   @override
@@ -158,13 +159,13 @@ class _SavedCardsScreenState extends State<SavedCardsScreen> {
         ),
       ),
       body: SafeArea(
-        child: BlocBuilder<ExploreCardsBloc, ExploreCardsState>(
-          bloc: widget.exploreCardsBloc,
+        child: BlocBuilder<SavedCardsBloc, SavedCardsState>(
+          bloc: widget.savedCardsBloc,
           builder: (context, state) {
-            if (state is ExploreCardsPending) {
+            if (state is SavedCardsPending) {
               return const Center(child: CircularProgressIndicator());
             }
-            if (state is ExploreCardsSuccess) {
+            if (state is SavedCardsSuccess) {
               final cards = state.cards;
               if (cards.isEmpty) {
                 return const Padding(

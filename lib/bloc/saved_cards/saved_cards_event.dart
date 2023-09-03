@@ -6,3 +6,5 @@ sealed class SavedCardsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class FetchSavedCards extends SavedCardsEvent {}

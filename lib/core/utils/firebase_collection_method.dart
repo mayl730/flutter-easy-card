@@ -128,7 +128,7 @@ Future<List<CardModelWithId>> fetchCardsFromSavedCards(String userId) async {
     debugPrint(cardsList.toString());
     return cardsList;
   } catch (e) {
-    debugPrint('Error fetching cards: $e');
+    debugPrint('Error fetchCardsFromSavedCards: $e');
     return [];
   }
 }
@@ -140,7 +140,7 @@ Future<void> deleteCardById(String cardId) async {
     await cardCollection.doc(cardId).delete();
     debugPrint('Card with ID $cardId deleted successfully');
   } catch (e) {
-    debugPrint('Error deleting card: $e');
+    debugPrint('Error deleteCardById: $e');
   }
 }
 
@@ -157,7 +157,7 @@ Future<List<String>> fetchSavedCardIdsByUserId(String userId) async {
 
     return savedCardIds;
   } catch (e) {
-    debugPrint('Error deleting card: $e');
+    debugPrint('Error fetchSavedCardIdsByUserId: $e');
     return [];
   }
 }

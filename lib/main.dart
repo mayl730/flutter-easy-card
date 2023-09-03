@@ -10,6 +10,7 @@ import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/login/login_bloc.dart';
 import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/my_cards/my_cards_bloc.dart';
+import 'package:flutter_easy_card/bloc/saved_cards/saved_cards_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
@@ -41,6 +42,8 @@ final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
 final logoutBloc = LogoutBloc();
 final exploreCardsBloc = ExploreCardsBloc();
+final savedCardsBloc = SavedCardsBloc();
+
 // TODO: Grab login/sign bloc to pass to sign up and login screens
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -178,7 +181,7 @@ class _MyAppState extends State<MyApp> {
               pageBuilder: (context, state) => NoTransitionPage<void>(
                   key: state.pageKey,
                   child:
-                      SavedCardsScreen(exploreCardsBloc: exploreCardsBloc)),
+                      SavedCardsScreen(savedCardsBloc: savedCardsBloc)),
               routes: [
                 GoRoute(
                   path: 'other-card-details/:cardId',
