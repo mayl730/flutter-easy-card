@@ -52,6 +52,7 @@ dependencies:
   url_launcher: ^6.1.12
   share_plus: ^7.1.0
   provider: ^6.0.5
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
