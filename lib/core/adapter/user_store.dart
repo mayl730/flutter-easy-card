@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter_easy_card/core/provider/user_store.dart' as provider;
+import 'package:flutter_easy_card/core/types/user.dart' as core;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,31 +18,30 @@ class UserStore implements provider.UserStore {
   static const secureStorage = FlutterSecureStorage();
 
   @override
-  Future<firebase.User?> getUser() async {
-    final pref = await SharedPreferences.getInstance();
+  Future<core.User?> getUser() async {
+    final prefs = await SharedPreferences.getInstance();
 
-    final displayName = pref.getString(displayNameKey);
-    final photoUrl = pref.getString(photoUrlKey);
-    final email = pref.getString(emailKey);
-    final emailVerified = pref.getBool(emailVerifiedKey);
-    final isAnonymous = pref.getBool(isAnonymousKey);
-    final phoneNumber = pref.getString(phoneNumberKey);
-    final refreshToken = pref.getString(refreshTokenKey);
-    final tenantId = pref.getString(tenantIdKey);
-    final uid = pref.getString(uidKey);
+    final displayName = prefs.getString(displayNameKey);
+    final photoUrl = prefs.getString(photoUrlKey);
+    final email = prefs.getString(emailKey);
+    final emailVerified = prefs.getBool(emailVerifiedKey);
+    final isAnonymous = prefs.getBool(isAnonymousKey);
+    final phoneNumber = prefs.getString(phoneNumberKey);
+    final refreshToken = prefs.getString(refreshTokenKey);
+    final tenantId = prefs.getString(tenantIdKey);
+    final uid = prefs.getString(uidKey);
 
-    // return User(
-    //   displayName: displayName,
-    //   photoURL: photoUrl,
-    //   email: email,
-    //   emailVerified: emailVerified!,
-    //   isAnonymous: isAnonymous!,
-    //   phoneNumber: phoneNumber,
-    //   refreshToken: refreshToken,
-    //   tenantId: tenantId,
-    //   uid: uid,
-    // );
-
+    return core.User(
+      displayName: displayName,
+      photoURL: photoUrl,
+      email: email,
+      emailVerified: emailVerified!,
+      isAnonymous: isAnonymous!,
+      phoneNumber: phoneNumber,
+      refreshToken: refreshToken,
+      tenantId: tenantId,
+      uid: uid,
+    );
   }
 
   @override
@@ -73,14 +73,13 @@ class UserStore implements provider.UserStore {
     final pref = await SharedPreferences.getInstance();
 
     await pref.setString(emailKey, u.email!);
-    await pref.setString(uidKey, u.uid);
+    await pref.setString(uidKey, u.uid!);
     await pref.setString(displayNameKey, u.displayName!);
     await pref.setString(photoUrlKey, u.photoURL!);
-    await pref.setBool(emailVerifiedKey, u.emailVerified);
-    await pref.setBool(isAnonymousKey, u.isAnonymous);
+    await pref.setBool(emailVerifiedKey, u.emailVerified!);
+    await pref.setBool(isAnonymousKey, u.isAnonymous!);
     await pref.setString(phoneNumberKey, u.phoneNumber!);
     await pref.setString(refreshTokenKey, u.refreshToken!);
     await pref.setString(tenantIdKey, u.tenantId!);
-    await pref.setString(uidKey, u.uid);  
   }
 }

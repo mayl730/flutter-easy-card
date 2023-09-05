@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:flutter_easy_card/core/types/user.dart' as core;
 
 abstract class UserStore {
-  Future setUser(User u);
+  Future setUser(firebase.User u);
   Future<String> readPasswordFromSecureStorage();
   savePasswordToSecureStorage(String password);
   Future removeUser();
-  Future<User?> getUser();
+  Future<core.User?> getUser();
   setToken(String token);
 }
