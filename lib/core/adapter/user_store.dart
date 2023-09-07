@@ -55,9 +55,18 @@ class UserStore implements provider.UserStore {
   }
 
   @override
-  Future removeUser() {
-    // TODO: implement removeUser
-    throw UnimplementedError();
+  Future removeUser() async{
+    final prefs = await SharedPreferences.getInstance();
+    
+    await prefs.remove(emailKey);
+    await prefs.remove(uidKey);
+    await prefs.remove(displayNameKey);
+    await prefs.remove(photoUrlKey);
+    await prefs.remove(emailVerifiedKey);
+    await prefs.remove(isAnonymousKey);
+    await prefs.remove(phoneNumberKey);
+    await prefs.remove(refreshTokenKey);
+    await prefs.remove(tenantIdKey);
   }
 
   @override
@@ -74,16 +83,16 @@ class UserStore implements provider.UserStore {
 
   @override
   Future setUser(firebase.User u) async {
-    final pref = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
     
-    await pref.setString(emailKey, u.email?? "");
-    await pref.setString(uidKey, u.uid);
-    await pref.setString(displayNameKey, u.displayName?? "");
-    await pref.setString(photoUrlKey, u.photoURL?? "");
-    await pref.setBool(emailVerifiedKey, u.emailVerified);
-    await pref.setBool(isAnonymousKey, u.isAnonymous);
-    await pref.setString(phoneNumberKey, u.phoneNumber?? "");
-    await pref.setString(refreshTokenKey, u.refreshToken?? "");
-    await pref.setString(tenantIdKey, u.tenantId?? "");
+    await prefs.setString(emailKey, u.email?? "");
+    await prefs.setString(uidKey, u.uid);
+    await prefs.setString(displayNameKey, u.displayName?? "");
+    await prefs.setString(photoUrlKey, u.photoURL?? "");
+    await prefs.setBool(emailVerifiedKey, u.emailVerified);
+    await prefs.setBool(isAnonymousKey, u.isAnonymous);
+    await prefs.setString(phoneNumberKey, u.phoneNumber?? "");
+    await prefs.setString(refreshTokenKey, u.refreshToken?? "");
+    await prefs.setString(tenantIdKey, u.tenantId?? "");
   }
 }
