@@ -1,12 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_easy_card/core/adapter/user_store.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitial()) {
+  final UserStore userStore;
+  LoginBloc({required this.userStore}) : super(LoginInitial()) {
     on<UserLogin>((event, emit) async {
       emit(LoginPending());
       final auth = FirebaseAuth.instance;
@@ -15,8 +17,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           email: event.email,
           password: event.password,
         );
-        final user = userCredential.user;
-        print('User logged in: $user');
+        User? user = userCredential.user;
+        if (user != null) {
+          userStore.setUser(user);
+        }
         emit(LoginSuccess());
       } on FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {

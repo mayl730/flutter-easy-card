@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -32,6 +33,7 @@ import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
 AuthService authService = AuthService();
+UserStore userStore = UserStore();
 
 final authenticationBloc = AuthenticationBloc();
 final myCardsBloc = MyCardsBloc();
@@ -40,7 +42,7 @@ final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc();
-final loginBloc = LoginBloc();
+final loginBloc = LoginBloc(userStore: userStore);
 final logoutBloc = LogoutBloc();
 final exploreCardsBloc = ExploreCardsBloc();
 final loadSavedCardsBloc = LoadSavedCardsBloc();
