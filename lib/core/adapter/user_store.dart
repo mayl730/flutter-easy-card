@@ -18,7 +18,7 @@ class UserStore implements provider.UserStore {
   static const secureStorage = FlutterSecureStorage();
 
   @override
-  Future<core.User> getUser() async {
+  Future<core.User?> getUser() async {
     final prefs = await SharedPreferences.getInstance();
 
     final displayName = prefs.getString(displayNameKey);
@@ -30,6 +30,10 @@ class UserStore implements provider.UserStore {
     final refreshToken = prefs.getString(refreshTokenKey);
     final tenantId = prefs.getString(tenantIdKey);
     final uid = prefs.getString(uidKey);
+
+    if (uid == null) {
+      return null;
+    }
 
     return core.User(
       displayName: displayName,
