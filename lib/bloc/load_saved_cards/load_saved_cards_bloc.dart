@@ -1,25 +1,29 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
-import 'package:flutter_easy_card/core/utils/firebase_auth_method.dart';
+import 'package:flutter_easy_card/core/types/user.dart';
 import 'package:flutter_easy_card/core/utils/firebase_collection_method.dart';
 
 part 'load_saved_cards_event.dart';
 part 'load_saved_cards_state.dart';
 
-class LoadSavedCardsBloc extends Bloc<LoadSavedCardsEvent, LoadSavedCardsState> {
-  LoadSavedCardsBloc() : super(LoadSavedCardsInitial()) {
-    on<LoadSavedCardsEvent>((event, emit) async{
-       emit(LoadSavedCardsPending());
+class LoadSavedCardsBloc
+    extends Bloc<LoadSavedCardsEvent, LoadSavedCardsState> {
+  final UserStore userStore;
+  LoadSavedCardsBloc({required this.userStore})
+      : super(LoadSavedCardsInitial()) {
+    on<LoadSavedCardsEvent>((event, emit) async {
+      emit(LoadSavedCardsPending());
       try {
-        User? user = getCurrentUser();
+        User? user = await userStore.getUser();
         String userId;
 
         if (user == null) {
           userId = "";
+        } else {
+          userId = user.uid!;
         }
-        userId = user!.uid;
         List<CardModelWithId> cards = await fetchCardsFromSavedCards(userId);
         emit(LoadSavedCardsSuccess(cards));
       } catch (e) {

@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
-import 'package:flutter_easy_card/bloc/save_card/save_card_bloc.dart';
-import 'package:flutter_easy_card/components/custom_action_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import 'package:flutter_easy_card/components/circle_icon.dart';
-import 'package:flutter_easy_card/components/custom_action_button.dart';
-import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
+import 'package:flutter_easy_card/bloc/save_card/save_card_bloc.dart';
+import 'package:flutter_easy_card/components/custom_action_icon_button.dart';
+import 'package:flutter_easy_card/core/adapter/user_store.dart';
+import 'package:flutter_easy_card/components/circle_icon.dart';
+import 'package:flutter_easy_card/components/custom_action_button.dart';
+import 'package:flutter_easy_card/theme.dart';
+
+
 class OtherCardDetailsScreen extends StatefulWidget {
-  OtherCardDetailsScreen(
-      {super.key,
-      required this.cardId,
-      required this.cardDetailsBloc,
-      });
+    OtherCardDetailsScreen({
+    super.key,
+    required this.cardId,
+    required this.cardDetailsBloc,
+    required this.userStore,
+  }) : saveCardBloc = SaveCardBloc(userStore: userStore);
   final String cardId;
   final CardDetailsBloc cardDetailsBloc;
-  final SaveCardBloc saveCardBloc = SaveCardBloc();
+  final UserStore userStore;
+  final SaveCardBloc saveCardBloc;
 
   @override
   State<OtherCardDetailsScreen> createState() => _OtherCardDetailsScreenState();

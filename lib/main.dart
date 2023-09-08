@@ -36,7 +36,7 @@ AuthService authService = AuthService();
 UserStore userStore = UserStore();
 
 final authenticationBloc = AuthenticationBloc(userStore: userStore);
-final myCardsBloc = MyCardsBloc();
+final myCardsBloc = MyCardsBloc(userStore: userStore);
 final myCardDetailsBloc = CardDetailsBloc(userStore: userStore);
 final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
@@ -45,8 +45,8 @@ final settingsBloc = SettingsBloc(userStore: userStore);
 final loginBloc = LoginBloc(userStore: userStore);
 final logoutBloc = LogoutBloc(userStore: userStore);
 final exploreCardsBloc = ExploreCardsBloc();
-final loadSavedCardsBloc = LoadSavedCardsBloc();
-final saveCardBloc = SaveCardBloc();
+final loadSavedCardsBloc = LoadSavedCardsBloc(userStore: userStore);
+final saveCardBloc = SaveCardBloc(userStore: userStore);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -174,6 +174,7 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
+                      userStore: userStore,
                     );
                   },
                 ),
@@ -192,6 +193,7 @@ class _MyAppState extends State<MyApp> {
                     return OtherCardDetailsScreen(
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
+                      userStore: userStore,
                     );
                   },
                 ),
