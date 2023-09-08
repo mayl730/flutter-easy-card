@@ -16,9 +16,12 @@ class MyCardsBloc extends Bloc<MyCardsEvent, MyCardsState> {
     on<FetchMyCards>((event, emit) async {
       emit(MyCardsPending());
       try {
-        User? user = await userStore.getUser();
-        String userEmail;
-        userEmail = user?.email ?? "";
+        User? user;
+        while (user == null) {
+          user = await userStore.getUser();
+          await Future.delayed(const Duration(milliseconds: 100));
+        }
+        String userEmail = user.email ?? "";
         List<CardModelWithId> cards = await fetchCardsByCreator(userEmail);
         emit(MyCardsSuccess(cards));
       } catch (e) {
