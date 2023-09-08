@@ -14,7 +14,6 @@ class SaveCardBloc extends Bloc<SaveCardEvent, SaveCardState> {
       emit(SaveCardPending());
       try {
         String cardId = event.cardId;
-        // User? user = getCurrentUser();
         User? user = await userStore.getUser();
         if (user != null) {
           String userId = user.uid!;
