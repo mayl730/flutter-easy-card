@@ -18,15 +18,9 @@ class MyCardsBloc extends Bloc<MyCardsEvent, MyCardsState> {
       try {
         User? user = await userStore.getUser();
         String userEmail;
-
-        if (user == null) {
-          userEmail = "";
-           emit(const MyCardsFailure('No user signed in.'));
-        } else {
-          userEmail = user.email!;
-          List<CardModelWithId> cards = await fetchCardsByCreator(userEmail);
-          emit(MyCardsSuccess(cards));
-        }
+        userEmail = user?.email ?? "";
+        List<CardModelWithId> cards = await fetchCardsByCreator(userEmail);
+        emit(MyCardsSuccess(cards));
       } catch (e) {
         emit(MyCardsFailure(e.toString()));
       }
