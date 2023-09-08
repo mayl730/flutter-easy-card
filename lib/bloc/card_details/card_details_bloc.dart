@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
