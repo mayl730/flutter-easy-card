@@ -37,7 +37,7 @@ UserStore userStore = UserStore();
 
 final authenticationBloc = AuthenticationBloc(userStore: userStore);
 final myCardsBloc = MyCardsBloc();
-final myCardDetailsBloc = CardDetailsBloc();
+final myCardDetailsBloc = CardDetailsBloc(userStore: userStore);
 final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
