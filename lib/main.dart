@@ -42,7 +42,6 @@ final createCardBloc = CreateCardBloc();
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc(userStore: userStore);
-final loginBloc = LoginBloc(userStore: userStore);
 final logoutBloc = LogoutBloc(userStore: userStore);
 final exploreCardsBloc = ExploreCardsBloc();
 final loadSavedCardsBloc = LoadSavedCardsBloc(userStore: userStore);
@@ -94,7 +93,7 @@ class _MyAppState extends State<MyApp> {
             GoRoute(
               path: 'sign-up',
               builder: (context, state) => BlocProvider(
-                create: (context) => SignUpBloc(),
+                create: (context) => SignUpBloc(userStore: userStore),
                 child: const SignUpScreen(),
               ),
               redirect: (BuildContext context, GoRouterState state) {
@@ -109,7 +108,7 @@ class _MyAppState extends State<MyApp> {
             GoRoute(
               path: 'login',
               builder: (context, state) => BlocProvider(
-                create: (context) => loginBloc,
+                create: (context) => LoginBloc(userStore: userStore),
                 child: const LoginScreen(),
               ),
             ),

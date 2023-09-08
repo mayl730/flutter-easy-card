@@ -33,19 +33,19 @@ class CardModel {
 
   factory CardModel.fromSnapshot(DocumentSnapshot snapshot) {
     return CardModel(
-      colorTheme: snapshot['colorTheme'],
-      company: snapshot['company'],
-      creator: snapshot['creator'],
-      email: snapshot['email'],
-      facebook: snapshot['facebook'],
-      imageUrl: snapshot['imageUrl'],
-      isPrivate: snapshot['isPrivate'],
-      jobTitle: snapshot['jobTitle'],
-      linkedin: snapshot['linkedin'],
-      name: snapshot['name'],
-      phone: snapshot['phone'],
-      twitter: snapshot['twitter'],
-      website: snapshot['website'],
+      colorTheme: snapshot['colorTheme'] ?? '',
+      company: snapshot['company'] ?? '',
+      creator: snapshot['creator'] ?? '',
+      email: snapshot['email'] ?? '',
+      facebook: snapshot['facebook'] ?? '',
+      imageUrl: snapshot['imageUrl'] ?? '',
+      isPrivate: snapshot['isPrivate'] ?? '',
+      jobTitle: snapshot['jobTitle'] ?? '',
+      linkedin: snapshot['linkedin'] ?? '',
+      name: snapshot['name'] ?? '',
+      phone: snapshot['phone'] ?? '',
+      twitter: snapshot['twitter'] ?? '',
+      website: snapshot['website'] ?? '',
     );
   }
 

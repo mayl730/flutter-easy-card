@@ -241,7 +241,7 @@ class _MyCardsScreenState extends State<MyCardsScreen> {
               );
             }
             if (state is MyCardsFailure) {
-              return const Text("Error!");
+              return Text(state.error);
             }
             return const Center(child: CircularProgressIndicator());
           },

@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,10 +21,12 @@ class MyCardsBloc extends Bloc<MyCardsEvent, MyCardsState> {
 
         if (user == null) {
           userEmail = "";
+           emit(const MyCardsFailure('No user signed in.'));
+        } else {
+          userEmail = user.email!;
+          List<CardModelWithId> cards = await fetchCardsByCreator(userEmail);
+          emit(MyCardsSuccess(cards));
         }
-        userEmail = user!.email!;
-        List<CardModelWithId> cards = await fetchCardsByCreator(userEmail);
-        emit(MyCardsSuccess(cards));
       } catch (e) {
         emit(MyCardsFailure(e.toString()));
       }

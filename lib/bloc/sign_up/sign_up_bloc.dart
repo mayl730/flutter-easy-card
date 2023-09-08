@@ -1,24 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:flutter_easy_card/core/adapter/user_store.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc() : super(SignUpInitial()) {
+  UserStore userStore;
+  SignUpBloc({required this.userStore}) : super(SignUpInitial()) {
     on<CreateUser>((event, emit) async {
       emit(SignUpPending());
-      final auth = FirebaseAuth.instance;
+      final auth = firebase.FirebaseAuth.instance;
       try {
         final userCredential = await auth.createUserWithEmailAndPassword(
           email: event.email,
           password: event.password,
         );
-        final user = userCredential.user;
-        print('User created: $user');
+        final firebase.User firebaseUser = userCredential.user!;
+
+        await userStore.setUser(firebaseUser);
+
         emit(SignUpSuccess());
-      } on FirebaseAuthException catch (e) {
+      } on firebase.FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
           emit(
               const SignUpFailure(error: 'The password provided is too weak.'));

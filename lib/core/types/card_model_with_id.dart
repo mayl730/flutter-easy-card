@@ -35,20 +35,20 @@ class CardModelWithId {
 
   factory CardModelWithId.fromSnapshot(DocumentSnapshot snapshot) {
     return CardModelWithId(
-      id: snapshot['id'],
-      colorTheme: snapshot['colorTheme'],
-      company: snapshot['company'],
-      creator: snapshot['creator'],
-      email: snapshot['email'],
-      facebook: snapshot['facebook'],
-      imageUrl: snapshot['imageUrl'],
-      isPrivate: snapshot['isPrivate'],
-      jobTitle: snapshot['jobTitle'],
-      linkedin: snapshot['linkedin'],
-      name: snapshot['name'],
-      phone: snapshot['phone'],
-      twitter: snapshot['twitter'],
-      website: snapshot['website'],
+      id: snapshot['id'] ?? '',
+      colorTheme: snapshot['colorTheme'] ?? '',
+      company: snapshot['company'] ?? '',
+      creator: snapshot['creator'] ?? '',
+      email: snapshot['email'] ?? '',
+      facebook: snapshot['facebook'] ?? '',
+      imageUrl: snapshot['imageUrl'] ?? '',
+      isPrivate: snapshot['isPrivate'] ?? '',
+      jobTitle: snapshot['jobTitle'] ?? '',
+      linkedin: snapshot['linkedin'] ?? '',
+      name: snapshot['name'] ?? '',
+      phone: snapshot['phone'] ?? '',
+      twitter: snapshot['twitter'] ?? '',
+      website: snapshot['website'] ?? '',
     );
   }
 

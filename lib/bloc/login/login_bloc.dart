@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
@@ -11,18 +11,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({required this.userStore}) : super(LoginInitial()) {
     on<UserLogin>((event, emit) async {
       emit(LoginPending());
-      final auth = FirebaseAuth.instance;
+      final auth = firebase.FirebaseAuth.instance;
       try {
         final userCredential = await auth.signInWithEmailAndPassword(
           email: event.email,
           password: event.password,
         );
-        User? user = userCredential.user;
+        firebase.User? user = userCredential.user;
+
         if (user != null) {
           userStore.setUser(user);
+          print('woooooooooooo');
+          print(userStore.getUser());
+          emit(LoginSuccess());
+        } else {
+          emit(const LoginFailure(error: 'User is null'));
         }
-        emit(LoginSuccess());
-      } on FirebaseAuthException catch (e) {
+      } on firebase.FirebaseAuthException catch (e) {
         if (e.code == 'user-not-found') {
           emit(const LoginFailure(error: 'Wrong password! Please try again.'));
         } else if (e.code == 'wrong-password') {
