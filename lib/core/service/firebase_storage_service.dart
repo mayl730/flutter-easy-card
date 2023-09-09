@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
-abstract class FirebaseStorageMethod {
+abstract class FirebaseStorageService {
   Future<String> uploadFile({
     required File file,
   });
-  factory FirebaseStorageMethod() => _FirebaseStorageMethod();
+  factory FirebaseStorageService() => _FirebaseStorageService();
 }
 
-class _FirebaseStorageMethod implements FirebaseStorageMethod {
+class _FirebaseStorageService implements FirebaseStorageService {
   @override
   Future<String> uploadFile({required File file}) async {
     String imageUrl;

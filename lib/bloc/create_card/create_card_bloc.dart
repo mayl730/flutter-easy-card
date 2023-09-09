@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_easy_card/core/adapter/firebase_collection_method.dart';
-import 'package:flutter_easy_card/core/adapter/firebase_storage_method.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/core/service/firebase_collection_service.dart';
+import 'package:flutter_easy_card/core/service/firebase_storage_service.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/core/types/user.dart';
@@ -16,9 +13,9 @@ part 'create_card_state.dart';
 
 class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
   UserStore userStore;
-  FirebaseStorageMethod firebaseStorageMethod = FirebaseStorageMethod();
-  FirebaseCollectionMethod firebaseCollectionMethod =
-      FirebaseCollectionMethod();
+  FirebaseStorageService firebaseStorageMethod = FirebaseStorageService();
+  FirebaseCollectionService firebaseCollectionMethod =
+      FirebaseCollectionService();
   CreateCardBloc({required this.userStore}) : super(CreateCardInitial()) {
     on<CreateNewCard>((event, emit) async {
       emit(CreateCardPending());

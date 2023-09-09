@@ -35,6 +35,7 @@ import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 AuthService authService = AuthService();
 UserStore userStore = UserStore();
 
+
 final authenticationBloc = AuthenticationBloc(userStore: userStore);
 final myCardsBloc = MyCardsBloc(userStore: userStore);
 final myCardDetailsBloc = CardDetailsBloc(userStore: userStore);

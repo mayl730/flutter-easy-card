@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
 
-abstract class FirebaseCollectionMethod {
+abstract class FirebaseCollectionService {
   Future addCard({required CardModel card});
-  factory FirebaseCollectionMethod() => _FirebaseCollectionMethod();
+  factory FirebaseCollectionService() => _FirebaseCollectionService();
 }
 
-class _FirebaseCollectionMethod implements FirebaseCollectionMethod {
+class _FirebaseCollectionService implements FirebaseCollectionService {
   final CollectionReference _cardCollection =
       FirebaseFirestore.instance.collection('cards');
   @override
