@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_easy_card/core/adapter/firebase_storage_method.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/core/types/user.dart';
@@ -14,6 +15,7 @@ part 'create_card_state.dart';
 
 class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
   UserStore userStore;
+  FirebaseStorageMethod firebaseStorageMethod = FirebaseStorageMethod();
   CreateCardBloc({required this.userStore}) : super(CreateCardInitial()) {
     on<CreateNewCard>((event, emit) async {
       emit(CreateCardPending());
@@ -22,13 +24,9 @@ class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
         String imageUrl = '';
 
         if (event.imageFile != null) {
-          Reference ref = FirebaseStorage.instance
-              .ref()
-              .child('card_images')
-              .child('${DateTime.now()}.png');
-          UploadTask uploadTask = ref.putFile(event.imageFile!);
-          TaskSnapshot snapshot = await uploadTask.whenComplete(() => {});
-          imageUrl = await snapshot.ref.getDownloadURL();
+          imageUrl = await firebaseStorageMethod.uploadFile(
+            file: event.imageFile!,
+          );
         }
 
         User? user = await userStore.getUser();
