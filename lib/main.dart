@@ -49,7 +49,9 @@ final createCardBloc = CreateCardBloc(
   firebaseCollectionService: firebaseCollectionService,
   firebaseStorageService: firebaseStorageService,
 );
-final editCardBloc = EditCardBloc();
+final editCardBloc = EditCardBloc(
+    firebaseCollectionService: firebaseCollectionService,
+    firebaseStorageService: firebaseStorageService);
 final deleteCardBloc =
     DeleteCardBloc(firebaseCollectionService: firebaseCollectionService);
 final settingsBloc = SettingsBloc(userStore: userStore);

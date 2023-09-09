@@ -9,6 +9,9 @@ abstract class FirebaseCollectionService {
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId});
 
+  Future<void> updateCardById(
+      {required CardModel card, required String cardId});
+
   Future<void> deleteCardById({required String cardId});
   Future<void> deleteSavedCardsByCardId({required String cardId});
 
@@ -77,6 +80,16 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
     } catch (e) {
       debugPrint('Error checkIfCardIsSaved: $e');
       return false;
+    }
+  }
+
+  @override
+  Future<void> updateCardById(
+      {required CardModel card, required String cardId}) async {
+    try {
+      _cardCollection.doc(cardId).update(card.toMap());
+    } catch (e) {
+      debugPrint('Error updateCardById: $e');
     }
   }
 
