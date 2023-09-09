@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:flutter_easy_card/core/provider/user_store.dart' as provider;
+import 'package:flutter_easy_card/core/models/abstract/user_store.dart' as abstractModel;
 import 'package:flutter_easy_card/core/types/user.dart' as core;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserStore implements provider.UserStore {
+class UserStore implements abstractModel.UserStore {
   static const String displayNameKey = 'display_name';
   static const String photoUrlKey = 'photo_url';
   static const String emailKey = 'email';
