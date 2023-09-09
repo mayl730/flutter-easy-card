@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/core/service/firebase_collection_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,17 +14,20 @@ import 'package:flutter_easy_card/components/circle_icon.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 
-
 class OtherCardDetailsScreen extends StatefulWidget {
-    OtherCardDetailsScreen({
+  OtherCardDetailsScreen({
     super.key,
     required this.cardId,
     required this.cardDetailsBloc,
     required this.userStore,
-  }) : saveCardBloc = SaveCardBloc(userStore: userStore);
+    required this.firebaseCollectionService,
+  }) : saveCardBloc = SaveCardBloc(
+            userStore: userStore,
+            firebaseCollectionService: firebaseCollectionService);
+  final UserStore userStore;
+  final FirebaseCollectionService firebaseCollectionService;
   final String cardId;
   final CardDetailsBloc cardDetailsBloc;
-  final UserStore userStore;
   final SaveCardBloc saveCardBloc;
 
   @override

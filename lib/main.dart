@@ -61,7 +61,8 @@ final exploreCardsBloc =
     ExploreCardsBloc(firebaseCollectionService: firebaseCollectionService);
 final loadSavedCardsBloc = LoadSavedCardsBloc(
     userStore: userStore, firebaseCollectionService: firebaseCollectionService);
-final saveCardBloc = SaveCardBloc(userStore: userStore);
+final saveCardBloc = SaveCardBloc(
+    userStore: userStore, firebaseCollectionService: firebaseCollectionService);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -192,6 +193,7 @@ class _MyAppState extends State<MyApp> {
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
                       userStore: userStore,
+                      firebaseCollectionService: firebaseCollectionService,
                     );
                   },
                 ),
@@ -211,6 +213,7 @@ class _MyAppState extends State<MyApp> {
                       cardId: cardId,
                       cardDetailsBloc: myCardDetailsBloc,
                       userStore: userStore,
+                      firebaseCollectionService: firebaseCollectionService,
                     );
                   },
                 ),

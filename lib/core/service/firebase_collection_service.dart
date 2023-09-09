@@ -19,8 +19,11 @@ abstract class FirebaseCollectionService {
 
   Future<void> deleteCardById({required String cardId});
 
+  Future<void> addSavedCard({required String userId, required String cardId});
   Future<List<String>> fetchSavedCardIdsByUserId({required String userId});
   Future<void> deleteSavedCardsByCardId({required String cardId});
+  Future<void> deleteSavedCardsByUserAndCardId(
+      {required String userId, required String cardId});
 
   factory FirebaseCollectionService() => _FirebaseCollectionService();
 }
@@ -215,6 +218,22 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
   }
 
   @override
+  Future<void> addSavedCard(
+      {required String userId, required String cardId}) async {
+    try {
+      final Timestamp timestamp = Timestamp.now();
+
+      await _savedCardsCollection.add({
+        'userId': userId,
+        'cardId': cardId,
+        'savedAt': timestamp,
+      });
+    } catch (e) {
+      debugPrint('Error saving card: $e');
+    }
+  }
+
+  @override
   Future<List<String>> fetchSavedCardIdsByUserId(
       {required String userId}) async {
     try {
@@ -246,6 +265,23 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
           'deleteSavedCardsByCardId: Cards with ID $cardId deleted successfully');
     } catch (e) {
       debugPrint('deleteSavedCardsByCardId: Error deleteCardById: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteSavedCardsByUserAndCardId(
+      {required String userId, required String cardId}) async {
+    try {
+      final QuerySnapshot querySnapshot = await _savedCardsCollection
+          .where('userId', isEqualTo: userId)
+          .where('cardId', isEqualTo: cardId)
+          .get();
+
+      final String savedCardId = querySnapshot.docs.first.id;
+
+      await _savedCardsCollection.doc(savedCardId).delete();
+    } catch (e) {
+      debugPrint('Error deleteSavedCard: $e');
     }
   }
 }
