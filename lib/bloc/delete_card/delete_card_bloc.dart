@@ -6,7 +6,7 @@ part 'delete_card_event.dart';
 part 'delete_card_state.dart';
 
 class DeleteCardBloc extends Bloc<DeleteCardEvent, DeleteCardState> {
-  FirebaseCollectionService firebaseCollectionService;
+  final FirebaseCollectionService firebaseCollectionService;
 
   DeleteCardBloc({required this.firebaseCollectionService})
       : super(DeleteCardInitial()) {

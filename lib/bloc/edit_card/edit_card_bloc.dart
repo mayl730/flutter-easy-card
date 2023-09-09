@@ -9,8 +9,8 @@ part 'edit_card_event.dart';
 part 'edit_card_state.dart';
 
 class EditCardBloc extends Bloc<EditCardEvent, EditCardState> {
-  FirebaseStorageService firebaseStorageService;
-  FirebaseCollectionService firebaseCollectionService;
+  final FirebaseStorageService firebaseStorageService;
+  final FirebaseCollectionService firebaseCollectionService;
 
   EditCardBloc(
       {required this.firebaseStorageService,

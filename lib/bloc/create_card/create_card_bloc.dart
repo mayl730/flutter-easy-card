@@ -12,9 +12,9 @@ part 'create_card_event.dart';
 part 'create_card_state.dart';
 
 class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
-  UserStore userStore;
-  FirebaseStorageService firebaseStorageService;
-  FirebaseCollectionService firebaseCollectionService;
+  final UserStore userStore;
+  final FirebaseStorageService firebaseStorageService;
+  final FirebaseCollectionService firebaseCollectionService;
   CreateCardBloc(
       {required this.userStore,
       required this.firebaseStorageService,
