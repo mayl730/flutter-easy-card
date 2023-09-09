@@ -1,11 +1,9 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
-import 'package:flutter_easy_card/bloc/create_card/create_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/delete_card/delete_card_bloc.dart';
 import 'package:flutter_easy_card/bloc/edit_card/edit_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_button.dart';

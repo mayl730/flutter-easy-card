@@ -11,6 +11,7 @@ class DeleteCardBloc extends Bloc<DeleteCardEvent, DeleteCardState> {
       emit(DeleteCardPending());
       try {
         await deleteCardById(event.cardId);
+        await deleteSavedCardsByCardId(event.cardId);
         emit(DeleteCardSuccess());
       } catch (e) {
         emit(DeleteCardFailure(e.toString()));
@@ -18,3 +19,4 @@ class DeleteCardBloc extends Bloc<DeleteCardEvent, DeleteCardState> {
     });
   }
 }
+

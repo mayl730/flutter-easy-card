@@ -135,7 +135,8 @@ Future<List<CardModelWithId>> fetchCardsFromSavedCards(String userId) async {
   }
 }
 
-Future<bool> checkIfCardIsSaved({required String userId, required String cardId}) async {
+Future<bool> checkIfCardIsSaved(
+    {required String userId, required String cardId}) async {
   try {
     CollectionReference savedCardsCollection =
         FirebaseFirestore.instance.collection('savedCards');
@@ -158,7 +159,8 @@ Future<bool> checkIfCardIsSaved({required String userId, required String cardId}
 
 // write a addSavedCard function
 
-Future<void> addSaveCard({required String userId, required String cardId}) async {
+Future<void> addSaveCard(
+    {required String userId, required String cardId}) async {
   try {
     CollectionReference savedCardsCollection =
         FirebaseFirestore.instance.collection('savedCards');
@@ -175,7 +177,8 @@ Future<void> addSaveCard({required String userId, required String cardId}) async
   }
 }
 
-Future<void> removeSavedCard({required String userId, required String cardId}) async {
+Future<void> removeSavedCard(
+    {required String userId, required String cardId}) async {
   try {
     CollectionReference savedCardsCollection =
         FirebaseFirestore.instance.collection('savedCards');
@@ -192,8 +195,6 @@ Future<void> removeSavedCard({required String userId, required String cardId}) a
     debugPrint('Error deleteSavedCard: $e');
   }
 }
-
-
 
 Future<void> deleteCardById(String cardId) async {
   try {
@@ -221,5 +222,22 @@ Future<List<String>> fetchSavedCardIdsByUserId(String userId) async {
   } catch (e) {
     debugPrint('Error fetchSavedCardIdsByUserId: $e');
     return [];
+  }
+}
+
+Future<void> deleteSavedCardsByCardId(String cardId) async {
+  try {
+    CollectionReference savedCardsCollection =
+        FirebaseFirestore.instance.collection('savedCards');
+
+    final query = savedCardsCollection.where('cardId', isEqualTo: cardId);
+    final querySnapshot = await query.get();
+
+    for (final doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+    debugPrint('deleteSavedCardsByCardId: Cards with ID $cardId deleted successfully');
+  } catch (e) {
+    debugPrint('deleteSavedCardsByCardId: Error deleteCardById: $e');
   }
 }
