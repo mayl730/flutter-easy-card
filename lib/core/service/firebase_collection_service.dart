@@ -4,10 +4,14 @@ import 'package:flutter_easy_card/core/types/card_model.dart';
 import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
 
 abstract class FirebaseCollectionService {
-  Future addCard({required CardModel card});
-  Future<CardModelWithId?> fetchCardByCardId(String cardId);
+  Future<void> addCard({required CardModel card});
+  Future<CardModelWithId?> fetchCardByCardId({required String cardId});
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId});
+
+  Future<void> deleteCardById({required String cardId});
+  Future<void> deleteSavedCardsByCardId({required String cardId});
+
   factory FirebaseCollectionService() => _FirebaseCollectionService();
 }
 
@@ -17,7 +21,7 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
   final CollectionReference _savedCardsCollection =
       FirebaseFirestore.instance.collection('savedCards');
   @override
-  Future addCard({required CardModel card}) async {
+  Future<void> addCard({required CardModel card}) async {
     try {
       await _cardCollection.add(card.toMap());
     } catch (e) {
@@ -26,7 +30,7 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
   }
 
   @override
-  Future<CardModelWithId?> fetchCardByCardId(String cardId) async {
+  Future<CardModelWithId?> fetchCardByCardId({required String cardId}) async {
     try {
       DocumentSnapshot docSnapshot = await _cardCollection.doc(cardId).get();
 
@@ -56,6 +60,7 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
     }
   }
 
+  @override
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId}) async {
     try {
@@ -72,6 +77,32 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
     } catch (e) {
       debugPrint('Error checkIfCardIsSaved: $e');
       return false;
+    }
+  }
+
+  @override
+  Future<void> deleteCardById({required String cardId}) async {
+    try {
+      await _cardCollection.doc(cardId).delete();
+      debugPrint('Card with ID $cardId deleted successfully');
+    } catch (e) {
+      debugPrint('Error deleteCardById: $e');
+    }
+  }
+
+  @override
+  Future<void> deleteSavedCardsByCardId({required String cardId}) async {
+    try {
+      final query = _savedCardsCollection.where('cardId', isEqualTo: cardId);
+      final querySnapshot = await query.get();
+
+      for (final doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+      debugPrint(
+          'deleteSavedCardsByCardId: Cards with ID $cardId deleted successfully');
+    } catch (e) {
+      debugPrint('deleteSavedCardsByCardId: Error deleteCardById: $e');
     }
   }
 }

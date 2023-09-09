@@ -26,7 +26,7 @@ class CardDetailsBloc extends Bloc<CardDetailsEvent, CardDetailsState> {
         } else {
           String userId = user.uid!;
           CardModelWithId? cardDetails =
-              await firebaseCollectionService.fetchCardByCardId(cardId);
+              await firebaseCollectionService.fetchCardByCardId(cardId: cardId);
           bool isSaved = await firebaseCollectionService.checkIfCardIsSaved(
               userId: userId, cardId: cardId);
 
