@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
+import 'package:flutter_easy_card/core/service/firebase_collection_service.dart';
+import 'package:flutter_easy_card/core/service/firebase_storage_service.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
 import 'firebase_options.dart';
@@ -33,13 +35,19 @@ import 'package:flutter_easy_card/login/ui/screens/sign_up_screen.dart';
 import 'package:flutter_easy_card/login/ui/screens/login_screen.dart';
 
 AuthService authService = AuthService();
+FirebaseStorageService firebaseStorageService = FirebaseStorageService();
+FirebaseCollectionService firebaseCollectionService =
+    FirebaseCollectionService();
 UserStore userStore = UserStore();
-
 
 final authenticationBloc = AuthenticationBloc(userStore: userStore);
 final myCardsBloc = MyCardsBloc(userStore: userStore);
 final myCardDetailsBloc = CardDetailsBloc(userStore: userStore);
-final createCardBloc = CreateCardBloc(userStore: userStore);
+final createCardBloc = CreateCardBloc(
+  userStore: userStore,
+  firebaseCollectionService: firebaseCollectionService,
+  firebaseStorageService: firebaseStorageService,
+);
 final editCardBloc = EditCardBloc();
 final deleteCardBloc = DeleteCardBloc();
 final settingsBloc = SettingsBloc(userStore: userStore);
@@ -94,7 +102,8 @@ class _MyAppState extends State<MyApp> {
             GoRoute(
               path: 'sign-up',
               builder: (context, state) => BlocProvider(
-                create: (context) => SignUpBloc(userStore: userStore, authService: authService),
+                create: (context) =>
+                    SignUpBloc(userStore: userStore, authService: authService),
                 child: const SignUpScreen(),
               ),
               redirect: (BuildContext context, GoRouterState state) {

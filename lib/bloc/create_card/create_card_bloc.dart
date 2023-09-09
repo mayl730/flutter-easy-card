@@ -13,10 +13,13 @@ part 'create_card_state.dart';
 
 class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
   UserStore userStore;
-  FirebaseStorageService firebaseStorageMethod = FirebaseStorageService();
-  FirebaseCollectionService firebaseCollectionMethod =
-      FirebaseCollectionService();
-  CreateCardBloc({required this.userStore}) : super(CreateCardInitial()) {
+  FirebaseStorageService firebaseStorageService;
+  FirebaseCollectionService firebaseCollectionService;
+  CreateCardBloc(
+      {required this.userStore,
+      required this.firebaseStorageService,
+      required this.firebaseCollectionService})
+      : super(CreateCardInitial()) {
     on<CreateNewCard>((event, emit) async {
       emit(CreateCardPending());
 
@@ -24,7 +27,7 @@ class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
         String imageUrl = '';
 
         if (event.imageFile != null) {
-          imageUrl = await firebaseStorageMethod.uploadFile(
+          imageUrl = await firebaseStorageService.uploadFile(
             file: event.imageFile!,
           );
         }
@@ -37,7 +40,7 @@ class CreateCardBloc extends Bloc<CreateCardEvent, CreateCardState> {
           creator: creatorEmail ?? 'no_creator',
         );
 
-        await firebaseCollectionMethod.addCard(card: updatedCardData);
+        await firebaseCollectionService.addCard(card: updatedCardData);
 
         emit(CreateCardSuccess());
       } catch (e) {
