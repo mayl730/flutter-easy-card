@@ -35,6 +35,8 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
         phone: docSnapshot.get('phone'),
         twitter: docSnapshot.get('twitter'),
         website: docSnapshot.get('website'),
+        createdAt: docSnapshot.get('createdAt'),
+        updatedAt: docSnapshot.get('updatedAt'),
       );
 
       cardsList.add(card);
@@ -68,6 +70,8 @@ Future<CardModelWithId?> fetchCardByCardId(String cardId) async {
       phone: docSnapshot.get('phone'),
       twitter: docSnapshot.get('twitter'),
       website: docSnapshot.get('website'),
+      createdAt: docSnapshot.get('createdAt'),
+      updatedAt: docSnapshot.get('updatedAt'),
     );
 
     return card;
@@ -103,6 +107,8 @@ Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
         phone: docSnapshot.get('phone'),
         twitter: docSnapshot.get('twitter'),
         website: docSnapshot.get('website'),
+        createdAt: docSnapshot.get('createdAt'),
+        updatedAt: docSnapshot.get('updatedAt'),
       );
 
       cardsList.add(card);

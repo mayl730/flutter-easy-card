@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -420,6 +421,8 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                                   formData['twitter'] ?? '',
                                               website:
                                                   formData['website'] ?? '',
+                                              createdAt: Timestamp.now(),
+                                              updatedAt: Timestamp.now(),
                                             ),
                                             imageFile: imageFile));
                                   }

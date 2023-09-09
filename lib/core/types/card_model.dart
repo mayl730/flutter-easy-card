@@ -14,6 +14,8 @@ class CardModel {
   final String phone;
   final String twitter;
   final String website;
+  final Timestamp createdAt;
+  final Timestamp updatedAt;
 
   CardModel({
     required this.colorTheme,
@@ -29,6 +31,8 @@ class CardModel {
     required this.phone,
     required this.twitter,
     required this.website,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory CardModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -46,6 +50,8 @@ class CardModel {
       phone: snapshot['phone'] ?? '',
       twitter: snapshot['twitter'] ?? '',
       website: snapshot['website'] ?? '',
+      createdAt: snapshot['createdAt'] ?? '',
+      updatedAt: snapshot['updatedAt'] ?? '',
     );
   }
 
@@ -64,6 +70,8 @@ class CardModel {
       'phone': phone,
       'twitter': twitter,
       'website': website,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -81,6 +89,8 @@ class CardModel {
     String? phone,
     String? twitter,
     String? website,
+    Timestamp? createdAt,
+    Timestamp? updatedAt,
   }) {
     return CardModel(
       colorTheme: colorTheme ?? this.colorTheme,
@@ -96,6 +106,8 @@ class CardModel {
       phone: phone ?? this.phone,
       twitter: twitter ?? this.twitter,
       website: website ?? this.website,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

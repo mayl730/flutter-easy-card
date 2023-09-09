@@ -15,6 +15,8 @@ class CardModelWithId {
   final String phone;
   final String twitter;
   final String website;
+  final Timestamp createdAt;
+  final Timestamp updatedAt;
 
   CardModelWithId({
     required this.id,
@@ -31,6 +33,8 @@ class CardModelWithId {
     required this.phone,
     required this.twitter,
     required this.website,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory CardModelWithId.fromSnapshot(DocumentSnapshot snapshot) {
@@ -49,6 +53,8 @@ class CardModelWithId {
       phone: snapshot['phone'] ?? '',
       twitter: snapshot['twitter'] ?? '',
       website: snapshot['website'] ?? '',
+      createdAt: snapshot['createdAt'] ?? '',
+      updatedAt: snapshot['updatedAt'] ?? '',
     );
   }
 
@@ -68,6 +74,8 @@ class CardModelWithId {
       'phone': phone,
       'twitter': twitter,
       'website': website,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -86,6 +94,8 @@ class CardModelWithId {
     String? phone,
     String? twitter,
     String? website,
+    Timestamp? createdAt,
+    Timestamp? updatedAt,
   }) {
     return CardModelWithId(
       id: id ?? this.id,
@@ -102,6 +112,8 @@ class CardModelWithId {
       phone: phone ?? this.phone,
       twitter: twitter ?? this.twitter,
       website: website ?? this.website,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }
