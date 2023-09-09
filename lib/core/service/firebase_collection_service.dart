@@ -9,6 +9,9 @@ abstract class FirebaseCollectionService {
   Future<List<CardModelWithId>> fetchAllNonPrivateCards();
   Future<List<CardModelWithId>> fetchCardsFromSavedCardsByUserId(
       {required userId});
+  Future<List<CardModelWithId>> fetchCardsByCreatorEmail(
+      {required String creatorEmail});
+
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId});
   Future<void> updateCardById(
@@ -124,6 +127,49 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
       return cardsList;
     } catch (e) {
       debugPrint('Error fetchCardsFromSavedCards: $e');
+      return [];
+    }
+  }
+
+  @override
+  Future<List<CardModelWithId>> fetchCardsByCreatorEmail(
+      {required String creatorEmail}) async {
+    List<CardModelWithId> cardsList = [];
+
+    try {
+      if (creatorEmail == "") {
+        return cardsList;
+      }
+      QuerySnapshot querySnapshot = await _cardCollection
+          .where('creator', isEqualTo: creatorEmail)
+          .orderBy('updatedAt', descending: true)
+          .get();
+
+      for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+        CardModelWithId card = CardModelWithId(
+          id: docSnapshot.id,
+          colorTheme: docSnapshot.get('colorTheme'),
+          company: docSnapshot.get('company'),
+          creator: creatorEmail,
+          email: docSnapshot.get('email'),
+          facebook: docSnapshot.get('facebook'),
+          imageUrl: docSnapshot.get('imageUrl'),
+          isPrivate: docSnapshot.get('isPrivate'),
+          jobTitle: docSnapshot.get('jobTitle'),
+          linkedin: docSnapshot.get('linkedin'),
+          name: docSnapshot.get('name'),
+          phone: docSnapshot.get('phone'),
+          twitter: docSnapshot.get('twitter'),
+          website: docSnapshot.get('website'),
+          createdAt: docSnapshot.get('createdAt'),
+          updatedAt: docSnapshot.get('updatedAt'),
+        );
+
+        cardsList.add(card);
+      }
+      return cardsList;
+    } catch (e) {
+      debugPrint('Error fetching cards: $e');
       return [];
     }
   }

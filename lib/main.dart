@@ -41,7 +41,8 @@ FirebaseCollectionService firebaseCollectionService =
 UserStore userStore = UserStore();
 
 final authenticationBloc = AuthenticationBloc(userStore: userStore);
-final myCardsBloc = MyCardsBloc(userStore: userStore);
+final myCardsBloc = MyCardsBloc(
+    userStore: userStore, firebaseCollectionService: firebaseCollectionService);
 final myCardDetailsBloc = CardDetailsBloc(
     userStore: userStore, firebaseCollectionService: firebaseCollectionService);
 final createCardBloc = CreateCardBloc(
