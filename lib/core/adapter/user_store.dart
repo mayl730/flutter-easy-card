@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:flutter_easy_card/core/models/abstract/user_store.dart' as abstractModel;
+import 'package:flutter_easy_card/core/models/abstract/user_store.dart' as abstract_model;
 import 'package:flutter_easy_card/core/types/user.dart' as core;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserStore implements abstractModel.UserStore {
+class UserStore implements abstract_model.UserStore {
   static const String displayNameKey = 'display_name';
   static const String photoUrlKey = 'photo_url';
   static const String emailKey = 'email';
@@ -49,12 +49,6 @@ class UserStore implements abstractModel.UserStore {
   }
 
   @override
-  Future<String> readPasswordFromSecureStorage() {
-    // TODO: implement readPasswordFromSucureStorage
-    throw UnimplementedError();
-  }
-
-  @override
   Future removeUser() async{
     final prefs = await SharedPreferences.getInstance();
     
@@ -67,18 +61,6 @@ class UserStore implements abstractModel.UserStore {
     await prefs.remove(phoneNumberKey);
     await prefs.remove(refreshTokenKey);
     await prefs.remove(tenantIdKey);
-  }
-
-  @override
-  savePasswordToSecureStorage(String password) {
-    // TODO: implement savePasswordToSecureStorage
-    throw UnimplementedError();
-  }
-
-  @override
-  setToken(String token) {
-    // TODO: implement setToken
-    throw UnimplementedError();
   }
 
   @override

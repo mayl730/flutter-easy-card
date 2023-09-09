@@ -3,9 +3,6 @@ import 'package:flutter_easy_card/core/types/user.dart' as core;
 
 abstract class UserStore {
   Future setUser(firebase.User u);
-  Future<String> readPasswordFromSecureStorage();
-  savePasswordToSecureStorage(String password);
   Future removeUser();
   Future<core.User?> getUser();
-  setToken(String token);
 }
