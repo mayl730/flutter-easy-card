@@ -7,13 +7,16 @@ abstract class FirebaseCollectionService {
   Future<void> addCard({required CardModel card});
   Future<CardModelWithId?> fetchCardByCardId({required String cardId});
   Future<List<CardModelWithId>> fetchAllNonPrivateCards();
+  Future<List<CardModelWithId>> fetchCardsFromSavedCardsByUserId(
+      {required userId});
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId});
-
   Future<void> updateCardById(
       {required CardModel card, required String cardId});
 
   Future<void> deleteCardById({required String cardId});
+
+  Future<List<String>> fetchSavedCardIdsByUserId({required String userId});
   Future<void> deleteSavedCardsByCardId({required String cardId});
 
   factory FirebaseCollectionService() => _FirebaseCollectionService();
@@ -104,6 +107,28 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
   }
 
   @override
+  Future<List<CardModelWithId>> fetchCardsFromSavedCardsByUserId(
+      {required userId}) async {
+    List<CardModelWithId> cardsList = [];
+    try {
+      List<String> savedCardIds =
+          await fetchSavedCardIdsByUserId(userId: userId);
+
+      for (String cardId in savedCardIds) {
+        CardModelWithId? card = await fetchCardByCardId(cardId: cardId);
+        if (card != null) {
+          cardsList.add(card);
+        }
+      }
+      debugPrint(cardsList.toString());
+      return cardsList;
+    } catch (e) {
+      debugPrint('Error fetchCardsFromSavedCards: $e');
+      return [];
+    }
+  }
+
+  @override
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId}) async {
     try {
@@ -140,6 +165,25 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
       debugPrint('Card with ID $cardId deleted successfully');
     } catch (e) {
       debugPrint('Error deleteCardById: $e');
+    }
+  }
+
+  @override
+  Future<List<String>> fetchSavedCardIdsByUserId(
+      {required String userId}) async {
+    try {
+      final QuerySnapshot querySnapshot = await _savedCardsCollection
+          .where('userId', isEqualTo: userId)
+          .orderBy('savedAt', descending: true)
+          .get();
+
+      final List<String> savedCardIds =
+          querySnapshot.docs.map((doc) => doc.get('cardId') as String).toList();
+
+      return savedCardIds;
+    } catch (e) {
+      debugPrint('Error fetchSavedCardIdsByUserId: $e');
+      return [];
     }
   }
 
