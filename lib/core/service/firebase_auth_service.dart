@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_easy_card/core/provider/auth_service.dart' as provider;
-
-
 class AuthService{
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -26,5 +23,3 @@ class AuthService{
     }
   }
 }
-
-// implements provider.AuthService
