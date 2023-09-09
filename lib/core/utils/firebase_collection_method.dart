@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
 
+
+
 Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
   CollectionReference cardCollection =
       FirebaseFirestore.instance.collection('cards');
@@ -14,10 +16,8 @@ Future<List<CardModelWithId>> fetchCardsByCreator(String creatorEmail) async {
     }
     QuerySnapshot querySnapshot = await cardCollection
         .where('creator', isEqualTo: creatorEmail)
-        // .orderBy('createdAt', descending: true)
+        .orderBy('updatedAt', descending: true)
         .get();
-
-    //TODO: Add orderBy('createdAt', descending: true) back in when it's working
 
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
       CardModelWithId card = CardModelWithId(
@@ -76,7 +76,7 @@ Future<CardModelWithId?> fetchCardByCardId(String cardId) async {
 
     return card;
   } catch (e) {
-    print('Error fetching card: $e');
+    debugPrint('Error fetching card: $e');
     return null;
   }
 }
@@ -88,8 +88,10 @@ Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
   List<CardModelWithId> cardsList = [];
 
   try {
-    QuerySnapshot querySnapshot =
-        await cardCollection.where('isPrivate', isEqualTo: false).get();
+    QuerySnapshot querySnapshot = await cardCollection
+        .where('isPrivate', isEqualTo: false)
+        .orderBy('updatedAt', descending: true)
+        .get();
 
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
       CardModelWithId card = CardModelWithId(
@@ -163,8 +165,6 @@ Future<bool> checkIfCardIsSaved(
   }
 }
 
-// write a addSavedCard function
-
 Future<void> addSaveCard(
     {required String userId, required String cardId}) async {
   try {
@@ -219,7 +219,7 @@ Future<List<String>> fetchSavedCardIdsByUserId(String userId) async {
         FirebaseFirestore.instance.collection('savedCards');
 
     final QuerySnapshot querySnapshot =
-        await savedCardsCollection.where('userId', isEqualTo: userId).get();
+        await savedCardsCollection.where('userId', isEqualTo: userId).orderBy('savedAt', descending: true).get();
 
     final List<String> savedCardIds =
         querySnapshot.docs.map((doc) => doc.get('cardId') as String).toList();
@@ -242,7 +242,8 @@ Future<void> deleteSavedCardsByCardId(String cardId) async {
     for (final doc in querySnapshot.docs) {
       await doc.reference.delete();
     }
-    debugPrint('deleteSavedCardsByCardId: Cards with ID $cardId deleted successfully');
+    debugPrint(
+        'deleteSavedCardsByCardId: Cards with ID $cardId deleted successfully');
   } catch (e) {
     debugPrint('deleteSavedCardsByCardId: Error deleteCardById: $e');
   }
