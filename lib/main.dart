@@ -56,7 +56,8 @@ final deleteCardBloc =
     DeleteCardBloc(firebaseCollectionService: firebaseCollectionService);
 final settingsBloc = SettingsBloc(userStore: userStore);
 final logoutBloc = LogoutBloc(userStore: userStore);
-final exploreCardsBloc = ExploreCardsBloc();
+final exploreCardsBloc =
+    ExploreCardsBloc(firebaseCollectionService: firebaseCollectionService);
 final loadSavedCardsBloc = LoadSavedCardsBloc(userStore: userStore);
 final saveCardBloc = SaveCardBloc(userStore: userStore);
 

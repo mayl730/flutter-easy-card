@@ -6,6 +6,7 @@ import 'package:flutter_easy_card/core/types/card_model_with_id.dart';
 abstract class FirebaseCollectionService {
   Future<void> addCard({required CardModel card});
   Future<CardModelWithId?> fetchCardByCardId({required String cardId});
+  Future<List<CardModelWithId>> fetchAllNonPrivateCards();
   Future<bool> checkIfCardIsSaved(
       {required String userId, required String cardId});
 
@@ -60,6 +61,45 @@ class _FirebaseCollectionService implements FirebaseCollectionService {
     } catch (e) {
       debugPrint('Error fetching card: $e');
       return null;
+    }
+  }
+
+  @override
+  Future<List<CardModelWithId>> fetchAllNonPrivateCards() async {
+    List<CardModelWithId> cardsList = [];
+
+    try {
+      QuerySnapshot querySnapshot = await _cardCollection
+          .where('isPrivate', isEqualTo: false)
+          .orderBy('updatedAt', descending: true)
+          .get();
+
+      for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
+        CardModelWithId card = CardModelWithId(
+          id: docSnapshot.id,
+          colorTheme: docSnapshot.get('colorTheme'),
+          company: docSnapshot.get('company'),
+          creator: docSnapshot.get('creator'),
+          email: docSnapshot.get('email'),
+          facebook: docSnapshot.get('facebook'),
+          imageUrl: docSnapshot.get('imageUrl'),
+          isPrivate: docSnapshot.get('isPrivate'),
+          jobTitle: docSnapshot.get('jobTitle'),
+          linkedin: docSnapshot.get('linkedin'),
+          name: docSnapshot.get('name'),
+          phone: docSnapshot.get('phone'),
+          twitter: docSnapshot.get('twitter'),
+          website: docSnapshot.get('website'),
+          createdAt: docSnapshot.get('createdAt'),
+          updatedAt: docSnapshot.get('updatedAt'),
+        );
+
+        cardsList.add(card);
+      }
+      return cardsList;
+    } catch (e) {
+      debugPrint('Error fetching cards: $e');
+      return [];
     }
   }
 
