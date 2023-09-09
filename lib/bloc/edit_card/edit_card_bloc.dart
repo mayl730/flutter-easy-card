@@ -36,7 +36,6 @@ class EditCardBloc extends Bloc<EditCardEvent, EditCardState> {
         } else {
           await cardCollection.doc(event.cardId).update(event.cardData.toMap());
         }
-        print('edit card success!');
         emit(EditCardSuccess());
       } catch (e) {
         emit(EditCardFailure(e.toString()));

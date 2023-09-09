@@ -195,7 +195,6 @@ class _MyCardsScreenState extends State<MyCardsScreen> {
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      print(cards[index].id);
                       context.push('/home/my-card-details/${cards[index].id}');
                     },
                     child: Container(

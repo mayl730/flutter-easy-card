@@ -21,8 +21,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         if (user != null) {
           userStore.setUser(user);
-          print('woooooooooooo');
-          print(userStore.getUser());
           emit(LoginSuccess());
         } else {
           emit(const LoginFailure(error: 'User is null'));
