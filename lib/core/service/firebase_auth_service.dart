@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 abstract class AuthService {
-  Future<User?> signIn(String email, String password);
+  Future<UserCredential?> signIn(
+      {required String email, required String password});
   Future<User?> getCurrentUser();
   Future<void> signOut();
   factory AuthService() => _AuthService();
@@ -10,19 +11,19 @@ abstract class AuthService {
 
 class _AuthService implements AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
-  Future<User?> signIn(String email, String password) async {
+  Future<UserCredential?> signIn({
+    required String email,
+    required String password,
+  }) async {
     try {
       final userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      User? user = userCredential.user;
-      return user;
+      return userCredential;
     } catch (e) {
-      debugPrint('Error signing in: $e');
-      return null;
+      rethrow;
     }
   }
 
