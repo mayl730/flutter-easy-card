@@ -2,18 +2,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
+import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
 
 part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   UserStore userStore;
-  SignUpBloc({required this.userStore}) : super(SignUpInitial()) {
+  AuthService authService;
+  SignUpBloc({required this.userStore, required this.authService})
+      : super(SignUpInitial()) {
     on<CreateUser>((event, emit) async {
       emit(SignUpPending());
-      final auth = firebase.FirebaseAuth.instance;
       try {
-        final userCredential = await auth.createUserWithEmailAndPassword(
+        final userCredential = await authService.signUp(
           email: event.email,
           password: event.password,
         );

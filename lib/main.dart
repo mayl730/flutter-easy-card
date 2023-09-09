@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
             GoRoute(
               path: 'sign-up',
               builder: (context, state) => BlocProvider(
-                create: (context) => SignUpBloc(userStore: userStore),
+                create: (context) => SignUpBloc(userStore: userStore, authService: authService),
                 child: const SignUpScreen(),
               ),
               redirect: (BuildContext context, GoRouterState state) {
