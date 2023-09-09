@@ -108,7 +108,8 @@ class _MyAppState extends State<MyApp> {
             GoRoute(
               path: 'login',
               builder: (context, state) => BlocProvider(
-                create: (context) => LoginBloc(userStore: userStore),
+                create: (context) =>
+                    LoginBloc(userStore: userStore, authService: authService),
                 child: const LoginScreen(),
               ),
             ),

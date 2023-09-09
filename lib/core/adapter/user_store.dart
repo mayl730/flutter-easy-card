@@ -1,21 +1,24 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
-import 'package:flutter_easy_card/core/models/abstract/user_store.dart' as abstract_model;
 import 'package:flutter_easy_card/core/types/user.dart' as core;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserStore implements abstract_model.UserStore {
+abstract class UserStore {
+  Future setUser(firebase.User u);
+  Future removeUser();
+  Future<core.User?> getUser();
+  factory UserStore() => _UserStore();
+}
+
+class _UserStore implements UserStore {
   static const String displayNameKey = 'display_name';
   static const String photoUrlKey = 'photo_url';
   static const String emailKey = 'email';
   static const String emailVerifiedKey = 'email_verified';
   static const String isAnonymousKey = 'is_anonymous';
   static const String phoneNumberKey = 'phone_number';
-  static const String photoURLKey = 'photo_url';
   static const String refreshTokenKey = 'refresh_token';
   static const String tenantIdKey = 'tenant_id';
   static const String uidKey = 'uid';
-  static const secureStorage = FlutterSecureStorage();
 
   @override
   Future<core.User?> getUser() async {
