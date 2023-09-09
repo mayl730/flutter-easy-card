@@ -188,12 +188,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'UserID: ${user!.uid}',
+                            user?.email ?? '',
                             style: titleH1TextStyle,
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            user.email ?? '',
+                            'UserID: ${user!.uid}',
                             style: subContentStyle,
                           ),
                         ],
@@ -231,15 +231,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return TextButton(
-                      onPressed: () {
-                        widget.logoutBloc.add(
-                            LogoutRequest(authService: widget.authService));
-                        BlocProvider.of<AuthenticationBloc>(context)
-                            .add(const LogoutAuthentication());
-                      },
-                      child: Text('Logout',
-                          style: customTextButton(color: Colors.red)));
+                  return GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextButton(
+                          onPressed: () {
+                            widget.logoutBloc.add(
+                                LogoutRequest(authService: widget.authService));
+                            BlocProvider.of<AuthenticationBloc>(context)
+                                .add(const LogoutAuthentication());
+                          },
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Logout',
+                              style: customTextButton(color: Colors.red),
+                            ),
+                          )),
+                    ),
+                  );
                 },
               ),
             ),
