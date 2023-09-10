@@ -99,7 +99,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                   child: Column(
                 children: [
                   Container(
-                    height: 240,
+                    height: 260,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
@@ -113,7 +113,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                   Visibility(
                     visible: cardDetails.name != "",
                     child: Text(cardDetails.name,
-                        style: titleH1TextStyle, textAlign: TextAlign.center),
+                        style: titleH2TextStyle, textAlign: TextAlign.center),
                   ),
                   Visibility(
                       visible: cardDetails.jobTitle != "",
@@ -123,7 +123,7 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
                       child: Text(cardDetails.company, style: appTitleStyle)),
                   const SizedBox(height: 14),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: sidePadding),
+                    padding: const EdgeInsets.symmetric(horizontal: sidePadding),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Column(
