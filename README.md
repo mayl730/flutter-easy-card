@@ -1,11 +1,9 @@
 # Easy Card - 
 
 A Flutter native App project for creating and sharing business cards.
-
+[Video Demo](https://youtu.be/J8bEzhNeUBo)
 ![image for the app](./thumbnail1.jpg)
 ![image for the app](./thumbnail2.jpg)
-
-[Video Demo](https://youtu.be/J8bEzhNeUBo)
 
 ## Tech Stack
 - [x] [Flutter](https://flutter.dev/)
