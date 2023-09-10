@@ -92,11 +92,27 @@ class MainApp extends StatelessWidget {
           routes: [
             GoRoute(
               path: 'sign-up',
-              builder: (context, state) => BlocProvider(
-                create: (context) =>
-                    SignUpBloc(userStore: userStore, authService: authService),
-                child: const SignUpScreen(),
-              ),
+              pageBuilder: (context, state) {
+                return CustomTransitionPage<void>(
+                  key: state.pageKey,
+                  transitionDuration: const Duration(milliseconds: 100),
+                  child: BlocProvider<SignUpBloc>(
+                    create: (context) => SignUpBloc(
+                        userStore: userStore, authService: authService),
+                    child: const SignUpScreen(),
+                  ),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          SlideTransition(
+                              position: animation.drive(
+                                Tween<Offset>(
+                                  begin: const Offset(1, 0),
+                                  end: Offset.zero,
+                                ).chain(CurveTween(curve: Curves.easeIn)),
+                              ),
+                              child: child),
+                );
+              },
               redirect: (BuildContext context, GoRouterState state) {
                 final appState = authenticationBloc.state;
                 if (appState is AuthenticationLoggedIn &&
@@ -139,15 +155,28 @@ class MainApp extends StatelessWidget {
                     ),
                   ),
                   GoRoute(
-                    path: 'my-card-details/:cardId',
-                    builder: (context, state) {
-                      final String cardId = state.pathParameters['cardId']!;
-                      return MyCardDetailsScreen(
-                        cardId: cardId,
-                        cardDetailsBloc: myCardDetailsBloc,
-                      );
-                    },
-                  ),
+                      path: 'my-card-details/:cardId',
+                      pageBuilder: (context, state) {
+                        final String cardId = state.pathParameters['cardId']!;
+                        return CustomTransitionPage<void>(
+                          key: state.pageKey,
+                          transitionDuration: const Duration(milliseconds: 300),
+                          child: MyCardDetailsScreen(
+                            cardId: cardId,
+                            cardDetailsBloc: myCardDetailsBloc,
+                          ),
+                          transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) =>
+                              SlideTransition(
+                                  position: animation.drive(
+                                    Tween<Offset>(
+                                      begin: const Offset(1, 0),
+                                      end: Offset.zero,
+                                    ).chain(CurveTween(curve: Curves.easeIn)),
+                                  ),
+                                  child: child),
+                        );
+                      }),
                   GoRoute(
                     path: 'edit-card/:cardId',
                     builder: (context, state) {
@@ -169,17 +198,30 @@ class MainApp extends StatelessWidget {
                       ExploreCardsScreen(exploreCardsBloc: exploreCardsBloc)),
               routes: [
                 GoRoute(
-                  path: 'other-card-details/:cardId',
-                  builder: (context, state) {
-                    final String cardId = state.pathParameters['cardId']!;
-                    return OtherCardDetailsScreen(
-                      cardId: cardId,
-                      cardDetailsBloc: myCardDetailsBloc,
-                      userStore: userStore,
-                      firebaseCollectionService: firebaseCollectionService,
-                    );
-                  },
-                ),
+                    path: 'other-card-details/:cardId',
+                    pageBuilder: (context, state) {
+                      final String cardId = state.pathParameters['cardId']!;
+                      return CustomTransitionPage<void>(
+                        key: state.pageKey,
+                        transitionDuration: const Duration(milliseconds: 300),
+                        child: OtherCardDetailsScreen(
+                          cardId: cardId,
+                          cardDetailsBloc: myCardDetailsBloc,
+                          userStore: userStore,
+                          firebaseCollectionService: firebaseCollectionService,
+                        ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                SlideTransition(
+                                    position: animation.drive(
+                                      Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).chain(CurveTween(curve: Curves.easeIn)),
+                                    ),
+                                    child: child),
+                      );
+                    }),
               ],
             ),
             GoRoute(
@@ -189,17 +231,30 @@ class MainApp extends StatelessWidget {
                   child: SavedCardsScreen(savedCardsBloc: loadSavedCardsBloc)),
               routes: [
                 GoRoute(
-                  path: 'other-card-details/:cardId',
-                  builder: (context, state) {
-                    final String cardId = state.pathParameters['cardId']!;
-                    return OtherCardDetailsScreen(
-                      cardId: cardId,
-                      cardDetailsBloc: myCardDetailsBloc,
-                      userStore: userStore,
-                      firebaseCollectionService: firebaseCollectionService,
-                    );
-                  },
-                ),
+                    path: 'other-card-details/:cardId',
+                    pageBuilder: (context, state) {
+                      final String cardId = state.pathParameters['cardId']!;
+                      return CustomTransitionPage<void>(
+                        key: state.pageKey,
+                        transitionDuration: const Duration(milliseconds: 300),
+                        child: OtherCardDetailsScreen(
+                          cardId: cardId,
+                          cardDetailsBloc: myCardDetailsBloc,
+                          userStore: userStore,
+                          firebaseCollectionService: firebaseCollectionService,
+                        ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) =>
+                                SlideTransition(
+                                    position: animation.drive(
+                                      Tween<Offset>(
+                                        begin: const Offset(1, 0),
+                                        end: Offset.zero,
+                                      ).chain(CurveTween(curve: Curves.easeIn)),
+                                    ),
+                                    child: child),
+                      );
+                    }),
               ],
             ),
             GoRoute(
