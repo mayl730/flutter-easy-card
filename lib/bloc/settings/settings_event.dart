@@ -7,9 +7,8 @@ sealed class SettingsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
 class FetchUserInfo extends SettingsEvent {
-final AuthService authService;
+  final AuthService authService;
 
-const FetchUserInfo({required this.authService});
+  const FetchUserInfo({required this.authService});
 }

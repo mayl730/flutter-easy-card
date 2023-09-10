@@ -25,7 +25,7 @@ String? validatePassword(String? value) {
   if (value.length > 32) {
     return 'Password should not exceed 32 characters';
   }
-    if (value.length < 8) {
+  if (value.length < 8) {
     return 'Password should be at least 8 characters';
   }
 
@@ -37,7 +37,7 @@ String? validateWebURL(String? value) {
     return null;
   }
 
-   if (value.length > 255) {
+  if (value.length > 255) {
     return 'Should not exceed 255 characters';
   }
 

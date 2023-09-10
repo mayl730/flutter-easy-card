@@ -15,4 +15,3 @@ class FetchCardDetails extends CardDetailsEvent {
   @override
   List<Object> get props => [cardId];
 }
-

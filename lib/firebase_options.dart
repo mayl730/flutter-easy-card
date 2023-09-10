@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '77033369470',
     projectId: 'flutter-easy-card',
     storageBucket: 'flutter-easy-card.appspot.com',
-    iosClientId: '77033369470-1b3trcncf99op9hjrkkmjul4t7gu0i4i.apps.googleusercontent.com',
+    iosClientId:
+        '77033369470-1b3trcncf99op9hjrkkmjul4t7gu0i4i.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterEasyCard',
   );
 }

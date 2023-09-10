@@ -45,7 +45,8 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
 
   Future pickImage() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    final XFile? image =
+        await picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
     if (image == null) return;
     setState(() {
       imageFile = File(image.path);
@@ -398,33 +399,25 @@ class _CreateCardScreenState extends State<CreateCardScreen> {
                                     User? user =
                                         FirebaseAuth.instance.currentUser;
 
-                                   widget.createCardBloc
-                                        .add(CreateNewCard(
-                                            cardData: CardModel(
-                                              colorTheme: colorThemeValue,
-                                              company:
-                                                  formData['company'] ?? '',
-                                              creator:
-                                                  user?.email ?? 'no_creator',
-                                              email: formData['email'] ?? '',
-                                              facebook:
-                                                  formData['facebook'] ?? '',
-                                              imageUrl: '',
-                                              isPrivate: isPrivate ?? false,
-                                              jobTitle:
-                                                  formData['jobTitle'] ?? '',
-                                              linkedin:
-                                                  formData['linkedin'] ?? '',
-                                              name: formData['name'] ?? '',
-                                              phone: formData['phone'] ?? '',
-                                              twitter:
-                                                  formData['twitter'] ?? '',
-                                              website:
-                                                  formData['website'] ?? '',
-                                              createdAt: Timestamp.now(),
-                                              updatedAt: Timestamp.now(),
-                                            ),
-                                            imageFile: imageFile));
+                                    widget.createCardBloc.add(CreateNewCard(
+                                        cardData: CardModel(
+                                          colorTheme: colorThemeValue,
+                                          company: formData['company'] ?? '',
+                                          creator: user?.email ?? 'no_creator',
+                                          email: formData['email'] ?? '',
+                                          facebook: formData['facebook'] ?? '',
+                                          imageUrl: '',
+                                          isPrivate: isPrivate ?? false,
+                                          jobTitle: formData['jobTitle'] ?? '',
+                                          linkedin: formData['linkedin'] ?? '',
+                                          name: formData['name'] ?? '',
+                                          phone: formData['phone'] ?? '',
+                                          twitter: formData['twitter'] ?? '',
+                                          website: formData['website'] ?? '',
+                                          createdAt: Timestamp.now(),
+                                          updatedAt: Timestamp.now(),
+                                        ),
+                                        imageFile: imageFile));
                                   }
                                 },
                               );

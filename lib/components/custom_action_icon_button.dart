@@ -34,10 +34,10 @@ class CustomActionIconButton extends StatelessWidget {
           elevation: MaterialStateProperty.all<double>(0),
         ),
         child: Icon(
-                icon,
-                color: Colors.white,
-                size: 24.0,
-              ),
+          icon,
+          color: Colors.white,
+          size: 24.0,
+        ),
       ),
     );
   }

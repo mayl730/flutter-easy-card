@@ -19,7 +19,6 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         } else {
           emit(const SettingsFailure('No user signed in.'));
         }
-     
       } catch (e) {
         emit(SettingsFailure(e.toString()));
       }

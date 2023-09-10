@@ -2,7 +2,7 @@ part of 'delete_card_bloc.dart';
 
 sealed class DeleteCardState extends Equatable {
   const DeleteCardState();
-  
+
   @override
   List<Object> get props => [];
 }

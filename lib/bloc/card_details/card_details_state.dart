@@ -2,7 +2,7 @@ part of 'card_details_bloc.dart';
 
 sealed class CardDetailsState extends Equatable {
   const CardDetailsState();
-  
+
   @override
   List<Object> get props => [];
 }

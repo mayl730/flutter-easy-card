@@ -108,7 +108,7 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
                 '',
               ),
             ),
-             TextButton.icon(
+            TextButton.icon(
               onPressed: () => {context.go("/saved-cards")},
               icon: const Column(
                 children: [
@@ -169,10 +169,8 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
               if (cards.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(20),
-                  child: Text(
-                      'No cards found. Please try again later.',
-                      style: appTitleStyle,
-                      textAlign: TextAlign.center),
+                  child: Text('No cards found. Please try again later.',
+                      style: appTitleStyle, textAlign: TextAlign.center),
                 );
               }
               return GridView.builder(
@@ -242,8 +240,6 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
     );
   }
 }
-
-
 
 // AppBar(
 //         backgroundColor: Colors.white,

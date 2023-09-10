@@ -2,7 +2,7 @@ part of 'edit_card_bloc.dart';
 
 sealed class EditCardState extends Equatable {
   const EditCardState();
-  
+
   @override
   List<Object> get props => [];
 }

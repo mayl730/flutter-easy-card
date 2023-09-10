@@ -11,7 +11,7 @@ class User {
   final String? refreshToken;
   final String? tenantId;
   final String? uid;
-  
+
   User({
     this.displayName,
     this.photoURL,
@@ -64,13 +64,18 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      displayName: map['displayName'] != null ? map['displayName'] as String : null,
+      displayName:
+          map['displayName'] != null ? map['displayName'] as String : null,
       photoURL: map['photoURL'] != null ? map['photoURL'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,
-      emailVerified: map['emailVerified'] != null ? map['emailVerified'] as bool : null,
-      isAnonymous: map['isAnonymous'] != null ? map['isAnonymous'] as bool : null,
-      phoneNumber: map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
-      refreshToken: map['refreshToken'] != null ? map['refreshToken'] as String : null,
+      emailVerified:
+          map['emailVerified'] != null ? map['emailVerified'] as bool : null,
+      isAnonymous:
+          map['isAnonymous'] != null ? map['isAnonymous'] as bool : null,
+      phoneNumber:
+          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
+      refreshToken:
+          map['refreshToken'] != null ? map['refreshToken'] as String : null,
       tenantId: map['tenantId'] != null ? map['tenantId'] as String : null,
       uid: map['uid'] != null ? map['uid'] as String : null,
     );
@@ -78,7 +83,8 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) => User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory User.fromJson(String source) =>
+      User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -88,29 +94,28 @@ class User {
   @override
   bool operator ==(covariant User other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.displayName == displayName &&
-      other.photoURL == photoURL &&
-      other.email == email &&
-      other.emailVerified == emailVerified &&
-      other.isAnonymous == isAnonymous &&
-      other.phoneNumber == phoneNumber &&
-      other.refreshToken == refreshToken &&
-      other.tenantId == tenantId &&
-      other.uid == uid;
+
+    return other.displayName == displayName &&
+        other.photoURL == photoURL &&
+        other.email == email &&
+        other.emailVerified == emailVerified &&
+        other.isAnonymous == isAnonymous &&
+        other.phoneNumber == phoneNumber &&
+        other.refreshToken == refreshToken &&
+        other.tenantId == tenantId &&
+        other.uid == uid;
   }
 
   @override
   int get hashCode {
     return displayName.hashCode ^
-      photoURL.hashCode ^
-      email.hashCode ^
-      emailVerified.hashCode ^
-      isAnonymous.hashCode ^
-      phoneNumber.hashCode ^
-      refreshToken.hashCode ^
-      tenantId.hashCode ^
-      uid.hashCode;
+        photoURL.hashCode ^
+        email.hashCode ^
+        emailVerified.hashCode ^
+        isAnonymous.hashCode ^
+        phoneNumber.hashCode ^
+        refreshToken.hashCode ^
+        tenantId.hashCode ^
+        uid.hashCode;
   }
 }

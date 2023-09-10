@@ -240,7 +240,4 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
   }
 }
 
-
-
-
 //  padding: EdgeInsets.symmetric(horizontal: sidePadding),
