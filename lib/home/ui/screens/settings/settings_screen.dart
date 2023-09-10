@@ -4,7 +4,6 @@ import 'package:flutter_easy_card/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_easy_card/bloc/logout/logout_bloc.dart';
 import 'package:flutter_easy_card/bloc/settings/settings_bloc.dart';
 import 'package:flutter_easy_card/core/service/firebase_auth_service.dart';
-import 'package:flutter_easy_card/main.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:go_router/go_router.dart';
@@ -28,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    widget.settingsBloc.add(FetchUserInfo(authService: authService));
+    widget.settingsBloc.add(FetchUserInfo(authService: widget.authService));
   }
 
   @override

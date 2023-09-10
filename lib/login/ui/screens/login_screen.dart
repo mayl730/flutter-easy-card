@@ -113,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 30),
                         BlocConsumer<LoginBloc, LoginState>(
+                          bloc: BlocProvider.of<LoginBloc>(context),
                           listener: (context, state) {
                             if (state is LoginPending) {
                               EasyLoading.show(status: 'Loading...');
