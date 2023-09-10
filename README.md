@@ -2,8 +2,8 @@
 
 A Flutter native App project for creating and sharing business cards.
 
-![image for the app](./thumbnail1.png)
-![image for the app](./thumbnail2.png)
+![image for the app](./thumbnail1.jpg)
+![image for the app](./thumbnail2.jpg)
 
 [Video Demo](https://youtu.be/J8bEzhNeUBo)
 
