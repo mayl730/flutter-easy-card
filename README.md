@@ -1,7 +1,8 @@
-# Easy Card - 
+# Easy Card - An App to create your own online business card!
 
 A Flutter native App project for creating and sharing business cards.
-[Video Demo](https://youtu.be/J8bEzhNeUBo)
+- [Video Demo](https://youtu.be/J8bEzhNeUBo)
+
 ![image for the app](./thumbnail1.jpg)
 ![image for the app](./thumbnail2.jpg)
 
