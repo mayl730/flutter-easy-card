@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
+import 'package:flutter_easy_card/components/share_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_easy_card/components/circle_icon.dart';
@@ -47,18 +48,8 @@ class _MyCardDetailsScreenState extends State<MyCardDetailsScreen> {
           return Scaffold(
             extendBodyBehindAppBar: true,
             backgroundColor: Colors.white,
-            floatingActionButton: SizedBox(
-              width: 120,
-              child: CustomActionButton(
-                onPressed: () {
-                  Share.share(
-                      'Check out My name Card! https://example.com/${widget.cardId}}');
-                },
-                icon: Icons.share,
-                label: 'Share',
-                color: Color(int.parse(cardDetails.colorTheme)),
-              ),
-            ),
+            floatingActionButton: ShareButton(
+                colorCode: cardDetails.colorTheme, cardId: widget.cardId),
             appBar: AppBar(
               backgroundColor: Colors.white,
               elevation: 0,

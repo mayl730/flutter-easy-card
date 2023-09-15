@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easy_card/components/share_button.dart';
 import 'package:flutter_easy_card/core/service/firebase_collection_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -68,18 +69,8 @@ class _OtherCardDetailsScreenState extends State<OtherCardDetailsScreen> {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(
-                  width: 120,
-                  child: CustomActionButton(
-                    onPressed: () {
-                      Share.share(
-                          'Check out My name Card! https://example.com/${widget.cardId}}');
-                    },
-                    icon: Icons.share,
-                    label: 'Share',
-                    color: Color(int.parse(cardDetails.colorTheme)),
-                  ),
-                ),
+                ShareButton(
+                    colorCode: cardDetails.colorTheme, cardId: widget.cardId),
                 const SizedBox(width: 10),
                 BlocBuilder<SaveCardBloc, SaveCardState>(
                   bloc: widget.saveCardBloc,
