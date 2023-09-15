@@ -5,14 +5,12 @@ import 'package:flutter_easy_card/core/service/firebase_collection_service.dart'
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share_plus/share_plus.dart';
 
 import 'package:flutter_easy_card/bloc/card_details/card_details_bloc.dart';
 import 'package:flutter_easy_card/bloc/save_card/save_card_bloc.dart';
 import 'package:flutter_easy_card/components/custom_action_icon_button.dart';
 import 'package:flutter_easy_card/core/adapter/user_store.dart';
 import 'package:flutter_easy_card/components/circle_icon.dart';
-import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 
 class OtherCardDetailsScreen extends StatefulWidget {

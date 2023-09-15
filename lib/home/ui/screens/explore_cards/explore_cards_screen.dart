@@ -188,22 +188,3 @@ class _ExploreCardsScreenState extends State<ExploreCardsScreen> {
     );
   }
 }
-
-// AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         leading: const Padding(
-//           padding: EdgeInsets.only(left: sidePadding),
-//           child: Icon(Icons.person_search_rounded, size: 32, color: easyPurple),
-//         ),
-//         title: const Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           children: [
-//             Text(
-//               'Explore',
-//               style: appTitleStyle,
-//               textAlign: TextAlign.start,
-//             ),
-//           ],
-//         ),
-//       ),

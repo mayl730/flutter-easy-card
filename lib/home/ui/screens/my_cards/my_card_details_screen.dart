@@ -5,11 +5,9 @@ import 'package:flutter_easy_card/components/share_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:flutter_easy_card/components/circle_icon.dart';
-import 'package:flutter_easy_card/components/custom_action_button.dart';
 import 'package:flutter_easy_card/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:share_plus/share_plus.dart';
 
 class MyCardDetailsScreen extends StatefulWidget {
   const MyCardDetailsScreen(
